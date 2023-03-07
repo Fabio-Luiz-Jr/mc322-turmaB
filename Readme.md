@@ -1,4 +1,4 @@
-# **MC322 - Turma <B>**
+# **MC322 - Turma B**
 
 # **Aluno**
     Fábio Luiz Ferreira da Silva Júnior
