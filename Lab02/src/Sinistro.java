@@ -3,8 +3,8 @@ public class Sinistro{
     private String data;
     private String endereco;
 
-    public Sinistro(int id, String data, String endereco){
-        this.id = id;
+    public Sinistro(String data, String endereco){
+        id = (int)Math.floor(Math.random() * Integer.MAX_VALUE + 1);
         this.data = data;
         this.endereco = endereco;
     }
