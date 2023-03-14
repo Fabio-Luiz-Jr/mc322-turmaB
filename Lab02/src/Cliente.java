@@ -5,6 +5,14 @@ public class Cliente{
     private int idade;
     private String endereco;
 
+    public Cliente(String nome, String cpf, String dataNascimento, int idade, String endereco){
+        this.nome = nome;
+        this.cpf = cpf;
+        this.dataNascimento = dataNascimento;
+        this.idade = idade;
+        this.endereco = endereco;
+    }
+
     public String getNome(){
         return nome;
     }
