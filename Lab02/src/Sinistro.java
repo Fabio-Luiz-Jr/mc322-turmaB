@@ -1,12 +1,14 @@
 public class Sinistro{
     private int id;
+    private static int id_aux = 0;
     private String data;
     private String endereco;
 
     public Sinistro(String data, String endereco){
-        id = (int)Math.floor(Math.random() * Integer.MAX_VALUE + 1);
+        id = id_aux;
         this.data = data;
         this.endereco = endereco;
+        id_aux++;
     }
 
     public int getId(){
@@ -32,4 +34,5 @@ public class Sinistro{
     public void setEndereco(String endereco){
         this.endereco = endereco;
     }
+    
 }
