@@ -32,4 +32,10 @@ public class Veiculo{
     public void setModelo(String modelo){
         this.modelo = modelo;
     }
+
+    public void novoVeiculo(String placa, String marca, String modelo){
+        setPlaca(placa);
+        setMarca(marca);
+        setModelo(modelo);
+    }
 }
