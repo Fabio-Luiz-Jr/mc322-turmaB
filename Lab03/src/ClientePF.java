@@ -33,10 +33,10 @@ public class ClientePF extends Cliente{
             "}";
     }
 
-    public int digitoVerificador(String cpf, int caso){
+    public int digitoVerificador(String cpf, int digVerificador){
         int soma = 0, aux = 0, digito;
 
-        if(caso == 2)
+        if(digVerificador == 2)
             aux = 1;
         for(int i = 10 + aux; i >= 2; i--)
             soma += (cpf.charAt(10 + aux - i) - '0') * i;
