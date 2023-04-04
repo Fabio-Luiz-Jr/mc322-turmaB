@@ -25,6 +25,14 @@ public class ClientePF extends Cliente{
         this.dataNascimento = dataNascimento;
     }
 
+    @Override
+    public String toString() {
+        return "{" +
+            " cpf='" + getCpf() + "'" +
+            ", dataNascimento='" + getDataNascimento() + "'" +
+            "}";
+    }
+
     public int digitoVerificador(String cpf, int caso){
         int soma = 0, aux = 0, digito;
 
@@ -54,14 +62,6 @@ public class ClientePF extends Cliente{
             return false;
 
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-            " cpf='" + getCpf() + "'" +
-            ", dataNascimento='" + getDataNascimento() + "'" +
-            "}";
     }
 
 }
