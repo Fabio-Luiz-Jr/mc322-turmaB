@@ -10,6 +10,8 @@ public class Cliente{
     private String classeEconomica;
     private ArrayList<Veiculo> listaVeiculos;
 
+    public Cliente(){}
+
     public Cliente(String nome, String endereco, Date dataLiscenca, String educacao, String genero,
             String classeEconomica) {
         this.nome = nome;
