@@ -1,3 +1,4 @@
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -72,14 +73,19 @@ public class Seguradora{
 
     public ArrayList<Cliente> listarClientes(String tipoCliente) {
         ArrayList<Cliente> listaClientesFiltrada = new ArrayList<Cliente>();
+        tipoCliente = Normalizer.normalize(tipoCliente, Normalizer.Form.NFD);
+        tipoCliente = tipoCliente.replaceAll("[^\\p{ASCII}]", "").toLowerCase();
         if(Objects.equals(tipoCliente, "fisica"))
             for(Cliente c1: listaClientes)
                 if(c1 instanceof ClientePF)
                     listaClientesFiltrada.add(c1);
-        else
+        else if(Objects.equals(tipoCliente, "juridica"))
             for(Cliente c2: listaClientes)
                     if(c2 instanceof ClientePJ)
                         listaClientesFiltrada.add(c2);
+        else
+            for(Cliente c3: listaClientes)
+                listaClientesFiltrada.add(c3);
         return listaClientesFiltrada;
     }
 
