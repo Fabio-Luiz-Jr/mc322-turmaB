@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.util.ArrayList;
 
 public class Cliente{
     private String nome;
@@ -7,17 +8,17 @@ public class Cliente{
     private String educacao;
     private String genero;
     private String classeEconomica;
-    private Veiculo listaVeiculos;
+    private ArrayList<Veiculo> listaVeiculos;
 
     public Cliente(String nome, String endereco, Date dataLiscenca, String educacao, String genero,
-            String classeEconomica, Veiculo listaVeiculos) {
+            String classeEconomica) {
         this.nome = nome;
         this.endereco = endereco;
         this.dataLiscenca = dataLiscenca;
         this.educacao = educacao;
         this.genero = genero;
         this.classeEconomica = classeEconomica;
-        this.listaVeiculos = listaVeiculos;
+        this.listaVeiculos = new ArrayList<Veiculo>();
     }
 
     public String getNome() {
@@ -68,13 +69,10 @@ public class Cliente{
         this.classeEconomica = classeEconomica;
     }
 
-    public Veiculo getListaVeiculos() {
+    public ArrayList<Veiculo> getListaVeiculos() {
         return listaVeiculos;
     }
 
-    public void setListaVeiculos(Veiculo listaVeiculos) {
-        this.listaVeiculos = listaVeiculos;
-    }
 
     @Override
     public String toString() {

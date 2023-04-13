@@ -1,19 +1,22 @@
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class Seguradora{
     private String nome;
     private String telefone;
     private String email;
     private String endereco;
-    private Sinistro listaSinistros;
-    private Cliente listaClientes;
+    private ArrayList<Sinistro> listaSinistros;
+    private ArrayList<Cliente> listaClientes;
 
-    public Seguradora(String nome, String telefone, String email, String endereco, Sinistro listaSinistros,
-                      Cliente listaClientes) {
+
+    public Seguradora(String nome, String telefone, String email, String endereco) {
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
         this.endereco = endereco;
-        this.listaSinistros = listaSinistros;
-        this.listaClientes = listaClientes;
+        this.listaSinistros = new ArrayList<Sinistro>();
+        this.listaClientes = new ArrayList<Cliente>();
     }
 
     public String getNome() {
@@ -48,36 +51,30 @@ public class Seguradora{
         this.endereco = endereco;
     }
 
-    public Sinistro getListaSinistros() {
-        return this.listaSinistros;
+    public ArrayList<Sinistro> getListaSinistros() {
+        return listaSinistros;
     }
 
-    public void setListaSinistros(Sinistro listaSinistros) {
-        this.listaSinistros = listaSinistros;
+    public ArrayList<Cliente> getListaClientes() {
+        return listaClientes;
     }
 
-    public Cliente getListaClientes() {
-        return this.listaClientes;
+    public boolean cadastrarCliente(Cliente cliente){
+        if(listaClientes.contains(cliente))
+            return false;
+        this.listaClientes.add(cliente);
+        return true;
     }
 
-    public void setListaClientes(Cliente listaClientes) {
-        this.listaClientes = listaClientes;
+    public boolean removerCliente(String cliente){
+        int index = 0;
+        for(Cliente c: listaClientes){
+            if(Objects.equals(c.getNome(), cliente)){
+                listaClientes.remove(index);
+                return true;
+            }
+            index++;
+        }
+        return false;
     }
-
-    @Override
-    public String toString() {
-        return "{" +
-            " nome='" + getNome() + "'" +
-            ", telefone='" + getTelefone() + "'" +
-            ", email='" + getEmail() + "'" +
-            ", endereco='" + getEndereco() + "'" +
-            ", listaSinistros[]='" + getListaSinistros() + "'" +
-            ", listaClientes[]='" + getListaClientes() + "'" +
-            ", getListaSinistros[]='" + getListaSinistros() + "'" +
-            ", listaSinistros[]='" + getListaSinistros() + "'" +
-            ", getListaClientes[]='" + getListaClientes() + "'" +
-            ", listaClientes[]='" + getListaClientes() + "'" +
-            "}";
-    }
-
 }
