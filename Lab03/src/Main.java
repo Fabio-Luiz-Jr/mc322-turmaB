@@ -5,9 +5,51 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class Main{
-    public void criaDadosIniciais(ArrayList<Seguradora> listaSeguradoras, ClientePF clientePF, ClientePJ clientePJ) throws ParseException{
+
+    public int selecionarSeguradora(ArrayList<Seguradora> listaSeguradoras, Scanner entrada){
+        String nome, telefone, email, endereco;
+        int index, indexSeguradora;
+        boolean valido = true;
+        do{
+            System.out.println("Escolha uma seguradora:");
+            index = 0;
+            for(Seguradora s: listaSeguradoras){
+                index++;
+                System.out.println(index + ": " + s.getNome() + ";");
+            }
+            System.out.println("0: Criar nova seguradora.");
+            indexSeguradora = entrada.nextInt();
+            if((indexSeguradora < 0) || (indexSeguradora > index)){
+                System.out.println("Escolha inválida.");
+                valido = false;
+            }
+            System.out.println("------------------------------------------------------------------");
+            }while(!valido);
+    
+        if(indexSeguradora == 0){
+            indexSeguradora = index;
+            System.out.println("Dados da nova seguradora:");
+            System.out.println("Nome:");
+            nome = entrada.next();
+            System.out.println("Telefone:");
+            telefone = entrada.next();
+            System.out.println("Email:");
+            email = entrada.next();
+            System.out.println("Endereço:");
+            endereco = entrada.next();
+            listaSeguradoras.add(new Seguradora(nome, telefone, email, endereco));
+            System.out.println("------------------------------------------------------------------");
+        }
+        System.out.println("Seguradora " + listaSeguradoras.get(indexSeguradora).getNome() + " selecionada.");
+        System.out.println();
+        return indexSeguradora;
+    }
+
+    public void criaDadosIniciais(ArrayList<Seguradora> listaSeguradoras) throws ParseException{
         String cpf, cnpj;
         Veiculo veiculo;
+        ClientePF clientePF = null;
+        ClientePJ clientePJ = null;
         Date dataLiscenca, dataNascimento, dataFundacao;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
         ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
@@ -80,20 +122,45 @@ public class Main{
         //#endregion
     }
     public static void main(String[] args) throws Exception{
+        //#region Variáveis
         Scanner entrada = new Scanner(System.in).useDelimiter("\n");
         ArrayList<Seguradora> listaSeguradoras = new ArrayList<Seguradora>();
+        Seguradora seguradora;
         Veiculo veiculo;
         ClientePF clientePF = null;
         ClientePJ clientePJ = null;
         Sinistro sinistro;
-        int anoFabricacao;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+        int anoFabricacao, operacao = 0, indexSeguradora;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date dataLiscenca, dataNascimento, dataFundacao;
-        String data, placa, marca, modelo, nome, endereco, educacao, genero, classeEconomica, cpf, cnpj;
+        String data, placa, marca, modelo, nome, telefone, email, endereco, educacao, genero, classeEconomica, cpf, cnpj;
+        boolean  sinistroPossivel = false;
+        //#endregion
 
-        new Main().criaDadosIniciais(listaSeguradoras, clientePF, clientePJ);
-        
-        
-        
+        new Main().criaDadosIniciais(listaSeguradoras);
+
+        indexSeguradora = new Main().selecionarSeguradora(listaSeguradoras, entrada);
+
+        do{
+            seguradora = listaSeguradoras.get(indexSeguradora);
+            if(seguradora.listarClientes("todos").size() > 0)
+                for(int i = 0; i < seguradora.listarClientes("todos").size(); i++)
+                    if(seguradora.listarClientes("todos").get(i).getListaVeiculos().size() > 0){
+                        sinistroPossivel = true;
+                        break;
+                    }
+            System.out.println("Escolha uma operação:");
+            System.out.println("1: Adicionar cliente;");
+            System.out.println("2: Adicionar veículo;");
+            if(sinistroPossivel)
+                    System.out.println("3: Adicionar sinistro;");
+            System.out.println("4: Exibir dados da seguradora;");
+            System.out.println("5: Exibir dados do cliente;");
+            System.out.println("6: Exibir sinistros;");
+            System.out.println("7: Trocar de seguradora;");
+            System.out.println("0: Encerrar.");
+            
+        }while(operacao != 0);
+        entrada.close();
     }
 }
