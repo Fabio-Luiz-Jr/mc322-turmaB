@@ -51,14 +51,6 @@ public class Seguradora{
         this.endereco = endereco;
     }
 
-    public ArrayList<Sinistro> getListaSinistros() {
-        return listaSinistros;
-    }
-
-    public ArrayList<Cliente> getListaClientes() {
-        return listaClientes;
-    }
-
     public boolean cadastrarCliente(Cliente cliente){
         if(listaClientes.contains(cliente))
             return false;
@@ -77,4 +69,40 @@ public class Seguradora{
         }
         return false;
     }
+
+    public ArrayList<Cliente> listarClientes(String tipoCliente) {
+        ArrayList<Cliente> listaClientesFiltrada = new ArrayList<Cliente>();
+        if(Objects.equals(tipoCliente, "fisica"))
+            for(Cliente c1: listaClientes)
+                if(c1 instanceof ClientePF)
+                    listaClientesFiltrada.add(c1);
+        else
+            for(Cliente c2: listaClientes)
+                    if(c2 instanceof ClientePJ)
+                        listaClientesFiltrada.add(c2);
+        return listaClientesFiltrada;
+    }
+
+    public boolean gerarSinistro(){
+        this.listaSinistros.add(new Sinistro());
+        return true;
+    }
+
+    public void setSinistro(Sinistro sinistro){
+        this.listaSinistros.add(sinistro);
+    }
+
+    public boolean visualizarSinistro(String cliente){
+        for(Sinistro s: listaSinistros)
+            if(Objects.equals(s.getCliente().getNome(), cliente)){
+                System.out.println(s);
+                return true;
+            }
+        return false;
+    }
+
+    public ArrayList<Sinistro> listarSinistros() {
+        return listaSinistros;
+    }
+
 }
