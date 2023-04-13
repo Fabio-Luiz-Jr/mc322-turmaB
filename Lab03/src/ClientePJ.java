@@ -5,6 +5,10 @@ public class ClientePJ extends Cliente{
     private final String cnpj;
     private Date dataFundacao;
 
+    public ClientePJ(String cnpj){
+        this.cnpj = cnpj;
+    }
+
     public ClientePJ(String nome, String endereco, Date dataLiscenca, String educacao, String genero,
                      String classeEconomica, String cnpj, Date dataFundacao) {
         super(nome, endereco, dataLiscenca, educacao, genero, classeEconomica);
@@ -53,7 +57,7 @@ public class ClientePJ extends Cliente{
     public boolean validarCNPJ(String cnpj){
         int digito_1, digito_2;
 
-        cnpj = cnpj.replaceAll("\\.|-", "");
+        cnpj = cnpj.replaceAll("\\.|-|/", "");
         if(cnpj.length() != 14)
             return false;
         
