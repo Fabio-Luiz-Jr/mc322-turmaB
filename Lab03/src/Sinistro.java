@@ -1,3 +1,6 @@
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
 public class Sinistro{
     private final int id;
     private static int id_aux = 0;
@@ -7,15 +10,11 @@ public class Sinistro{
     private Veiculo veiculo;
     private Cliente cliente;
 
-    public Sinistro(String data, String endereco, Seguradora seguradora, Veiculo veiculo, Cliente cliente) {
+    public Sinistro() {
         id = id_aux;
-        this.data = data;
-        this.endereco = endereco;
-        this.seguradora = seguradora;
-        this.veiculo = veiculo;
-        this.cliente = cliente;
+        this.data = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         id_aux++;
-    }
+    }    
 
     public int getId() {
         return this.id;
