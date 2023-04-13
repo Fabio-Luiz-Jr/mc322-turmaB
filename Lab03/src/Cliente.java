@@ -75,6 +75,10 @@ public class Cliente{
         return listaVeiculos;
     }
 
+    public void addVeiculo(Veiculo veiculo){
+        this.listaVeiculos.add(veiculo);
+    }
+
 
     @Override
     public String toString() {
