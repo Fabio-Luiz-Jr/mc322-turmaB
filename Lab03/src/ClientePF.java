@@ -4,7 +4,10 @@ import java.util.ArrayList;
 public class ClientePF extends Cliente{
     private final String cpf;
     private Date dataNascimento;
-    
+
+    public ClientePF(String cpf){
+        this.cpf = cpf;
+    }
 
     public ClientePF(String nome, String endereco, Date dataLiscenca, String educacao, String genero,
                      String classeEconomica, String cpf, Date dataNascimento) {
@@ -12,7 +15,6 @@ public class ClientePF extends Cliente{
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
     }
-    
 
     public String getCpf() {
         return cpf;
