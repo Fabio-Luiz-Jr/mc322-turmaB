@@ -2,7 +2,11 @@ import java.util.Date;
 
 public class ClientePF extends Cliente{
     private final String cpf;
+    private String genero;
+    private Date dataLiscenca;
+    private String educacao;
     private Date dataNascimento;
+    private String classeEconomica;
 
     public ClientePF(String cpf){
         this.cpf = cpf;
@@ -10,28 +14,68 @@ public class ClientePF extends Cliente{
 
     public ClientePF(String nome, String endereco, Date dataLiscenca, String educacao, String genero,
                      String classeEconomica, String cpf, Date dataNascimento) {
-        super(nome, endereco, dataLiscenca, educacao, genero, classeEconomica);
+        super(nome, endereco);
         this.cpf = cpf;
+        this.genero = genero;
+        this.dataLiscenca = dataLiscenca;
+        this.educacao = educacao;
         this.dataNascimento = dataNascimento;
+        this.classeEconomica = classeEconomica;
     }
 
     public String getCpf() {
-        return cpf;
+        return this.cpf;
+    }
+
+    public String getGenero() {
+        return this.genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public Date getDataLiscenca() {
+        return this.dataLiscenca;
+    }
+
+    public void setDataLiscenca(Date dataLiscenca) {
+        this.dataLiscenca = dataLiscenca;
+    }
+
+    public String getEducacao() {
+        return this.educacao;
+    }
+
+    public void setEducacao(String educacao) {
+        this.educacao = educacao;
     }
 
     public Date getDataNascimento() {
-        return dataNascimento;
+        return this.dataNascimento;
     }
 
     public void setDataNascimento(Date dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
+    public String getClasseEconomica() {
+        return this.classeEconomica;
+    }
+
+    public void setClasseEconomica(String classeEconomica) {
+        this.classeEconomica = classeEconomica;
+    }
+
     @Override
     public String toString() {
         return "{" +
             " cpf='" + getCpf() + "'" +
+            ", genero='" + getGenero() + "'" +
+            ", dataLiscenca='" + getDataLiscenca() + "'" +
+            ", educacao='" + getEducacao() + "'" +
             ", dataNascimento='" + getDataNascimento() + "'" +
+            ", classeEconomica='" + getClasseEconomica() + "'" +
             "}";
     }
 
