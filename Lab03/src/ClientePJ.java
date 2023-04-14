@@ -8,9 +8,8 @@ public class ClientePJ extends Cliente{
         this.cnpj = cnpj;
     }
 
-    public ClientePJ(String nome, String endereco, Date dataLiscenca, String educacao, String genero,
-                     String classeEconomica, String cnpj, Date dataFundacao) {
-        super(nome, endereco, dataLiscenca, educacao, genero, classeEconomica);
+    public ClientePJ(String nome, String endereco, String cnpj, Date dataFundacao) {
+        super(nome, endereco);
         this.cnpj = cnpj;
         this.dataFundacao = dataFundacao;
     }
