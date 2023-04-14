@@ -10,9 +10,13 @@ public class Sinistro{
     private Veiculo veiculo;
     private Cliente cliente;
 
-    public Sinistro() {
+    public Sinistro(String endereco, Seguradora seguradora, Veiculo veiculo, Cliente cliente) {
         id = id_aux;
         this.data = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+        this.endereco = endereco;
+        this.seguradora = seguradora;
+        this.veiculo = veiculo;
+        this.cliente = cliente;
         id_aux++;
     }    
 
