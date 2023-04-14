@@ -71,9 +71,7 @@ public class Main{
         dataFundacao = sdf.parse("09/02/1991");
         cnpj = "99.793.488/0001-19";
         if (new ClientePJ(cnpj).validarCNPJ(cnpj))
-            clientePJ = new ClientePJ("Júlia Santos", "Rua da Alegria, 17", dataLiscenca,
-                    "Superior completo", "Feminino", "Média",
-                    cnpj, dataFundacao);
+            clientePJ = new ClientePJ("Júlia Santos", "Rua da Alegria, 17", cnpj, dataFundacao);
 
         veiculo = new Veiculo("HBG-8769", "Fiat", "Cronos", 2020);
         clientePF.addVeiculo(veiculo);
@@ -88,9 +86,7 @@ public class Main{
         dataFundacao = sdf.parse("12/04/2021");
         cnpj = "91.195.689/0001-02";
         if (new ClientePJ(cnpj).validarCNPJ(cnpj))
-            clientePJ = new ClientePJ("Pedro Henrique", "Rua Machado de Assis, 223", dataLiscenca,
-                    "Médio incompleto", "Masculino", "Baixa",
-                    cnpj, dataFundacao);
+            clientePJ = new ClientePJ("Pedro Henrique", "Rua Machado de Assis, 223", cnpj, dataFundacao);
 
         veiculo = new Veiculo("CUF-0663", "Volkswagen", "Gol", 2014);
         clientePJ.addVeiculo(veiculo);
@@ -100,11 +96,8 @@ public class Main{
         listaSeguradoras.get(0).removerCliente("Júlia Santos");
         //#endregion
 
-        if(listaSeguradoras.get(0).gerarSinistro()){
-            listaSeguradoras.get(0).listarSinistros().get(0).setCliente(clientePJ);
-            listaSeguradoras.get(0).listarSinistros().get(0).setEndereco(clientePJ.getEndereco());
-            listaSeguradoras.get(0).listarSinistros().get(0).setSeguradora(listaSeguradoras.get(0));
-            listaSeguradoras.get(0).listarSinistros().get(0).setVeiculo(clientePJ.getListaVeiculos().get(0));
+        if(listaSeguradoras.get(0).gerarSinistro(clientePJ.getEndereco(), listaSeguradoras.get(0),
+           clientePJ.getListaVeiculos().get(0), clientePJ)){
         }
 
         listaClientes = listaSeguradoras.get(0).listarClientes("fisica");
@@ -134,7 +127,7 @@ public class Main{
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date dataLiscenca, dataNascimento, dataFundacao;
         String data, placa, marca, modelo, nome, telefone, email, endereco, educacao, genero, classeEconomica, cpf, cnpj;
-        boolean  sinistroPossivel = false;
+        boolean  sinistroPossivel = false, existeCliente = false;
         //#endregion
 
         new Main().criaDadosIniciais(listaSeguradoras);
@@ -149,16 +142,95 @@ public class Main{
                         sinistroPossivel = true;
                         break;
                     }
+
+            //#region Escolha de operação
             System.out.println("Escolha uma operação:");
             System.out.println("1: Adicionar cliente;");
-            System.out.println("2: Adicionar veículo;");
+            if(existeCliente)
+                System.out.println("2: Adicionar veículo;");
             if(sinistroPossivel)
-                    System.out.println("3: Adicionar sinistro;");
+                System.out.println("3: Adicionar sinistro;");
             System.out.println("4: Exibir dados da seguradora;");
             System.out.println("5: Exibir dados do cliente;");
             System.out.println("6: Exibir sinistros;");
             System.out.println("7: Trocar de seguradora;");
             System.out.println("0: Encerrar.");
+            operacao = entrada.nextInt();
+            //#endregion
+
+            switch (operacao) {
+                case 0://Encerrar
+                    break;
+                case 1://Adicionar cliente
+                    System.out.println("1: Pessoa física;");
+                    System.out.println("2: Pessoa jurídica.");
+                    operacao = entrada.nextInt();
+                    if((operacao < 1) || (operacao > 2)){
+                        System.out.println("Operação inválida.");
+                        System.out.println("------------------------------------------------------------------");
+                        System.out.println();
+                        operacao = 1;
+                        continue;
+                    }
+                    System.out.println("Nome:");
+                    nome = entrada.next();
+                    System.out.println("Endereço:");
+                    endereco = entrada.next();
+                    if(operacao == 1){
+                        System.out.println("CPF:");
+                        cpf = entrada.next();
+                        if(!new ClientePF(cpf).validarCPF(cpf)){
+                            System.out.println("CPF inválido.");
+                            System.out.println("------------------------------------------------------------------");
+                            System.out.println();
+                            continue;
+                        }
+                        System.out.println("Gênero:");
+                        genero = entrada.next();
+                        System.out.println("Data da liscença(dd/MM/aaaa):");
+                        dataLiscenca = sdf.parse(entrada.next());
+                        System.out.println("Educação:");
+                        educacao = entrada.next();
+                        System.out.println("Data de nascimento:");
+                        dataNascimento = sdf.parse(entrada.next());
+                        System.out.println("Classe econômica:");
+                        classeEconomica = entrada.next();
+                        clientePF = new ClientePF(nome, endereco, dataLiscenca, educacao, genero, classeEconomica,
+                                                  cpf, dataNascimento);
+                        listaSeguradoras.get(indexSeguradora).cadastrarCliente(clientePF);
+                    }else{
+                        System.out.println("CNPJ:");
+                        cnpj = entrada.next();
+                        if(!new ClientePJ(cnpj).validarCNPJ(cnpj)){
+                            System.out.println("CNPJ inválido.");
+                            System.out.println("------------------------------------------------------------------");
+                            System.out.println();
+                            operacao = 1;
+                            continue;
+                        }
+                        dataFundacao = sdf.parse(entrada.next());
+                        clientePJ = new ClientePJ(nome, endereco, cnpj, dataFundacao);
+                        listaSeguradoras.get(indexSeguradora).cadastrarCliente(clientePJ);
+                    }
+                    existeCliente = true;
+                    break;
+                case 2://Adicionar veículo
+                    break;
+                case 3://Adicionar sinistro
+                    break;
+                case 4://Exibir dados da seguradora
+                    break;
+                case 5://Exibir dados do cliente
+                    break;
+                case 6://Exibir sinistros
+                    break;
+                case 7://Trocar de seguradora
+                    new Main().selecionarSeguradora(listaSeguradoras, entrada);
+                    break;
+            
+                default:
+                    break;
+            }
             
         }while(operacao != 0);
         entrada.close();
