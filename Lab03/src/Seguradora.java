@@ -89,8 +89,8 @@ public class Seguradora{
         return listaClientesFiltrada;
     }
 
-    public boolean gerarSinistro(){
-        this.listaSinistros.add(new Sinistro());
+    public boolean gerarSinistro(String endereco, Seguradora seguradora, Veiculo veiculo, Cliente cliente){
+        this.listaSinistros.add(new Sinistro(endereco, seguradora, veiculo, cliente));
         return true;
     }
 
