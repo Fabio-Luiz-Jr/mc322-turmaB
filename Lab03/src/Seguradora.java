@@ -89,9 +89,13 @@ public class Seguradora{
         return listaClientesFiltrada;
     }
 
-    public boolean gerarSinistro(String endereco, Seguradora seguradora, Veiculo veiculo, Cliente cliente){
-        this.listaSinistros.add(new Sinistro(endereco, seguradora, veiculo, cliente));
-        return true;
+    public boolean gerarSinistro(String endereco, Seguradora seguradora, Veiculo veiculo, String cliente){
+        for(Cliente c: seguradora.listaClientes)
+            if(Objects.equals(c.getNome(), cliente)){
+                this.listaSinistros.add(new Sinistro(endereco, seguradora, veiculo, c));
+                return true;
+            }
+        return false;
     }
 
     public void setSinistro(Sinistro sinistro){
