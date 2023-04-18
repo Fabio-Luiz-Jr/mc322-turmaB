@@ -69,7 +69,7 @@ public class ClientePF extends Cliente{
 
     @Override
     public String toString() {
-        return "{" +
+        return super.toString() +
             " cpf='" + getCpf() + "'" +
             ", genero='" + getGenero() + "'" +
             ", dataLiscenca='" + getDataLiscenca() + "'" +

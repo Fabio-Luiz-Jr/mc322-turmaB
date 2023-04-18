@@ -42,7 +42,6 @@ public class Cliente{
         return "{" +
             " nome='" + getNome() + "'" +
             ", endereco='" + getEndereco() + "'" +
-            ", listaVeiculos='" + getListaVeiculos() + "'" +
-            "}";
+            ", listaVeiculos='" + getListaVeiculos() + "'";
     }
 }

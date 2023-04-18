@@ -28,7 +28,7 @@ public class ClientePJ extends Cliente{
 
     @Override
     public String toString() {
-        return "{" +
+        return super.toString() +
             " cnpj='" + getCnpj() + "'" +
             ", dataFundacao='" + getDataFundacao() + "'" +
             "}";
