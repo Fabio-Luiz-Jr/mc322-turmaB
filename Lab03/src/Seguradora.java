@@ -75,15 +75,15 @@ public class Seguradora{
         ArrayList<Cliente> listaClientesFiltrada = new ArrayList<Cliente>();
         tipoCliente = Normalizer.normalize(tipoCliente, Normalizer.Form.NFD);
         tipoCliente = tipoCliente.replaceAll("[^\\p{ASCII}]", "").toLowerCase();
-        if(Objects.equals(tipoCliente, "fisica"))
+        if(Objects.equals(tipoCliente, "fisica")){
             for(Cliente c1: listaClientes)
                 if(c1 instanceof ClientePF)
                     listaClientesFiltrada.add(c1);
-        else if(Objects.equals(tipoCliente, "juridica"))
+        }else if(Objects.equals(tipoCliente, "juridica")){
             for(Cliente c2: listaClientes)
                     if(c2 instanceof ClientePJ)
                         listaClientesFiltrada.add(c2);
-        else
+        }else
             for(Cliente c3: listaClientes)
                 listaClientesFiltrada.add(c3);
         return listaClientesFiltrada;
