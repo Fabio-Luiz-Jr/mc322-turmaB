@@ -35,7 +35,7 @@ public class ClientePJ extends Cliente{
             "}";
     }
 
-    public int digitoVerificador(String cnpj, int digVerificador){
+    private int digitoVerificador(String cnpj, int digVerificador){
         int soma = 0, aux = 0, digito;
 
         if(digVerificador == 1)

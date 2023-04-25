@@ -80,7 +80,7 @@ public class ClientePF extends Cliente{
             "}";
     }
 
-    public int digitoVerificador(String cpf, int digVerificador){
+    private int digitoVerificador(String cpf, int digVerificador){
         int soma = 0, aux = 0, digito;
 
         if(digVerificador == 2)
