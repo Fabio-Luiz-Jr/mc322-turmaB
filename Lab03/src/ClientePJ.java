@@ -5,6 +5,7 @@ public class ClientePJ extends Cliente{
     private Date dataFundacao;
 
     public ClientePJ(String cnpj){
+        super(null, null);
         this.cnpj = cnpj;
     }
 
@@ -34,20 +35,17 @@ public class ClientePJ extends Cliente{
             "}";
     }
 
-    public int digitoVerificador(String cpf, int digVerificador){
+    public int digitoVerificador(String cnpj, int digVerificador){
         int soma = 0, aux = 0, digito;
 
-        if(digVerificador == 2)
+        if(digVerificador == 1)
             aux = 1;
-        for(int i = 5; i >= 2; i--)
-            soma += (cpf.charAt(5 - i) - '0') * i;
-        for(int i = 9 + aux; i >= 2; i--)
-            soma += (cpf.charAt(14 + aux - i) - '0') * i;
-        
-        if(soma % 11 <= 1)
-            digito = 0;
-        else
-            digito = 11 - (soma % 11);
+        for(int i = 5 + aux; i <= 9; i++)
+            soma += (cnpj.charAt(i - 5 - aux) - '0') * i;
+        for(int i = 2; i <= 9; i++)
+            soma += (cnpj.charAt(3 - aux + i) - '0') * i;
+
+        digito = soma % 11;
         
         return digito;
     }
