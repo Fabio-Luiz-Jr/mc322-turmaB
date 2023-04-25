@@ -9,6 +9,7 @@ public class ClientePF extends Cliente{
     private String classeEconomica;
 
     public ClientePF(String cpf){
+        super(null, null);
         this.cpf = cpf;
     }
 
