@@ -38,14 +38,15 @@ public class ClientePJ extends Cliente{
     private int digitoVerificador(String cnpj, int digVerificador){
         int soma = 0, aux = 0, digito;
 
+        //#region Converte cada caracter em int e aplica a fórmula adequada para calcular os digitos verificadores
         if(digVerificador == 1)
             aux = 1;
         for(int i = 5 + aux; i <= 9; i++)
             soma += (cnpj.charAt(i - 5 - aux) - '0') * i;
         for(int i = 2; i <= 9; i++)
             soma += (cnpj.charAt(3 - aux + i) - '0') * i;
-
         digito = soma % 11;
+        //#endregion
         
         return digito;
     }
@@ -53,6 +54,7 @@ public class ClientePJ extends Cliente{
     public boolean validarCNPJ(String cnpj){
         int digito_1, digito_2;
 
+        //Remove caracteres desnecessários
         cnpj = cnpj.replaceAll("\\.|-|/", "");
         if(cnpj.length() != 14)
             return false;

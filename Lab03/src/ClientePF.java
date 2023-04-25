@@ -83,6 +83,7 @@ public class ClientePF extends Cliente{
     private int digitoVerificador(String cpf, int digVerificador){
         int soma = 0, aux = 0, digito;
 
+        //#region Converte cada caracter em int e aplica a fórmula adequada para calcular os digitos verificadores
         if(digVerificador == 2)
             aux = 1;
         for(int i = 10 + aux; i >= 2; i--)
@@ -92,6 +93,7 @@ public class ClientePF extends Cliente{
             digito = 0;
         else
             digito = 11 - (soma % 11);
+        //#endregion
         
         return digito;
     }
