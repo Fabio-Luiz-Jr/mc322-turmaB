@@ -14,7 +14,7 @@ public class ClientePF extends Cliente{
     }
 
     public ClientePF(String nome, String endereco, Date dataLiscenca, String educacao, String genero,
-                     String classeEconomica, String cpf, Date dataNascimento) {
+                     String classeEconomica, String cpf, Date dataNascimento){
         super(nome, endereco);
         this.cpf = cpf;
         this.genero = genero;
@@ -24,52 +24,52 @@ public class ClientePF extends Cliente{
         this.classeEconomica = classeEconomica;
     }
 
-    public String getCpf() {
+    public String getCpf(){
         return this.cpf;
     }
 
-    public String getGenero() {
+    public String getGenero(){
         return this.genero;
     }
 
-    public void setGenero(String genero) {
+    public void setGenero(String genero){
         this.genero = genero;
     }
 
-    public Date getDataLiscenca() {
+    public Date getDataLiscenca(){
         return this.dataLiscenca;
     }
 
-    public void setDataLiscenca(Date dataLiscenca) {
+    public void setDataLiscenca(Date dataLiscenca){
         this.dataLiscenca = dataLiscenca;
     }
 
-    public String getEducacao() {
+    public String getEducacao(){
         return this.educacao;
     }
 
-    public void setEducacao(String educacao) {
+    public void setEducacao(String educacao){
         this.educacao = educacao;
     }
 
-    public Date getDataNascimento() {
+    public Date getDataNascimento(){
         return this.dataNascimento;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(Date dataNascimento){
         this.dataNascimento = dataNascimento;
     }
 
-    public String getClasseEconomica() {
+    public String getClasseEconomica(){
         return this.classeEconomica;
     }
 
-    public void setClasseEconomica(String classeEconomica) {
+    public void setClasseEconomica(String classeEconomica){
         this.classeEconomica = classeEconomica;
     }
 
     @Override
-    public String toString() {
+    public String toString(){
         return super.toString() +
             " cpf='" + getCpf() + "'" +
             ", genero='" + getGenero() + "'" +
@@ -110,5 +110,4 @@ public class ClientePF extends Cliente{
 
         return true;
     }
-
 }

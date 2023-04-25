@@ -5,29 +5,29 @@ public class Cliente{
     private String endereco;
     private ArrayList<Veiculo> listaVeiculos;
 
-    public Cliente(String nome, String endereco) {
+    public Cliente(String nome, String endereco){
         this.nome = nome;
         this.endereco = endereco;
         this.listaVeiculos = new ArrayList<Veiculo>();
     }
 
-    public String getNome() {
+    public String getNome(){
         return nome;
     }
 
-    public void setNome(String nome) {
+    public void setNome(String nome){
         this.nome = nome;
     }
 
-    public String getEndereco() {
+    public String getEndereco(){
         return endereco;
     }
 
-    public void setEndereco(String endereco) {
+    public void setEndereco(String endereco){
         this.endereco = endereco;
     }
 
-    public ArrayList<Veiculo> getListaVeiculos() {
+    public ArrayList<Veiculo> getListaVeiculos(){
         return listaVeiculos;
     }
 
@@ -36,7 +36,7 @@ public class Cliente{
     }
 
     @Override
-    public String toString() {
+    public String toString(){
         return "{" +
             " nome='" + getNome() + "'" +
             ", endereco='" + getEndereco() + "'" +

@@ -9,26 +9,26 @@ public class ClientePJ extends Cliente{
         this.cnpj = cnpj;
     }
 
-    public ClientePJ(String nome, String endereco, String cnpj, Date dataFundacao) {
+    public ClientePJ(String nome, String endereco, String cnpj, Date dataFundacao){
         super(nome, endereco);
         this.cnpj = cnpj;
         this.dataFundacao = dataFundacao;
     }
 
-    public String getCnpj() {
+    public String getCnpj(){
         return cnpj;
     }
 
-    public Date getDataFundacao() {
+    public Date getDataFundacao(){
         return dataFundacao;
     }
 
-    public void setDataFundacao(Date dataFundacao) {
+    public void setDataFundacao(Date dataFundacao){
         this.dataFundacao = dataFundacao;
     }
 
     @Override
-    public String toString() {
+    public String toString(){
         return super.toString() +
             " cnpj='" + getCnpj() + "'" +
             ", dataFundacao='" + getDataFundacao() + "'" +

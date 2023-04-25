@@ -10,7 +10,7 @@ public class Sinistro{
     private Veiculo veiculo;
     private Cliente cliente;
 
-    public Sinistro(String endereco, Seguradora seguradora, Veiculo veiculo, Cliente cliente) {
+    public Sinistro(String endereco, Seguradora seguradora, Veiculo veiculo, Cliente cliente){
         id = id_aux;
         this.data = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         this.endereco = endereco;
@@ -20,53 +20,53 @@ public class Sinistro{
         id_aux++;
     }    
 
-    public int getId() {
+    public int getId(){
         return this.id;
     }
 
 
-    public String getData() {
+    public String getData(){
         return this.data;
     }
 
-    public void setData(String data) {
+    public void setData(String data){
         this.data = data;
     }
 
-    public String getEndereco() {
+    public String getEndereco(){
         return this.endereco;
     }
 
-    public void setEndereco(String endereco) {
+    public void setEndereco(String endereco){
         this.endereco = endereco;
     }
 
-    public Seguradora getSeguradora() {
+    public Seguradora getSeguradora(){
         return this.seguradora;
     }
 
-    public void setSeguradora(Seguradora seguradora) {
+    public void setSeguradora(Seguradora seguradora){
         this.seguradora = seguradora;
     }
 
-    public Veiculo getVeiculo() {
+    public Veiculo getVeiculo(){
         return this.veiculo;
     }
 
-    public void setVeiculo(Veiculo veiculo) {
+    public void setVeiculo(Veiculo veiculo){
         this.veiculo = veiculo;
     }
 
-    public Cliente getCliente() {
+    public Cliente getCliente(){
         return this.cliente;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(Cliente cliente){
         this.cliente = cliente;
     }
 
     @Override
-    public String toString() {
+    public String toString(){
         return "{" +
             " id='" + getId() + "'" +
             ", data='" + getData() + "'" +
@@ -76,5 +76,4 @@ public class Sinistro{
             ", cliente='" + getCliente() + "'" +
             "}";
     }
-
 }

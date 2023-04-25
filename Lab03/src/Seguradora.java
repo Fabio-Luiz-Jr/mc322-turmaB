@@ -11,7 +11,7 @@ public class Seguradora{
     private ArrayList<Cliente> listaClientes;
 
 
-    public Seguradora(String nome, String telefone, String email, String endereco) {
+    public Seguradora(String nome, String telefone, String email, String endereco){
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
@@ -20,35 +20,35 @@ public class Seguradora{
         this.listaClientes = new ArrayList<Cliente>();
     }
 
-    public String getNome() {
+    public String getNome(){
         return this.nome;
     }
 
-    public void setNome(String nome) {
+    public void setNome(String nome){
         this.nome = nome;
     }
 
-    public String getTelefone() {
+    public String getTelefone(){
         return this.telefone;
     }
 
-    public void setTelefone(String telefone) {
+    public void setTelefone(String telefone){
         this.telefone = telefone;
     }
 
-    public String getEmail() {
+    public String getEmail(){
         return this.email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email){
         this.email = email;
     }
 
-    public String getEndereco() {
+    public String getEndereco(){
         return this.endereco;
     }
 
-    public void setEndereco(String endereco) {
+    public void setEndereco(String endereco){
         this.endereco = endereco;
     }
 
@@ -71,7 +71,7 @@ public class Seguradora{
         return false;
     }
 
-    public ArrayList<Cliente> listarClientes(String tipoCliente) {
+    public ArrayList<Cliente> listarClientes(String tipoCliente){
         ArrayList<Cliente> listaClientesFiltrada = new ArrayList<Cliente>();
         tipoCliente = Normalizer.normalize(tipoCliente, Normalizer.Form.NFD);
         tipoCliente = tipoCliente.replaceAll("[^\\p{ASCII}]", "").toLowerCase();
@@ -111,8 +111,7 @@ public class Seguradora{
         return false;
     }
 
-    public ArrayList<Sinistro> listarSinistros() {
+    public ArrayList<Sinistro> listarSinistros(){
         return listaSinistros;
     }
-
 }

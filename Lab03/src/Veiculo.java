@@ -4,47 +4,47 @@ public class Veiculo{
     private String modelo;
     private int anoFabricacao;
 
-    public Veiculo(String placa, String marca, String modelo, int anoFabricacao) {
+    public Veiculo(String placa, String marca, String modelo, int anoFabricacao){
         this.placa = placa;
         this.marca = marca;
         this.modelo = modelo;
         this.anoFabricacao = anoFabricacao;
     }
 
-    public String getPlaca() {
+    public String getPlaca(){
         return this.placa;
     }
 
-    public void setPlaca(String placa) {
+    public void setPlaca(String placa){
         this.placa = placa;
     }
 
-    public String getMarca() {
+    public String getMarca(){
         return this.marca;
     }
 
-    public void setMarca(String marca) {
+    public void setMarca(String marca){
         this.marca = marca;
     }
 
-    public String getModelo() {
+    public String getModelo(){
         return this.modelo;
     }
 
-    public void setModelo(String modelo) {
+    public void setModelo(String modelo){
         this.modelo = modelo;
     }
 
-    public int getAnoFabricacao() {
+    public int getAnoFabricacao(){
         return this.anoFabricacao;
     }
 
-    public void setAnoFabricacao(int anoFabricacao) {
+    public void setAnoFabricacao(int anoFabricacao){
         this.anoFabricacao = anoFabricacao;
     }
 
     @Override
-    public String toString() {
+    public String toString(){
         return "{" +
             " placa='" + getPlaca() + "'" +
             ", marca='" + getMarca() + "'" +
@@ -52,5 +52,4 @@ public class Veiculo{
             ", anoFabricacao='" + getAnoFabricacao() + "'" +
             "}";
     }
-    
 }
