@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 
 public class Main{
 
-    public int selecionarSeguradora(ArrayList<Seguradora> listaSeguradoras, Scanner entrada){
+    public static int selecionarSeguradora(ArrayList<Seguradora> listaSeguradoras, Scanner entrada){
         String nome, telefone, email, endereco;
         int index, indexSeguradora;
         boolean valido = true;
@@ -40,19 +40,20 @@ public class Main{
             endereco = entrada.next();
             listaSeguradoras.add(new Seguradora(nome, telefone, email, endereco));
             System.out.println("------------------------------------------------------------------");
-        }
+        } else
+            indexSeguradora--;
         System.out.println("Seguradora " + listaSeguradoras.get(indexSeguradora).getNome() + " selecionada.");
         System.out.println();
         return indexSeguradora;
     }
 
-    public void criaDadosIniciais(ArrayList<Seguradora> listaSeguradoras) throws ParseException{
+    public static void criaDadosIniciais(ArrayList<Seguradora> listaSeguradoras) throws ParseException{
         String cpf, cnpj;
         Veiculo veiculo;
         ClientePF clientePF = null;
         ClientePJ clientePJ = null;
         Date dataLiscenca, dataNascimento, dataFundacao;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
         ArrayList<Sinistro> listaSinistros = new ArrayList<Sinistro>();
 
@@ -98,8 +99,11 @@ public class Main{
         //#endregion
 
         if(listaSeguradoras.get(0).gerarSinistro(clientePJ.getEndereco(), listaSeguradoras.get(0),
-           clientePJ.getListaVeiculos().get(0), clientePJ.getNome())){
-        }
+           clientePJ.getListaVeiculos().get(0), clientePJ.getNome()))
+            System.out.println("Sinistro gerado com sucesso");
+        else
+            System.out.println("Erro");
+        System.out.println();
 
         listaClientes = listaSeguradoras.get(0).listarClientes("fisica");
         if(!listaSeguradoras.get(0).visualizarSinistro("Pedro Henrique"))
@@ -130,9 +134,9 @@ public class Main{
         boolean  sinistroPossivel, existeCliente;
         //#endregion
 
-        new Main().criaDadosIniciais(listaSeguradoras);
+        criaDadosIniciais(listaSeguradoras);
 
-        indexSeguradora = new Main().selecionarSeguradora(listaSeguradoras, entrada);
+        indexSeguradora = selecionarSeguradora(listaSeguradoras, entrada);
 
         do{
             existeCliente = false;
@@ -162,7 +166,7 @@ public class Main{
             //#endregion
 
             index = 0;
-            switch (operacao) {
+            teste: switch (operacao) {
                 case 0://Encerrar
                     break;
                 case 1://Adicionar cliente
@@ -311,10 +315,10 @@ public class Main{
                         System.out.println(c.getNome());
                     nome = entrada.next();
 
-                    forLoop: for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes(tipoCliente))
-                        if(c.getNome() == nome){
+                    for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes(tipoCliente))
+                        if(Objects.equals(c.getNome(), nome)){
                             System.out.println(c.toString());
-                            break forLoop;
+                            break teste;
                         }
                     System.out.println("Nome inválido");
                     System.out.println("------------------------------------------------------------------");
@@ -324,7 +328,7 @@ public class Main{
                     
                     break;
                 case 7://Trocar de seguradora
-                    new Main().selecionarSeguradora(listaSeguradoras, entrada);
+                    indexSeguradora = selecionarSeguradora(listaSeguradoras, entrada);
                     break;
             
                 default:
