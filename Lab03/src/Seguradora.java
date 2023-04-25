@@ -73,8 +73,12 @@ public class Seguradora{
 
     public ArrayList<Cliente> listarClientes(String tipoCliente){
         ArrayList<Cliente> listaClientesFiltrada = new ArrayList<Cliente>();
+        //#region Remove acentos e deixa todos os caracteres em minúsculo
         tipoCliente = Normalizer.normalize(tipoCliente, Normalizer.Form.NFD);
         tipoCliente = tipoCliente.replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+        //#endregion
+
+        //instanceof verifica se uma variável pertence a certo Type
         if(Objects.equals(tipoCliente, "fisica")){
             for(Cliente c1: listaClientes)
                 if(c1 instanceof ClientePF)
@@ -90,8 +94,10 @@ public class Seguradora{
     }
 
     public boolean gerarSinistro(String endereco, Seguradora seguradora, Veiculo veiculo, String cliente){
+        //Procura o cliente
         for(Cliente c: seguradora.listaClientes)
             if(Objects.equals(c.getNome(), cliente)){
+                //Usa o construtor do Sinistro
                 this.listaSinistros.add(new Sinistro(endereco, seguradora, veiculo, c));
                 return true;
             }
