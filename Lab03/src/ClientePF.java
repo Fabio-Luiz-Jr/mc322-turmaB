@@ -99,6 +99,7 @@ public class ClientePF extends Cliente{
     public boolean validarCPF(String cpf){
         int digito_1, digito_2;
 
+        //Remove caracteres desnecessários
         cpf = cpf.replaceAll("\\.|-", "");
         if(cpf.length() != 11)
             return false;
