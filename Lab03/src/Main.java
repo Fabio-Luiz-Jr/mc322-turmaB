@@ -443,16 +443,18 @@ public class Main{
                     System.out.println("Operação inválida");
                     break;
             }
-            System.out.println("------------------------------------------------------------------");
-            System.out.println();
-            System.out.println("Aperte Enter para continuar");
-            try{
-                System.in.read();
-                entrada.nextLine();
-            }
-            catch(Exception error){}
-            for(int i = 0; i < 35; i++)
+            if(operacao != 0){
+                System.out.println("------------------------------------------------------------------");
                 System.out.println();
+                System.out.println("Aperte Enter para continuar");
+                try{
+                    System.in.read();
+                    entrada.nextLine();
+                }
+                catch(Exception error){}
+                for(int i = 0; i < 35; i++)
+                    System.out.println();
+            }
         }while(operacao != 0);
         entrada.close();
     }
