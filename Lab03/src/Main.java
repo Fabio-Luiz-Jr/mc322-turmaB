@@ -18,9 +18,10 @@ public class Main{
             index = 0;
             for(Seguradora s: listaSeguradoras){
                 index++;
-                System.out.println("    →" + index + ": " + s.getNome() + ";");
+                System.out.println("    •" + index + ": " + s.getNome() + ";");
             }
-            System.out.println("    →0: Criar nova seguradora.");
+            System.out.println("    •0: Criar nova seguradora.");
+            System.out.print("▹");
             indexSeguradora = entrada.nextInt();
             if((indexSeguradora < 0) || (indexSeguradora > index)){
                 System.out.println("Escolha inválida.");
@@ -35,12 +36,16 @@ public class Main{
             indexSeguradora = index;
             System.out.println("Dados da nova seguradora:");
             System.out.println("Nome:");
+            System.out.print("▹");
             nome = entrada.next();
             System.out.println("Telefone:");
+            System.out.print("▹");
             telefone = entrada.next();
             System.out.println("Email:");
+            System.out.print("▹");
             email = entrada.next();
             System.out.println("Endereço:");
+            System.out.print("▹");
             endereco = entrada.next();
             listaSeguradoras.add(new Seguradora(nome, telefone, email, endereco));
             System.out.println("------------------------------------------------------------------");
@@ -185,6 +190,7 @@ public class Main{
             System.out.println("3: Excluir cliente;");
             System.out.println("4: Trocar de seguradora;");
             System.out.println("0: Encerrar");
+            System.out.print("▹");
             operacao = entrada.nextInt();
 
             switch(operacao){
@@ -192,18 +198,18 @@ public class Main{
                     lerNovamente = false;
                     break;
                 case 1:
-                    System.out.println("→1: Adicionar cliente;");
+                    System.out.println("•1: Adicionar cliente;");
                     if(existeCliente)
-                        System.out.println("→2: Adicionar veículo;");
+                        System.out.println("•2: Adicionar veículo;");
                     if(sinistroPossivel)
-                        System.out.println("→3: Adicionar sinistro;");
+                        System.out.println("•3: Adicionar sinistro;");
                     operacao = 0;
                     break;
                 case 2:
-                    System.out.println("→1: Exibir dados da seguradora;");
-                    System.out.println("→2: Exibir sinistros;");
+                    System.out.println("•1: Exibir dados da seguradora;");
+                    System.out.println("•2: Exibir sinistros;");
                     if(existeCliente)
-                        System.out.println("→3: Exibir dados do cliente;");
+                        System.out.println("•3: Exibir dados do cliente;");
                     operacao = 3;
                     break;
                 case 3:
@@ -218,8 +224,10 @@ public class Main{
                     continue;
             }
             //Altera a operação para o seu equivalente no switch case
-            if(lerNovamente)
+            if(lerNovamente){
+                System.out.print("▹");
                 operacao += entrada.nextInt();
+            }
             //Altera a operação caso o usuário selecione uma operação não disponível no momento
             if(((operacao == 2) && (!existeCliente)) || ((operacao == 3) && (!sinistroPossivel)) || ((operacao == 6) && (!existeCliente)))
                 operacao = -1;
@@ -236,6 +244,7 @@ public class Main{
                     //#region Escolha de pessoa(física/jurídica)
                     System.out.println("1: Pessoa física;");
                     System.out.println("2: Pessoa jurídica.");
+                    System.out.print("▹");
                     operacao = entrada.nextInt();
                     if((operacao < 1) || (operacao > 2)){
                         System.out.println("Operação inválida.");
@@ -248,12 +257,15 @@ public class Main{
 
                     //#region Coleta de dados
                     System.out.println("Nome:");
+                    System.out.print("▹");
                     nome = entrada.next();
                     System.out.println("Endereço:");
+                    System.out.print("▹");
                     endereco = entrada.next();
                     if(operacao == 1){
                         //#region Coleta de dados da pessoa física
                         System.out.println("CPF:");
+                        System.out.print("▹");
                         cpf = entrada.next();
                         //#region Validação do CPF
                         if(!new ClientePF(cpf).validarCPF(cpf)){
@@ -264,14 +276,19 @@ public class Main{
                         }
                         //#endregion
                         System.out.println("Gênero:");
+                        System.out.print("▹");
                         genero = entrada.next();
                         System.out.println("Data da liscença(dd/MM/aaaa):");
+                        System.out.print("▹");
                         dataLiscenca = sdf.parse(entrada.next());
                         System.out.println("Educação:");
+                        System.out.print("▹");
                         educacao = entrada.next();
                         System.out.println("Data de nascimento:");
+                        System.out.print("▹");
                         dataNascimento = sdf.parse(entrada.next());
                         System.out.println("Classe econômica:");
+                        System.out.print("▹");
                         classeEconomica = entrada.next();
                         clientePF = new ClientePF(nome, endereco, dataLiscenca, educacao, genero, classeEconomica,
                                                   cpf, dataNascimento);
@@ -280,6 +297,7 @@ public class Main{
                     }else{
                         //#region Coleta de dados da pessoa jurídica
                         System.out.println("CNPJ:");
+                        System.out.print("▹");
                         cnpj = entrada.next();
                         //#region Validação do CNPJ
                         if(!new ClientePJ(cnpj).validarCNPJ(cnpj)){
@@ -291,6 +309,7 @@ public class Main{
                         }
                         //#endregion
                         System.out.println("Data de fundação(dd/MM/aaaa):");
+                        System.out.print("▹");
                         dataFundacao = sdf.parse(entrada.next());
                         clientePJ = new ClientePJ(nome, endereco, cnpj, dataFundacao);
                         listaSeguradoras.get(indexSeguradora).cadastrarCliente(clientePJ);
@@ -301,12 +320,16 @@ public class Main{
                 case 2://Adicionar veículo
                     //#region Coleta dos dados
                     System.out.println("Placa:");
+                    System.out.print("▹");
                     placa = entrada.next();
                     System.out.println("Marca:");
+                    System.out.print("▹");
                     marca = entrada.next();
                     System.out.println("Modelo:");
+                    System.out.print("▹");
                     modelo = entrada.next();
                     System.out.println("Ano de fabricação:");
+                    System.out.print("▹");
                     anoFabricacao = entrada.nextInt();
                     //#endregion
 
@@ -315,7 +338,8 @@ public class Main{
                     //#region Escolha de cliente
                     System.out.println("Quem é o dono do veículo?");
                     for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes("todos"))
-                        System.out.println("    →" + c.getNome());
+                        System.out.println("    •" + c.getNome());
+                    System.out.print("▹");
                     nome = entrada.next();
                     index = procuraIndexCliente(listaSeguradoras.get(indexSeguradora).listarClientes("todos"), nome);
                     if(index < 0){
@@ -332,7 +356,8 @@ public class Main{
                     //#region Escolha de cliente
                     System.out.println("Gerar sinistro para qual cliente?");
                     for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes("todos"))
-                        System.out.println("    →" + c.getNome());
+                        System.out.println("    •" + c.getNome());
+                        System.out.print("▹");
                     nome = entrada.next();
                     index = procuraIndexCliente(listaSeguradoras.get(indexSeguradora).listarClientes("todos"), nome);
                     if(index < 0){
@@ -345,15 +370,20 @@ public class Main{
 
                     //#region Coleta de dados
                     System.out.println("Local do acidente:");
+                    System.out.print("▹");
                     endereco = entrada.next();
                     System.out.println("--Dados do veículo--");
                     System.out.println("Placa:");
+                    System.out.print("▹");
                     placa = entrada.next();
                     System.out.println("Marca:");
+                    System.out.print("▹");
                     marca = entrada.next();
                     System.out.println("Modelo:");
+                    System.out.print("▹");
                     modelo = entrada.next();
                     System.out.println("Ano de fabricação:");
+                    System.out.print("▹");
                     anoFabricacao = entrada.nextInt();
                     //#endregion
 
@@ -369,13 +399,13 @@ public class Main{
                     System.out.println("Lista de sinistros:");
                     if(sinistroPossivel)
                         for(Sinistro s: listaSeguradoras.get(indexSeguradora).listarSinistros())
-                            System.out.println("    →" + s);
+                            System.out.println("    •" + s);
                     else
                         System.out.println("--Lista vazia--");
                     System.out.println("Lista de clientes:");
                     if(existeCliente)
                         for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes("todos"))
-                            System.out.println("    →" + c);
+                            System.out.println("    •" + c);
                     else
                         System.out.println("--Lista vazia--");
                     break;
@@ -396,6 +426,7 @@ public class Main{
                     System.out.println("1: pessoa física;");
                     System.out.println("2: pessoa jurídica;");
                     System.out.println("3: Não tenho certeza.");
+                    System.out.print("▹");
                     operacao = entrada.nextInt();
                     if((operacao < 1) || (operacao > 3)){
                         System.out.println("Operação inválida.");
@@ -415,7 +446,8 @@ public class Main{
                     //#region Escolha de cliente
                     System.out.println("Escolha o cliente:");
                     for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes(tipoCliente))
-                        System.out.println("    →" + c.getNome());
+                        System.out.println("    •" + c.getNome());
+                    System.out.print("▹");
                     nome = entrada.next();
                     index = procuraIndexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(tipoCliente), nome);
                     if(index < 0){
@@ -431,12 +463,14 @@ public class Main{
                 case 7://Deleta cliente
                     System.out.println("Escolha o cliente:");
                     for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes("todos"))
-                        System.out.println("    →" + c.getNome());
+                        System.out.println("    •" + c.getNome());
+                    System.out.print("▹");
                     nome = entrada.next();
                     if(!listaSeguradoras.get(indexSeguradora).removerCliente(nome))
                         System.out.println("Nome inválido");
                     break;
                 case 8://Trocar de seguradora
+                    System.out.print("▹");
                     indexSeguradora = selecionarSeguradora(listaSeguradoras, entrada);
                     break;
                 default:
