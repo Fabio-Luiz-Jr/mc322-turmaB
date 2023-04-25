@@ -5,8 +5,6 @@ public class Cliente{
     private String endereco;
     private ArrayList<Veiculo> listaVeiculos;
 
-    public Cliente(){}
-
     public Cliente(String nome, String endereco) {
         this.nome = nome;
         this.endereco = endereco;
