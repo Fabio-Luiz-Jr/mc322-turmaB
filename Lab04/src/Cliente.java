@@ -6,6 +6,8 @@ public abstract class Cliente{
     private ArrayList<Veiculo> listaVeiculos;
     private double valorSeguro;
 
+    public Cliente(){}
+
     public Cliente(String nome, String endereco){
         this.nome = nome;
         this.endereco = endereco;
@@ -54,5 +56,5 @@ public abstract class Cliente{
             ", valorSeguro='" + getValorSeguro() + "'";
     }
 
-    abstract double calculaScore();
+    public abstract double calculaScore();
 }
