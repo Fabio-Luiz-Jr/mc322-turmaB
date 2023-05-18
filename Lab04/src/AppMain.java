@@ -75,7 +75,7 @@ public class AppMain{
         dataLiscenca = sdf.parse("21/03/2022");
         dataNascimento = sdf.parse("02/04/1983");
         cpf = "639.110.630-40";
-        if(new ClientePF(cpf).validarCPF(cpf))
+        if(Validacao.validaCPF(cpf))
             clientePF = new ClientePF("João Carlos", "Rua Dom Pedro I, 14", dataLiscenca,
                     "Superior completo", "Masculino", "Média",
                     cpf, dataNascimento);
@@ -83,8 +83,8 @@ public class AppMain{
         dataLiscenca = sdf.parse("29/11/2018");
         dataFundacao = sdf.parse("09/02/1991");
         cnpj = "99.793.488/0001-19";
-        if(new ClientePJ(cnpj).validarCNPJ(cnpj))
-            clientePJ = new ClientePJ("Júlia Santos", "Rua da Alegria, 17", cnpj, dataFundacao);
+        if(Validacao.validaCNPJ(cnpj))
+            clientePJ = new ClientePJ("Júlia Santos", "Rua da Alegria, 17", cnpj, dataFundacao, 5);
 
         veiculo = new Veiculo("HBG-8769", "Fiat", "Cronos", 2020);
         clientePF.addVeiculo(veiculo);
@@ -92,17 +92,22 @@ public class AppMain{
         veiculo = new Veiculo("JGU-7946", "Citroën", "C4 Cactus", 2019);
         clientePJ.addVeiculo(veiculo);
 
+        clientePF.setValorSeguro(clientePF.calculaScore());
+        clientePJ.setValorSeguro(clientePJ.calculaScore());
+
         listaSeguradoras.get(0).cadastrarCliente(clientePF);
         listaSeguradoras.get(0).cadastrarCliente(clientePJ);
 
         dataLiscenca = sdf.parse("07/09/2001");
         dataFundacao = sdf.parse("12/04/2021");
         cnpj = "91.195.689/0001-02";
-        if(new ClientePJ(cnpj).validarCNPJ(cnpj))
-            clientePJ = new ClientePJ("Pedro Henrique", "Rua Machado de Assis, 223", cnpj, dataFundacao);
+        if(Validacao.validaCNPJ(cnpj))
+            clientePJ = new ClientePJ("Pedro Henrique", "Rua Machado de Assis, 223", cnpj, dataFundacao, 23);
 
         veiculo = new Veiculo("CUF-0663", "Volkswagen", "Gol", 2014);
         clientePJ.addVeiculo(veiculo);
+
+        clientePJ.setValorSeguro(clientePJ.calculaScore());
 
         listaSeguradoras.get(0).cadastrarCliente(clientePJ);
 
@@ -153,7 +158,7 @@ public class AppMain{
         Veiculo veiculo;
         ClientePF clientePF = null;
         ClientePJ clientePJ = null;
-        int anoFabricacao, operacao = 0, index, indexSeguradora;
+        int anoFabricacao, operacao = 0, index, indexSeguradora, qtdeFuncionarios;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date dataLiscenca, dataNascimento, dataFundacao;
         String placa, marca, modelo, nome, endereco, educacao, genero, classeEconomica, cpf, cnpj, tipoCliente;
@@ -268,7 +273,7 @@ public class AppMain{
                         System.out.print("▹");
                         cpf = entrada.next();
                         //#region Validação do CPF
-                        if(!new ClientePF(cpf).validarCPF(cpf)){
+                        if(!Validacao.validaCPF(cpf)){
                             System.out.println("CPF inválido.");
                             System.out.println("------------------------------------------------------------------");
                             System.out.println();
@@ -300,7 +305,7 @@ public class AppMain{
                         System.out.print("▹");
                         cnpj = entrada.next();
                         //#region Validação do CNPJ
-                        if(!new ClientePJ(cnpj).validarCNPJ(cnpj)){
+                        if(!Validacao.validaCNPJ(cnpj)){
                             System.out.println("CNPJ inválido.");
                             System.out.println("------------------------------------------------------------------");
                             System.out.println();
@@ -311,7 +316,10 @@ public class AppMain{
                         System.out.println("Data de fundação(dd/MM/aaaa):");
                         System.out.print("▹");
                         dataFundacao = sdf.parse(entrada.next());
-                        clientePJ = new ClientePJ(nome, endereco, cnpj, dataFundacao);
+                        System.out.println("Quantidade de funcionários:");
+                        System.out.print("▹");
+                        qtdeFuncionarios = entrada.nextInt();
+                        clientePJ = new ClientePJ(nome, endereco, cnpj, dataFundacao, qtdeFuncionarios);
                         listaSeguradoras.get(indexSeguradora).cadastrarCliente(clientePJ);
                         //#endregion
                     }
