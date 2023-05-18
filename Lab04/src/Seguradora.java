@@ -10,6 +10,7 @@ public class Seguradora{
     private ArrayList<Sinistro> listaSinistros;
     private ArrayList<Cliente> listaClientes;
 
+    public Seguradora(){}
 
     public Seguradora(String nome, String telefone, String email, String endereco){
         this.nome = nome;
@@ -50,6 +51,31 @@ public class Seguradora{
 
     public void setEndereco(String endereco){
         this.endereco = endereco;
+    }
+
+    public void setSinistro(Sinistro sinistro){
+        this.listaSinistros.add(sinistro);
+    }
+
+    public boolean visualizarSinistro(String cliente){
+        for(Sinistro s: listaSinistros)
+            if(Objects.equals(s.getCliente().getNome(), cliente)){
+                System.out.println(s);
+                return true;
+            }
+        return false;
+    }
+
+    public ArrayList<Sinistro> listarSinistros(){
+        return listaSinistros;
+    }
+
+    public ArrayList<Sinistro> listarSinistros(Cliente cliente){
+        ArrayList<Sinistro> lista = new ArrayList<Sinistro>();
+        for(Sinistro s: listaSinistros)
+            if(Objects.equals(s.getCliente().getNome(), cliente.getNome()))
+                lista.add(s);
+        return lista;
     }
 
     public boolean cadastrarCliente(Cliente cliente){
@@ -104,20 +130,14 @@ public class Seguradora{
         return false;
     }
 
-    public void setSinistro(Sinistro sinistro){
-        this.listaSinistros.add(sinistro);
+    public double calcularPrecoSeguroCliente(Cliente cliente){
+        return cliente.calculaScore() * (1 + listarSinistros(cliente).size());
     }
 
-    public boolean visualizarSinistro(String cliente){
-        for(Sinistro s: listaSinistros)
-            if(Objects.equals(s.getCliente().getNome(), cliente)){
-                System.out.println(s);
-                return true;
-            }
-        return false;
-    }
-
-    public ArrayList<Sinistro> listarSinistros(){
-        return listaSinistros;
+    public double calcularReceita(){
+        double soma = 0;
+        for(Cliente c: listarClientes("todos"))
+            soma += calcularPrecoSeguroCliente(c);
+        return soma;
     }
 }
