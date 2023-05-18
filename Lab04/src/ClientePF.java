@@ -1,3 +1,8 @@
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Period;
+import java.util.Calendar;
 import java.util.Date;
 
 public class ClientePF extends Cliente{
@@ -8,14 +13,9 @@ public class ClientePF extends Cliente{
     private Date dataNascimento;
     private String classeEconomica;
 
-    public ClientePF(String cpf){
-        super(null, null);
-        this.cpf = cpf;
-    }
-
-    public ClientePF(String nome, String endereco, Date dataLiscenca, String educacao, String genero,
+    public ClientePF(String nome, String endereco, double valorSeguro, Date dataLiscenca, String educacao, String genero,
                      String classeEconomica, String cpf, Date dataNascimento){
-        super(nome, endereco);
+        super(nome, endereco, valorSeguro);
         this.cpf = cpf;
         this.genero = genero;
         this.dataLiscenca = dataLiscenca;
@@ -80,37 +80,34 @@ public class ClientePF extends Cliente{
             "}";
     }
 
-    private int digitoVerificador(String cpf, int digVerificador){
-        int soma = 0, aux = 0, digito;
+    public double calculaScore(){
+        int caso = 0;
+        double valor;
+        Calendar data = Calendar.getInstance();
+        data.setTime(dataNascimento);
+        int idade = Period.between(LocalDate.of(data.get(Calendar.YEAR), data.get(Calendar.MONTH), data.get(Calendar.DAY_OF_MONTH)), LocalDate.now()).getYears();
 
-        //#region Converte cada caracter em int e aplica a fórmula adequada para calcular os digitos verificadores
-        if(digVerificador == 2)
-            aux = 1;
-        for(int i = 10 + aux; i >= 2; i--)
-            soma += (cpf.charAt(10 + aux - i) - '0') * i;
+        if((idade >= 18) && (idade < 30))
+            caso = 1;
+        else if((idade >= 30) && (idade <  60))
+            caso = 2;
+        else if((idade >= 60) && (idade < 90))
+            caso = 3;
         
-        if((soma % 11 == 0) || (soma % 11 == 1))
-            digito = 0;
-        else
-            digito = 11 - (soma % 11);
-        //#endregion
-        
-        return digito;
-    }
-
-    public boolean validarCPF(String cpf){
-        int digito_1, digito_2;
-
-        //Remove caracteres desnecessários
-        cpf = cpf.replaceAll("\\.|-", "");
-        if(cpf.length() != 11)
-            return false;
-        
-        digito_1 = digitoVerificador(cpf, 1);
-        digito_2 = digitoVerificador(cpf, 2);
-        if((digito_1 != cpf.charAt(9) - '0') || (digito_2 != cpf.charAt(10) - '0'))
-            return false;
-
-        return true;
+            switch(caso){
+                case 1:
+                    valor = CalcSeguro.FATOR_18_30.getValor();
+                    break;
+                case 2:
+                    valor = CalcSeguro.FATOR_30_60.getValor();
+                    break;
+                case 3:
+                    valor = CalcSeguro.FATOR_60_90.getValor();
+                    break;
+                default:
+                    System.out.println("Idade inválida");
+                    return -1;
+            }
+        return CalcSeguro.VALOR_BASE.getValor() * valor * getListaVeiculos().size();
     }
 }
