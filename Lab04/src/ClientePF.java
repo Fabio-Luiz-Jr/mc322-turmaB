@@ -13,7 +13,7 @@ public class ClientePF extends Cliente{
 
     public ClientePF(String nome, String endereco, double valorSeguro, Date dataLiscenca, String educacao, String genero,
                      String classeEconomica, String cpf, Date dataNascimento){
-        super(nome, endereco, valorSeguro);
+        super(nome, endereco);
         this.cpf = cpf;
         this.genero = genero;
         this.dataLiscenca = dataLiscenca;
