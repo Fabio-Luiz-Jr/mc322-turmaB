@@ -92,8 +92,8 @@ public class AppMain{
         veiculo = new Veiculo("JGU-7946", "Citroën", "C4 Cactus", 2019);
         clientePJ.addVeiculo(veiculo);
 
-        clientePF.setValorSeguro(clientePF.calculaScore());
-        clientePJ.setValorSeguro(clientePJ.calculaScore());
+        clientePF.setValorSeguro(new Seguradora().calcularPrecoSeguroCliente(clientePF));
+        clientePJ.setValorSeguro(new Seguradora().calcularPrecoSeguroCliente(clientePJ));
 
         listaSeguradoras.get(0).cadastrarCliente(clientePF);
         listaSeguradoras.get(0).cadastrarCliente(clientePJ);
@@ -107,7 +107,7 @@ public class AppMain{
         veiculo = new Veiculo("CUF-0663", "Volkswagen", "Gol", 2014);
         clientePJ.addVeiculo(veiculo);
 
-        clientePJ.setValorSeguro(clientePJ.calculaScore());
+        clientePJ.setValorSeguro(new Seguradora().calcularPrecoSeguroCliente(clientePJ));
 
         listaSeguradoras.get(0).cadastrarCliente(clientePJ);
 
