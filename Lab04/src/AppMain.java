@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -150,19 +151,24 @@ public class AppMain{
         return -1;
     }
 
+    private static boolean clienteExiste(ArrayList<Cliente> cliente, String nome){
+        if(procuraIndexCliente(cliente, nome) == -1)
+            return false;
+        return true;
+    }
+
     public static void main(String[] args) throws Exception{
         //#region Variáveis
         Scanner entrada = new Scanner(System.in).useDelimiter("\n");
         ArrayList<Seguradora> listaSeguradoras = new ArrayList<Seguradora>();
-        Seguradora seguradora;
         Veiculo veiculo;
-        ClientePF clientePF = null;
-        ClientePJ clientePJ = null;
-        int anoFabricacao, operacao = 0, index, indexSeguradora, qtdeFuncionarios;
+        Cliente cliente = null;
+        int anoFabricacao, operacao = 0, index, indexSeguradora, qtdeFuncionarios, id;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date dataLiscenca, dataNascimento, dataFundacao;
-        String placa, marca, modelo, nome, endereco, educacao, genero, classeEconomica, cpf, cnpj, tipoCliente;
-        boolean  sinistroPossivel, existeCliente, lerNovamente;
+        String placa, marca, modelo, nome, endereco, educacao, genero, classeEconomica, cpf, cnpj, tipoCliente, nomeCliente1, nomeCliente2;
+        boolean  lerNovamente;
+        EnumSet<menuOpcoes> menu = EnumSet.range(menuOpcoes.CADASTRAR,menuOpcoes.SAIR);
         //#endregion
 
         //Condições solicitadas no enunciado
@@ -172,54 +178,41 @@ public class AppMain{
         System.out.println("Seguradora selecionada: " + listaSeguradoras.get(indexSeguradora).getNome());
         System.out.println();
 
-        do{
-            //#region Decide como as variáveis do tipo boolean devem ser iniciadas a cada loop
+        voltar: do{
             lerNovamente = true;
-            existeCliente = false;
-            sinistroPossivel = false;
-            seguradora = listaSeguradoras.get(indexSeguradora);
-            if(seguradora.listarClientes("todos").size() > 0){
-                existeCliente = true;
-                for(int i = 0; i < seguradora.listarClientes("todos").size(); i++)
-                    if(seguradora.listarClientes("todos").get(i).getListaVeiculos().size() > 0){
-                        sinistroPossivel = true;
-                        break;
-                    }
-            }
-            //#endregion
 
             //#region Escolha de operação
-            System.out.println("Escolha uma operação:");
-            System.out.println("1: Novo(cliente/veículo/sinistro);");
-            System.out.println("2: Exibir(cliente/seguradora/sinistros);");
-            System.out.println("3: Excluir cliente;");
-            System.out.println("4: Trocar de seguradora;");
-            System.out.println("0: Encerrar");
+            System.out.println("Escolha uma operação: ");
+            for(menuOpcoes opcao: menu)
+                System.out.println((((opcao.ordinal() + 1) % 11) % 6) + ": " + opcao.getDescricao());
             System.out.print("▹");
             operacao = entrada.nextInt();
 
             switch(operacao){
-                case 0:
+                case 0: //Sair
                     lerNovamente = false;
                     break;
-                case 1:
-                    System.out.println("•1: Adicionar cliente;");
-                    if(existeCliente)
-                        System.out.println("•2: Adicionar veículo;");
-                    if(sinistroPossivel)
-                        System.out.println("•3: Adicionar sinistro;");
+                case 1: //Cadastrar
+                    for(menuOpcoes subMenu: menuOpcoes.CADASTRAR.getSubMenu())
+                        System.out.println(((subMenu.ordinal() + 1) % 11) + ": " + subMenu.getDescricao());
                     operacao = 0;
                     break;
-                case 2:
-                    System.out.println("•1: Exibir dados da seguradora;");
-                    System.out.println("•2: Exibir sinistros;");
-                    if(existeCliente)
-                        System.out.println("•3: Exibir dados do cliente;");
+                case 2: //Exibir
+                    for(menuOpcoes subMenu: menuOpcoes.EXIBIR.getSubMenu())
+                        System.out.println(((subMenu.ordinal() - 2) % 8) + ": " + subMenu.getDescricao());
                     operacao = 3;
                     break;
-                case 3:
-                case 4:
-                    operacao += 4;
+                case 3: //Excluir
+                    for(menuOpcoes subMenu: menuOpcoes.EXCLUIR.getSubMenu())
+                        System.out.println(((subMenu.ordinal() - 6) % 4) + ": " + subMenu.getDescricao());
+                    operacao = 7;
+                    break;
+                case 4: //Gerar sinistro
+                    operacao = 11;
+                    lerNovamente = false;
+                    break;
+                case 5: //Transferir seguro
+                    operacao = 12;
                     lerNovamente = false;
                     break;
                 default:
@@ -228,22 +221,25 @@ public class AppMain{
                     System.out.println();
                     continue;
             }
-            //Altera a operação para o seu equivalente no switch case
+            //#endregion
             if(lerNovamente){
+                int aux;
                 System.out.print("▹");
-                operacao += entrada.nextInt();
+                aux = entrada.nextInt();
+                if(aux == 0)
+                    operacao = -1;
+                else
+                    operacao += aux;
             }
-            //Altera a operação caso o usuário selecione uma operação não disponível no momento
-            if(((operacao == 2) && (!existeCliente)) || ((operacao == 3) && (!sinistroPossivel)) || ((operacao == 6) && (!existeCliente)))
-                operacao = -1;
             
             System.out.println("------------------------------------------------------------------");
             System.out.println();
-            //#endregion
 
             index = 0;
             switch(operacao){
-                case 0://Encerrar
+                case -1://Voltar
+                    continue voltar;
+                case 0://Sair
                     break;
                 case 1://Adicionar cliente
                     //#region Escolha de pessoa(física/jurídica)
@@ -295,9 +291,8 @@ public class AppMain{
                         System.out.println("Classe econômica:");
                         System.out.print("▹");
                         classeEconomica = entrada.next();
-                        clientePF = new ClientePF(nome, endereco, dataLiscenca, educacao, genero, classeEconomica,
+                        cliente = new ClientePF(nome, endereco, dataLiscenca, educacao, genero, classeEconomica,
                                                   cpf, dataNascimento);
-                        listaSeguradoras.get(indexSeguradora).cadastrarCliente(clientePF);
                         //#endregion
                     }else{
                         //#region Coleta de dados da pessoa jurídica
@@ -319,10 +314,11 @@ public class AppMain{
                         System.out.println("Quantidade de funcionários:");
                         System.out.print("▹");
                         qtdeFuncionarios = entrada.nextInt();
-                        clientePJ = new ClientePJ(nome, endereco, cnpj, dataFundacao, qtdeFuncionarios);
-                        listaSeguradoras.get(indexSeguradora).cadastrarCliente(clientePJ);
+                        cliente = new ClientePJ(nome, endereco, cnpj, dataFundacao, qtdeFuncionarios);
                         //#endregion
                     }
+                    listaSeguradoras.get(indexSeguradora).cadastrarCliente(cliente);
+                    listaSeguradoras.get(indexSeguradora).getCliente(cliente.getNome()).setValorSeguro(listaSeguradoras.get(indexSeguradora).calcularPrecoSeguroCliente(cliente));
                     //#endregion
                     break;
                 case 2://Adicionar veículo
@@ -349,8 +345,7 @@ public class AppMain{
                         System.out.println("    •" + c.getNome());
                     System.out.print("▹");
                     nome = entrada.next();
-                    index = procuraIndexCliente(listaSeguradoras.get(indexSeguradora).listarClientes("todos"), nome);
-                    if(index < 0){
+                    if(!clienteExiste(listaSeguradoras.get(indexSeguradora).listarClientes("todos"), nome)){
                         System.out.println("Nome inválido");
                         System.out.println("------------------------------------------------------------------");
                         System.out.println();
@@ -360,75 +355,11 @@ public class AppMain{
 
                     listaSeguradoras.get(indexSeguradora).listarClientes("todos").get(index).addVeiculo(veiculo);
                     break;
-                case 3://Adicionar sinistro
-                    //#region Escolha de cliente
-                    System.out.println("Gerar sinistro para qual cliente?");
-                    for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes("todos"))
-                        System.out.println("    •" + c.getNome());
-                        System.out.print("▹");
-                    nome = entrada.next();
-                    index = procuraIndexCliente(listaSeguradoras.get(indexSeguradora).listarClientes("todos"), nome);
-                    if(index < 0){
-                        System.out.println("Nome inválido");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
-                        continue;
-                    }
-                    //#endregion
-
-                    //#region Coleta de dados
-                    System.out.println("Local do acidente:");
+                case 3://Trocar de seguradora
                     System.out.print("▹");
-                    endereco = entrada.next();
-                    System.out.println("--Dados do veículo--");
-                    System.out.println("Placa:");
-                    System.out.print("▹");
-                    placa = entrada.next();
-                    System.out.println("Marca:");
-                    System.out.print("▹");
-                    marca = entrada.next();
-                    System.out.println("Modelo:");
-                    System.out.print("▹");
-                    modelo = entrada.next();
-                    System.out.println("Ano de fabricação:");
-                    System.out.print("▹");
-                    anoFabricacao = entrada.nextInt();
-                    //#endregion
-
-                    veiculo = new Veiculo(placa, marca, modelo, anoFabricacao);
-                    if(!listaSeguradoras.get(indexSeguradora).gerarSinistro(endereco, seguradora, veiculo, nome))
-                        System.out.println("Cliente inválido");
+                    indexSeguradora = selecionarSeguradora(listaSeguradoras, entrada);
                     break;
-                case 4://Exibir dados da seguradora
-                    System.out.println("Nome: " + listaSeguradoras.get(indexSeguradora).getNome());
-                    System.out.println("Telefone: " + listaSeguradoras.get(indexSeguradora).getTelefone());
-                    System.out.println("Email: " + listaSeguradoras.get(indexSeguradora).getEmail());
-                    System.out.println("Endereço: " + listaSeguradoras.get(indexSeguradora).getEndereco());
-                    System.out.println("Lista de sinistros:");
-                    if(sinistroPossivel)
-                        for(Sinistro s: listaSeguradoras.get(indexSeguradora).listarSinistros())
-                            System.out.println("    •" + s);
-                    else
-                        System.out.println("--Lista vazia--");
-                    System.out.println("Lista de clientes:");
-                    if(existeCliente)
-                        for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes("todos"))
-                            System.out.println("    •" + c);
-                    else
-                        System.out.println("--Lista vazia--");
-                    break;
-                case 5://Exibir dados dos sinistros
-                    for(Sinistro s: listaSeguradoras.get(indexSeguradora).listarSinistros()){
-                        System.out.println("ID: " + s.getId());
-                        System.out.println("Data: " + s.getData());
-                        System.out.println("Endereço: " + s.getEndereco());
-                        System.out.println("Seguradora: " + s.getSeguradora().getNome());
-                        System.out.println("Veículo: " + s.getVeiculo());
-                        System.out.println("Cliente: " + s.getCliente());
-                        System.out.println("------------------------------------------------------------------");
-                    }
-                    break;
-                case 6://Exibir cliente
+                case 4://Exibir cliente
                     //#region Escolha do tipo de cliente
                     System.out.println("O cliente pertence é:");
                     System.out.println("1: pessoa física;");
@@ -457,18 +388,47 @@ public class AppMain{
                         System.out.println("    •" + c.getNome());
                     System.out.print("▹");
                     nome = entrada.next();
-                    index = procuraIndexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(tipoCliente), nome);
-                    if(index < 0){
+                    if(!clienteExiste(listaSeguradoras.get(indexSeguradora).listarClientes("todos"), nome)){
                         System.out.println("Nome inválido");
                         System.out.println("------------------------------------------------------------------");
                         System.out.println();
                         continue;
                     }
                     //#endregion
-
+                    index = procuraIndexCliente(listaSeguradoras.get(indexSeguradora).listarClientes("todos"), nome);
                     System.out.println(listaSeguradoras.get(indexSeguradora).listarClientes(tipoCliente).get(index).toString());
                     break;
-                case 7://Deleta cliente
+                case 5://Exibir veículos
+                    System.out.println("Escolha um cliente: ");
+                    for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes("todos"))
+                        System.out.println(c.getNome());
+                    System.out.print("▹");
+                    nome = entrada.next();
+                    if(!clienteExiste(listaSeguradoras.get(indexSeguradora).listarClientes("todos"), nome)){
+                        System.out.println("Nome inválido");
+                        System.out.println("------------------------------------------------------------------");
+                        System.out.println();
+                        continue;
+                    }
+                    System.out.print(listaSeguradoras.get(indexSeguradora).getCliente(nome).getListaVeiculos());
+                    break;
+                case 6://Exibir dados dos sinistros
+                    for(Sinistro s: listaSeguradoras.get(indexSeguradora).listarSinistros())
+                        System.out.print(s);
+                    break;
+                case 7://Exibir dados da seguradora
+                    System.out.println("Nome: " + listaSeguradoras.get(indexSeguradora).getNome());
+                    System.out.println("Telefone: " + listaSeguradoras.get(indexSeguradora).getTelefone());
+                    System.out.println("Email: " + listaSeguradoras.get(indexSeguradora).getEmail());
+                    System.out.println("Endereço: " + listaSeguradoras.get(indexSeguradora).getEndereco());
+                    System.out.println("Lista de sinistros:");
+                    for(Sinistro s: listaSeguradoras.get(indexSeguradora).listarSinistros())
+                        System.out.println("    •" + s);
+                    System.out.println("Lista de clientes:");
+                    for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes("todos"))
+                        System.out.println("    •" + c);
+                    break;
+                case 8://Deleta cliente
                     System.out.println("Escolha o cliente:");
                     for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes("todos"))
                         System.out.println("    •" + c.getNome());
@@ -477,9 +437,95 @@ public class AppMain{
                     if(!listaSeguradoras.get(indexSeguradora).removerCliente(nome))
                         System.out.println("Nome inválido");
                     break;
-                case 8://Trocar de seguradora
+                case 9://Deleta veículo
+                    System.out.println("Escolha um cliente: ");
+                    System.out.println(listaSeguradoras.get(indexSeguradora).listarClientes("todos"));
                     System.out.print("▹");
-                    indexSeguradora = selecionarSeguradora(listaSeguradoras, entrada);
+                    nome = entrada.next();
+                    if(!clienteExiste(listaSeguradoras.get(indexSeguradora).listarClientes("todos"), nome)){
+                        System.out.println("Nome inválido");
+                        System.out.println("------------------------------------------------------------------");
+                        System.out.println();
+                        continue;
+                    }
+                    System.out.println("Escolha um veículo(pela placa): ");
+                    System.out.print(listaSeguradoras.get(indexSeguradora).getCliente(nome).getListaVeiculos());
+                    System.out.print("▹");
+                    placa = entrada.next();
+                    listaSeguradoras.get(indexSeguradora).getCliente(nome).removeVeiculo(placa);
+                    break;
+                case 10://Deleta sinistro
+                    System.out.println("Escolha um sinistro(por ID): ");
+                    System.out.print(listaSeguradoras.get(indexSeguradora).listarSinistros());
+                    id = entrada.nextInt();
+                    if(!listaSeguradoras.get(indexSeguradora).deletarSinistro(id))
+                        System.out.println("ID inválido");
+                    break;
+                case 11://Gerar sinistro
+                    //#region Escolha de cliente
+                    System.out.println("Gerar sinistro para qual cliente?");
+                    for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes("todos"))
+                        System.out.println("    •" + c.getNome());
+                    System.out.print("▹");
+                    nome = entrada.next();
+                    if(!clienteExiste(listaSeguradoras.get(indexSeguradora).listarClientes("todos"), nome)){
+                        System.out.println("Nome inválido");
+                        System.out.println("------------------------------------------------------------------");
+                        System.out.println();
+                        continue;
+                    }
+                    //#endregion
+
+                    //#region Coleta de dados
+                    System.out.println("Local do acidente:");
+                    System.out.print("▹");
+                    endereco = entrada.next();
+                    System.out.println("--Dados do veículo--");
+                    System.out.println("Placa:");
+                    System.out.print("▹");
+                    placa = entrada.next();
+                    System.out.println("Marca:");
+                    System.out.print("▹");
+                    marca = entrada.next();
+                    System.out.println("Modelo:");
+                    System.out.print("▹");
+                    modelo = entrada.next();
+                    System.out.println("Ano de fabricação:");
+                    System.out.print("▹");
+                    anoFabricacao = entrada.nextInt();
+                    //#endregion
+
+                    veiculo = new Veiculo(placa, marca, modelo, anoFabricacao);
+                    if(!listaSeguradoras.get(indexSeguradora).gerarSinistro(endereco, listaSeguradoras.get(indexSeguradora), veiculo, nome))
+                        System.out.println("Cliente inválido");
+                    break;
+                case 12://Transferir seguro
+                    System.out.println("Escolha o cliente que irá transferir o seguro: ");
+                    for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes("todos"))
+                        System.out.println(c.getNome());
+                    System.out.print("▹");
+                    nomeCliente1 = entrada.next();
+                    if(!clienteExiste(listaSeguradoras.get(indexSeguradora).listarClientes("todos"), nomeCliente1)){
+                        System.out.println("Nome inválido");
+                        System.out.println("------------------------------------------------------------------");
+                        System.out.println();
+                        continue;
+                    }
+
+                    System.out.println("Escolha o cliente que irá receber o seguro: ");
+                    for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes("todos"))
+                        if(!Objects.equals(c.getNome(), nomeCliente1))
+                        System.out.println(c.getNome());
+                    System.out.print("▹");
+                    nomeCliente2 = entrada.next();
+                    if(!clienteExiste(listaSeguradoras.get(indexSeguradora).listarClientes("todos"), nomeCliente2)){
+                        System.out.println("Nome inválido");
+                        System.out.println("------------------------------------------------------------------");
+                        System.out.println();
+                        continue;
+                    }
+
+                    listaSeguradoras.get(indexSeguradora).transferenciaSeguro(listaSeguradoras.get(indexSeguradora).getCliente(nomeCliente1), listaSeguradoras.get(indexSeguradora).getCliente(nomeCliente2));
                     break;
                 default:
                     System.out.println("Operação inválida");

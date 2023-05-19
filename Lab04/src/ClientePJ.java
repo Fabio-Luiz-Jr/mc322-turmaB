@@ -35,10 +35,9 @@ public class ClientePJ extends Cliente{
     @Override
     public String toString(){
         return super.toString() +
-            " cnpj='" + getCnpj() + "'" +
-            ", dataFundacao='" + getDataFundacao() + "'" +
-            ", qtdeFuncionarios='" + getQtdeFuncionarios() + "'" +
-            "}";
+            "CNPJ: " + getCnpj() + "\n" +
+            "Data da fundação" + getDataFundacao() + "\n" +
+            "Quantidade de funcionários: " + getQtdeFuncionarios() + "\n";
     }
 
     public double calculaScore(){

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Objects;
 
 public abstract class Cliente{
     private String nome;
@@ -39,6 +40,16 @@ public abstract class Cliente{
         this.listaVeiculos.add(veiculo);
     }
 
+    public void removeVeiculo(int index){
+        this.listaVeiculos.remove(index);
+    }
+
+    public void removeVeiculo(String placa){
+        for(Veiculo v: getListaVeiculos())
+            if(Objects.equals(v.getPlaca(), placa))
+                this.listaVeiculos.remove(v);
+    }
+
     public double getValorSeguro() {
         return valorSeguro;
     }
@@ -49,11 +60,10 @@ public abstract class Cliente{
 
     @Override
     public String toString(){
-        return "{" +
-            " nome='" + getNome() + "'" +
-            ", endereco='" + getEndereco() + "'" +
-            ", listaVeiculos='" + getListaVeiculos() + "'" +
-            ", valorSeguro='" + getValorSeguro() + "'";
+        return "Nome: " + getNome() + "\n" +
+            "Endereço: " + getEndereco() + "\n" +
+            "Lista de veículos {" + getListaVeiculos() + "}\n" +
+            "Valor do seguro: R$" + getValorSeguro() + "\n";
     }
 
     public abstract double calculaScore();

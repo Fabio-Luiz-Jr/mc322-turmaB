@@ -70,11 +70,21 @@ public class Seguradora{
         return listaSinistros;
     }
 
+    public boolean deletarSinistro(int id){
+        for(Sinistro s: listarSinistros())
+            if(s.getId() == id){
+                this.listaSinistros.remove(s);
+                return true;
+            }
+        return false;
+    }
+
     public ArrayList<Sinistro> listarSinistros(Cliente cliente){
         ArrayList<Sinistro> lista = new ArrayList<Sinistro>();
-        for(Sinistro s: listaSinistros)
-            if(Objects.equals(s.getCliente().getNome(), cliente.getNome()))
-                lista.add(s);
+        if(listaSinistros != null)
+            for(Sinistro s: listaSinistros)
+                if(Objects.equals(s.getCliente().getNome(), cliente.getNome()))
+                    lista.add(s);
         return lista;
     }
 
@@ -119,6 +129,13 @@ public class Seguradora{
         return listaClientesFiltrada;
     }
 
+    public Cliente getCliente(String nome){
+        for(int i = listarClientes("todos").size() - 1; i >= 0; i--)
+            if(Objects.equals(listaClientes.get(i).getNome(), nome))
+                return listaClientes.get(i);
+        return null;
+    }
+
     public boolean gerarSinistro(String endereco, Seguradora seguradora, Veiculo veiculo, String cliente){
         //Procura o cliente
         for(Cliente c: seguradora.listaClientes)
@@ -139,5 +156,19 @@ public class Seguradora{
         for(Cliente c: listarClientes("todos"))
             soma += calcularPrecoSeguroCliente(c);
         return soma;
+    }
+
+    public void transferenciaSeguro(Cliente cliente1, Cliente cliente2){
+        for(int i = cliente1.getListaVeiculos().size() - 1; i >= 0; i--){
+            cliente2.addVeiculo(cliente1.getListaVeiculos().get(i));
+            cliente1.removeVeiculo(i);
+        }
+
+        for(int i = 0; i < listaSinistros.size(); i++)
+            if(Objects.equals(listaSinistros.get(i).getCliente(), cliente1))
+                listaSinistros.get(i).setCliente(cliente1);
+        
+        cliente1.setValorSeguro(calcularPrecoSeguroCliente(cliente1));
+        cliente2.setValorSeguro(calcularPrecoSeguroCliente(cliente2));
     }
 }

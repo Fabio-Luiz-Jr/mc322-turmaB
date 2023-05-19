@@ -69,13 +69,12 @@ public class ClientePF extends Cliente{
     @Override
     public String toString(){
         return super.toString() +
-            " cpf='" + getCpf() + "'" +
-            ", genero='" + getGenero() + "'" +
-            ", dataLiscenca='" + getDataLiscenca() + "'" +
-            ", educacao='" + getEducacao() + "'" +
-            ", dataNascimento='" + getDataNascimento() + "'" +
-            ", classeEconomica='" + getClasseEconomica() + "'" +
-            "}";
+            "CPF: " + getCpf() + "\n" +
+            "Gênero: " + getGenero() + "\n" +
+            "Data da liscença: " + getDataLiscenca() + "\n" +
+            "Educação: " + getEducacao() + "\n" +
+            "Data de nascimento: " + getDataNascimento() + "\n" +
+            "Classe econômica: " + getClasseEconomica() + "\n";
     }
 
     public double calculaScore(){

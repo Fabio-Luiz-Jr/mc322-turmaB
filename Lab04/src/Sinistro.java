@@ -67,13 +67,13 @@ public class Sinistro{
 
     @Override
     public String toString(){
-        return "{" +
-            " id='" + getId() + "'" +
-            ", data='" + getData() + "'" +
-            ", endereco='" + getEndereco() + "'" +
-            ", seguradora='" + getSeguradora() + "'" +
-            ", veiculo='" + getVeiculo() + "'" +
-            ", cliente='" + getCliente() + "'" +
-            "}";
+        return
+            "-----------------------------\n" + 
+            "ID: " + getId() + ";\n" +
+            "Data: " + getData() + ";\n" +
+            "Endereço: " + getEndereco() + ";\n" +
+            "Seguradora: " + getSeguradora().getNome() + ";\n" +
+            "Veículo: " + getVeiculo() + ";\n" +
+            "Cliente: " + getCliente() + ".";
     }
 }
