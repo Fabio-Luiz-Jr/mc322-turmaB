@@ -55,4 +55,8 @@ public class ClientePJ extends Cliente{
         getFrota(frota).addVeiculo(veiculo);
         return true;
     }
+
+    public ArrayList<Veiculo> getVeiculosPorFrota(Frota frota){
+        return getFrota(frota) != null ? getFrota(frota).getListaVeiculos() : null;
+    }
 }
