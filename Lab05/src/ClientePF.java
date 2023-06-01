@@ -36,4 +36,12 @@ public class ClientePF extends Cliente{
             "\nData de nascimento: " + getDataNascimento() + 
             "\nLista de veículos: " + getListaVeiculos();
     }
+
+    public boolean cadastrarVeiculo(Veiculo veiculo){
+        if(getListaVeiculos().contains(veiculo)){
+            this.listaVeiculos.add(veiculo);
+            return true;
+        }
+        return false;
+    }
 }
