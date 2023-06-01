@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public class ClientePJ extends Cliente{
     private final String cnpj;
@@ -23,7 +24,14 @@ public class ClientePJ extends Cliente{
     public String toString(){
         return super.toString() +
             "\nCNPJ: " + getCnpj() + 
-            "\nData da fundação" + getDataFundacao() + 
+            "\nData da fundação: " + getDataFundacao() + 
             "\nLista de frotas: " + getListaFrota();
+    }
+
+    public boolean cadastrarFrota(Frota frota){
+        if(getListaFrota().contains(frota))
+            return false;
+        this.listaFrota.add(frota);
+        return true;
     }
 }
