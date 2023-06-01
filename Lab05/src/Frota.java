@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Frota{
     private String code;
@@ -25,5 +26,14 @@ public class Frota{
             return false;
         this.listaVeiculos.add(veiculo);
         return true;
+    }
+
+    public boolean removeVeiculo(String placa){
+        for(Veiculo v: getListaVeiculos())
+            if(Objects.equals(v.getPlaca(), placa)){
+                this.listaVeiculos.remove(v);
+                return true;
+            }
+        return false;
     }
 }
