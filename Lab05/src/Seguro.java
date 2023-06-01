@@ -53,8 +53,8 @@ public abstract class Seguro{
         return Period.between(data, LocalDate.now()).getYears();
     }
 
-    public abstract boolean desautorizarCondutor();
-    public abstract boolean autorizarCondutor();
+    public abstract boolean desautorizarCondutor(Condutor condutor);
+    public abstract boolean autorizarCondutor(Condutor condutor);
     public abstract double calcularValor();
-    public abstract boolean gerarSinistro();
+    public abstract void gerarSinistro(String endereco, Condutor condutor, Seguro seguro);
 }
