@@ -6,17 +6,15 @@ public class Sinistro{
     private static int id_aux = 0;
     private String data;
     private String endereco;
-    private Seguradora seguradora;
-    private Veiculo veiculo;
-    private Cliente cliente;
+    private Condutor condutor;
+    private Seguro seguro;
 
-    public Sinistro(String endereco, Seguradora seguradora, Veiculo veiculo, Cliente cliente){
+    public Sinistro(String endereco, Condutor condutor, Seguro seguro){
         id = id_aux;
         this.data = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         this.endereco = endereco;
-        this.seguradora = seguradora;
-        this.veiculo = veiculo;
-        this.cliente = cliente;
+        this.condutor = condutor;
+        this.seguro = seguro;
         id_aux++;
     }    
     //#region Getters e setters
@@ -25,12 +23,10 @@ public class Sinistro{
     public void setData(String data){this.data = data;}
     public String getEndereco(){return this.endereco;}
     public void setEndereco(String endereco){this.endereco = endereco;}
-    public Seguradora getSeguradora(){return this.seguradora;}
-    public void setSeguradora(Seguradora seguradora){this.seguradora = seguradora;}
-    public Veiculo getVeiculo(){return this.veiculo;}
-    public void setVeiculo(Veiculo veiculo){this.veiculo = veiculo;}
-    public Cliente getCliente(){return this.cliente;}
-    public void setCliente(Cliente cliente){this.cliente = cliente;}
+    public Condutor getCondutor(){return condutor;}
+    public void setCondutor(Condutor condutor){this.condutor = condutor;}
+    public Seguro getSeguro(){return seguro;}
+    public void setSeguro(Seguro seguro){this.seguro = seguro;}
     //#endregion
     @Override
     public String toString(){
@@ -38,8 +34,7 @@ public class Sinistro{
             "ID: " + getId() + 
             "\nData: " + getData() + 
             "\nEndereço: " + getEndereco() + 
-            "\nSeguradora: " + getSeguradora().getNome() + 
-            "\nVeículo: " + getVeiculo() + 
-            "\nCliente: " + getCliente();
+            "\nCondutor: " + getCondutor().getNome() + 
+            "\nSeguro: " + getSeguro().getId();
     }
 }
