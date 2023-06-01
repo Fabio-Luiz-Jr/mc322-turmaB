@@ -23,13 +23,16 @@ public class SeguroPF extends Seguro{
     }
 
     @Override
-    public boolean desautorizarCondutor(){
+    public boolean desautorizarCondutor(Condutor condutor){
         
     }
 
     @Override
-    public boolean autorizarCondutor(){
-        
+    public boolean autorizarCondutor(Condutor condutor){
+        if(getListaCondutores().contains(condutor))
+            return false;
+        getListaCondutores().add(condutor);
+        return true;
     }
 
     @Override
