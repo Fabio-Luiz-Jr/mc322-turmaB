@@ -45,4 +45,7 @@ public class Condutor{
                "\nLista de sinistros: " + listaSinistros;
     }
     
+    public void adicionarSinistro(Sinistro sinistro){
+        this.listaSinistros.add(sinistro);
+    }
 }
