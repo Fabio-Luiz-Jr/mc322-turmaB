@@ -35,31 +35,15 @@ public class Seguradora{
     public ArrayList<Cliente> getListaClientes(){return listaClientes;}
     public void setListaClientes(ArrayList<Cliente> listaClientes){this.listaClientes = listaClientes;}
     //#endregion
-    public boolean visualizarSinistro(String cliente){
-        for(Sinistro s: listaSinistros)
-            if(Objects.equals(s.getCliente().getNome(), cliente)){
-                System.out.println(s);
-                return true;
-            }
-        return false;
-    }
-
-    public boolean deletarSinistro(int id){
-        for(Sinistro s: getListaSinistros())
-            if(s.getId() == id){
-                this.listaSinistros.remove(s);
-                return true;
-            }
-        return false;
-    }
-
-    public ArrayList<Sinistro> listarSinistros(Cliente cliente){
-        ArrayList<Sinistro> lista = new ArrayList<Sinistro>();
-        if(listaSinistros != null)
-            for(Sinistro s: listaSinistros)
-                if(Objects.equals(s.getCliente().getNome(), cliente.getNome()))
-                    lista.add(s);
-        return lista;
+    @Override
+    public String toString(){
+        return "CNPJ: " + getCnpj() + 
+               "\nNome: " + getNome() + 
+               "\nTelefone: " + getTelefone() + 
+               "\nEmail: " + getEmail() + 
+               "\nEndereço: " + getEndereco() + 
+               "\nLista de sinistros: " + getListaSinistros() + 
+               "\nLista de clientes: " + getListaClientes();
     }
 
     public boolean cadastrarCliente(Cliente cliente){
@@ -103,6 +87,10 @@ public class Seguradora{
         return listaClientesFiltrada;
     }
 
+    public ArrayList<Cliente> listarClientes(){
+        return listarClientes("todos");
+    }
+
     public Cliente getCliente(String nome){
         for(int i = listarClientes("todos").size() - 1; i >= 0; i--)
             if(Objects.equals(listaClientes.get(i).getNome(), nome))
@@ -110,25 +98,4 @@ public class Seguradora{
         return null;
     }
 
-    public boolean gerarSinistro(String endereco, Seguradora seguradora, Veiculo veiculo, String cliente){
-        //Procura o cliente
-        for(Cliente c: seguradora.listaClientes)
-            if(Objects.equals(c.getNome(), cliente)){
-                //Usa o construtor do Sinistro
-                this.listaSinistros.add(new Sinistro(endereco, seguradora, veiculo, c));
-                return true;
-            }
-        return false;
-    }
-
-    @Override
-    public String toString(){
-        return "CNPJ: " + getCnpj() + 
-               "\nNome: " + getNome() + 
-               "\nTelefone: " + getTelefone() + 
-               "\nEmail: " + getEmail() + 
-               "\nEndereço: " + getEndereco() + 
-               "\nLista de sinistros:" + getListaSinistros() + 
-               "\nLista de clientes: " + getListaClientes();
-    }
 }
