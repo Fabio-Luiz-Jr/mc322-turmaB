@@ -24,7 +24,11 @@ public class SeguroPF extends Seguro{
 
     @Override
     public boolean desautorizarCondutor(Condutor condutor){
-        
+        if(getListaCondutores().contains(condutor)){
+            getListaCondutores().remove(condutor);
+            return true;
+        }
+        return false;
     }
 
     @Override

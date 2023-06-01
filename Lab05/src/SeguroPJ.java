@@ -21,9 +21,16 @@ public class SeguroPJ extends Seguro{
                "\nFrota: " + getFrota() +
                "\nCliente: " + getCliente();
     }
+
     @Override
     public boolean desautorizarCondutor(Condutor condutor){
+        if(getListaCondutores().contains(condutor)){
+            getListaCondutores().remove(condutor);
+            return true;
+        }
+        return false;
     }
+
     @Override
     public boolean autorizarCondutor(Condutor condutor){
         if(getListaCondutores().contains(condutor))
@@ -31,6 +38,7 @@ public class SeguroPJ extends Seguro{
         getListaCondutores().add(condutor);
         return true;
     }
+
     @Override
     public double calcularValor(){
         int quantidadeFunc =  getListaCondutores().size(),
@@ -48,6 +56,7 @@ public class SeguroPJ extends Seguro{
                 * (2.0 + quantidadeSinistrosCliente / 10.0)
                 * (5.0 + quantidadeSinistrosCondutor / 10.0);
     }
+    
     @Override
     public void gerarSinistro(String endereco, Condutor condutor, Seguro seguro){
         getListaSinistros().add(new Sinistro(endereco, condutor, seguro));
