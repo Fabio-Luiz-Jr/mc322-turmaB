@@ -1,3 +1,6 @@
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -8,9 +11,9 @@ public abstract class Seguro{
     private Seguradora seguradora;
     private ArrayList<Sinistro> listaSinistros;
     private ArrayList<Condutor> listaCondutores;
-    private int valorMensal;
+    private double valorMensal;
 
-    public Seguro(int id, Date dataInicio, Date dataFim, Seguradora seguradora, int valorMensal){
+    public Seguro(int id, Date dataInicio, Date dataFim, Seguradora seguradora, double valorMensal){
         this.id = id;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
@@ -31,8 +34,8 @@ public abstract class Seguro{
     public void setListaSinistros(ArrayList<Sinistro> listaSinistros){this.listaSinistros = listaSinistros;}
     public ArrayList<Condutor> getListaCondutores(){return this.listaCondutores;}
     public void setListaCondutores(ArrayList<Condutor> listaCondutores){this.listaCondutores = listaCondutores;}
-    public int getValorMensal(){return this.valorMensal;}
-    public void setValorMensal(int valorMensal){this.valorMensal = valorMensal;}
+    public double getValorMensal(){return this.valorMensal;}
+    public void setValorMensal(double d){this.valorMensal = d;}
     //#endregion
     @Override
     public String toString() {
@@ -44,4 +47,14 @@ public abstract class Seguro{
                "\nLista de condutores: " + getListaCondutores() +
                "\nValor mensal: " + getValorMensal();
     }
+    
+    protected int calculaIdade(Date dataNascimento){
+        LocalDate data = dataNascimento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return Period.between(data, LocalDate.now()).getYears();
+    }
+
+    public abstract void desautorizarCondutor();
+    public abstract void autorizarCondutor();
+    public abstract void calcularValor();
+    public abstract void gerarSinistro();
 }

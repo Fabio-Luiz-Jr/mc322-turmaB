@@ -4,7 +4,7 @@ public class SeguroPJ extends Seguro{
     private Frota frota;
     private ClientePJ cliente;
 
-    public SeguroPJ(int id, Date dataInicio, Date dataFim, Seguradora seguradora, int valorMensal, Frota frota, ClientePJ cliente) {
+    public SeguroPJ(int id, Date dataInicio, Date dataFim, Seguradora seguradora, int valorMensal, Frota frota, ClientePJ cliente){
         super(id, dataInicio, dataFim, seguradora, valorMensal);
         this.frota = frota;
         this.cliente = cliente;
@@ -18,7 +18,35 @@ public class SeguroPJ extends Seguro{
     @Override
     public String toString(){
         return super.toString() +
-            "\nFrota: " + getFrota() +
-            "\nCliente: " + getCliente();
+               "\nFrota: " + getFrota() +
+               "\nCliente: " + getCliente();
+    }
+    @Override
+    public void desautorizarCondutor(){
+    }
+    @Override
+    public void autorizarCondutor(){
+        
+    }
+    @Override
+    public void calcularValor(){
+        int quantidadeFunc =  getListaCondutores().size(),
+            quantidadeVeiculos = getFrota().getListaVeiculos().size(),
+            anosPosFundacao = super.calculaIdade(cliente.getDataFundacao()),
+            quantidadeSinistrosCliente = getListaSinistros().size(),
+            quantidadeSinistrosCondutor = 0;
+        
+        for(Condutor c: getListaCondutores()) quantidadeSinistrosCondutor += c.getListaSinistros().size();
+
+        setValorMensal(CalcSeguro.VALOR_BASE.getValor() 
+                       * (10.0 + (quantidadeFunc / 10.0))
+                       * (1.0 + 1.0 / (quantidadeVeiculos + 2.0))
+                       * (1.0 + 1.0 / (anosPosFundacao + 2.0))
+                       * (2.0 + quantidadeSinistrosCliente / 10.0)
+                       * (5.0 + quantidadeSinistrosCondutor / 10.0));
+    }
+    @Override
+    public void gerarSinistro(){
+        
     }
 }

@@ -1,46 +1,29 @@
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ClientePJ extends Cliente{
     private final String cnpj;
     private Date dataFundacao;
-    private int qtdeFuncionarios;
+    private ArrayList<Frota> listaFrota;
 
-    public ClientePJ(String nome, String endereco, String cnpj, Date dataFundacao, int qtdeFuncionarios){
-        super(nome, endereco);
+    public ClientePJ(String nome, String telefone, String endereco, String email, String cnpj, Date dataFundacao, int qtdeFuncionarios){
+        super(nome, telefone, endereco, email);
         this.cnpj = cnpj;
         this.dataFundacao = dataFundacao;
-        this.qtdeFuncionarios = qtdeFuncionarios;
+        this.listaFrota = new ArrayList<Frota>();
     }
-
-    public String getCnpj(){
-        return cnpj;
-    }
-
-    public Date getDataFundacao(){
-        return dataFundacao;
-    }
-
-    public void setDataFundacao(Date dataFundacao){
-        this.dataFundacao = dataFundacao;
-    }
-
-    public int getQtdeFuncionarios(){
-        return qtdeFuncionarios;
-    }
-
-    public void setQtdeFuncionarios(int qtdeFuncionarios) {
-        this.qtdeFuncionarios = qtdeFuncionarios;
-    }
-
+    //#region Getters e setters
+    public String getCnpj(){return cnpj;}
+    public Date getDataFundacao(){return dataFundacao;}
+    public void setDataFundacao(Date dataFundacao){this.dataFundacao = dataFundacao;}
+    public ArrayList<Frota> getListaFrota(){return listaFrota;}
+    public void setListaFrota(ArrayList<Frota> listaFrota){this.listaFrota = listaFrota;}
+    //#endregion
     @Override
     public String toString(){
         return super.toString() +
-            "CNPJ: " + getCnpj() + "\n" +
-            "Data da fundação" + getDataFundacao() + "\n" +
-            "Quantidade de funcionários: " + getQtdeFuncionarios() + "\n";
-    }
-
-    public double calculaScore(){
-        return CalcSeguro.VALOR_BASE.getValor() * (1 + (qtdeFuncionarios / 100)) * getListaVeiculos().size();
+            "\nCNPJ: " + getCnpj() + 
+            "\nData da fundação" + getDataFundacao() + 
+            "\nLista de frotas: " + getListaFrota();
     }
 }

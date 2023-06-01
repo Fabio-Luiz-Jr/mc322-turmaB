@@ -127,7 +127,7 @@ public class AppMain{
         listaClientes = listaSeguradoras.get(0).listarClientes("fisica");
         if(!listaSeguradoras.get(0).visualizarSinistro("Pedro Henrique"))
             System.out.println("O cliente não existe");
-        listaSinistros = listaSeguradoras.get(0).listarSinistros();
+        listaSinistros = listaSeguradoras.get(0).getListaSinistros();
 
         //#region toString()
         listaClientes.get(0).toString();
@@ -413,7 +413,7 @@ public class AppMain{
                     System.out.print(listaSeguradoras.get(indexSeguradora).getCliente(nome).getListaVeiculos());
                     break;
                 case 6://Exibir dados dos sinistros
-                    for(Sinistro s: listaSeguradoras.get(indexSeguradora).listarSinistros())
+                    for(Sinistro s: listaSeguradoras.get(indexSeguradora).getListaSinistros())
                         System.out.print(s);
                     break;
                 case 7://Exibir dados da seguradora
@@ -422,7 +422,7 @@ public class AppMain{
                     System.out.println("Email: " + listaSeguradoras.get(indexSeguradora).getEmail());
                     System.out.println("Endereço: " + listaSeguradoras.get(indexSeguradora).getEndereco());
                     System.out.println("Lista de sinistros:");
-                    for(Sinistro s: listaSeguradoras.get(indexSeguradora).listarSinistros())
+                    for(Sinistro s: listaSeguradoras.get(indexSeguradora).getListaSinistros())
                         System.out.println("    •" + s);
                     System.out.println("Lista de clientes:");
                     for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes("todos"))
@@ -456,7 +456,7 @@ public class AppMain{
                     break;
                 case 10://Deleta sinistro
                     System.out.println("Escolha um sinistro(por ID): ");
-                    System.out.print(listaSeguradoras.get(indexSeguradora).listarSinistros());
+                    System.out.print(listaSeguradoras.get(indexSeguradora).getListaSinistros());
                     id = entrada.nextInt();
                     if(!listaSeguradoras.get(indexSeguradora).deletarSinistro(id))
                         System.out.println("ID inválido");

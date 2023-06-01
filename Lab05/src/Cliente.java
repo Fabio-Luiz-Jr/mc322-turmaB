@@ -1,70 +1,33 @@
-import java.util.ArrayList;
-import java.util.Objects;
-
 public abstract class Cliente{
     private String nome;
+    private String telefone;
     private String endereco;
-    private ArrayList<Veiculo> listaVeiculos;
-    private double valorSeguro;
+    private String email;
 
     public Cliente(){}
 
-    public Cliente(String nome, String endereco){
+    public Cliente(String nome, String telefone, String endereco, String email){
         this.nome = nome;
+        this.telefone = telefone;
         this.endereco = endereco;
-        this.listaVeiculos = new ArrayList<Veiculo>();
-        valorSeguro = 0;
+        this.email = email;
     }
+    //#region Getters e setters
+    public String getNome(){return nome;}
+    public void setNome(String nome){this.nome = nome;}
+    public String getTelefone(){return telefone;}
+    public void setTelefone(String telefone){this.telefone = telefone;}
+    public String getEndereco(){return endereco;}
+    public void setEndereco(String endereco){this.endereco = endereco;}
+    public String getEmail(){return email;}
+    public void setEmail(String email){this.email = email;}
 
-    public String getNome(){
-        return nome;
-    }
-
-    public void setNome(String nome){
-        this.nome = nome;
-    }
-
-    public String getEndereco(){
-        return endereco;
-    }
-
-    public void setEndereco(String endereco){
-        this.endereco = endereco;
-    }
-
-    public ArrayList<Veiculo> getListaVeiculos(){
-        return listaVeiculos;
-    }
-
-    public void addVeiculo(Veiculo veiculo){
-        this.listaVeiculos.add(veiculo);
-    }
-
-    public void removeVeiculo(int index){
-        this.listaVeiculos.remove(index);
-    }
-
-    public void removeVeiculo(String placa){
-        for(Veiculo v: getListaVeiculos())
-            if(Objects.equals(v.getPlaca(), placa))
-                this.listaVeiculos.remove(v);
-    }
-
-    public double getValorSeguro() {
-        return valorSeguro;
-    }
-
-    public void setValorSeguro(double valorSeguro) {
-        this.valorSeguro = valorSeguro;
-    }
-
+    //#endregion
     @Override
     public String toString(){
-        return "Nome: " + getNome() + "\n" +
-            "Endereço: " + getEndereco() + "\n" +
-            "Lista de veículos {" + getListaVeiculos() + "}\n" +
-            "Valor do seguro: R$" + getValorSeguro() + "\n";
+        return "Nome: " + getNome() + 
+               "\nTelefone: " + getTelefone() + 
+               "\nEndereço: " + getEndereco() + 
+               "\nEmail: " + getEmail();
     }
-
-    public abstract double calculaScore();
 }
