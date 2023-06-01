@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public class ClientePF extends Cliente{
     private final String cpf;
@@ -42,6 +43,15 @@ public class ClientePF extends Cliente{
             this.listaVeiculos.add(veiculo);
             return true;
         }
+        return false;
+    }
+
+    public boolean removerVeiculo(String placa){
+        for(int i = 0; i < getListaVeiculos().size(); i++)
+            if(Objects.equals(this.listaVeiculos.get(i).getPlaca(), placa)){
+                this.listaVeiculos.remove(i);
+                return true;
+            }
         return false;
     }
 }
