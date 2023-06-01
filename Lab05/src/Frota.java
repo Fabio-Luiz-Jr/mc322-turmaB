@@ -17,5 +17,13 @@ public class Frota{
     @Override
     public String toString(){
         return "Code: " + code + 
-               "\nLista de veiculos: " + listaVeiculos;}
+               "\nLista de veiculos: " + listaVeiculos;
+    }
+    
+    public boolean addVeiculo(Veiculo veiculo){
+        if(getListaVeiculos().contains(veiculo))
+            return false;
+        this.listaVeiculos.add(veiculo);
+        return true;
+    }
 }
