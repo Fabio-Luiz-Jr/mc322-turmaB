@@ -1,7 +1,7 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.time.Period;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 
 public abstract class Seguro{
@@ -53,8 +53,8 @@ public abstract class Seguro{
         return Period.between(data, LocalDate.now()).getYears();
     }
 
-    public abstract void desautorizarCondutor();
-    public abstract void autorizarCondutor();
-    public abstract void calcularValor();
-    public abstract void gerarSinistro();
+    public abstract boolean desautorizarCondutor();
+    public abstract boolean autorizarCondutor();
+    public abstract double calcularValor();
+    public abstract boolean gerarSinistro();
 }
