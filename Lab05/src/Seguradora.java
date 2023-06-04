@@ -138,4 +138,11 @@ public class Seguradora{
                 listaSinistrosPorCliente.add(sinistro);
         return listaSinistrosPorCliente;
     }
+
+    public double calcularReceita(){
+        double receita = 0;
+        for(Seguro seguro: listaSeguros)
+            receita += seguro.getValorMensal();
+        return receita;
+    }
 }
