@@ -93,6 +93,15 @@ public class Seguradora{
         return true;
     }
 
+    public boolean cancelarSeguro(int id){
+        for(Seguro s: listaSeguros)
+            if(s.getId() == id){
+                this.listaSeguros.remove(s);
+                return true;
+            }
+        return false;
+    }
+    
     public boolean cadastrarCliente(Cliente cliente){
         if(listaClientes.contains(cliente))
             return false;
