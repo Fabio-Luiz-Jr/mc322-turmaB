@@ -101,7 +101,7 @@ public class Seguradora{
             }
         return false;
     }
-    
+
     public boolean cadastrarCliente(Cliente cliente){
         if(listaClientes.contains(cliente))
             return false;
@@ -121,5 +121,13 @@ public class Seguradora{
         return false;
     }
 
-
+    public ArrayList<Seguro> getSegurosPorCliente(String cpf_cnpj){
+        ArrayList<Seguro> listaSegurosPorCliente = new ArrayList<Seguro>();
+        for(Seguro s: this.listaSeguros)
+            if(cpf_cnpj.length() == 14) if((s instanceof SeguroPF) && (Objects.equals(((SeguroPF)s).getClientePF().getCpf(), cpf_cnpj)))
+                listaSegurosPorCliente.add(s);
+            else if((s instanceof SeguroPJ) && (Objects.equals(((SeguroPJ)s).getClientePJ().getCnpj(), cpf_cnpj)))
+                listaSegurosPorCliente.add(s);
+        return listaSegurosPorCliente;
+    }
 }
