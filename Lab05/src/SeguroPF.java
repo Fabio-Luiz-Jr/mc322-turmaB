@@ -2,24 +2,24 @@ import java.util.Date;
 
 public class SeguroPF extends Seguro{
     private Veiculo veiculo;
-    private ClientePF cliente;
+    private ClientePF clientePF;
 
-    public SeguroPF(int id, Date dataInicio, Date dataFim, Seguradora seguradora, int valorMensal, Veiculo veiculo, ClientePF cliente){
-        super(id, dataInicio, dataFim, seguradora, valorMensal);
+    public SeguroPF(Date dataInicio, Date dataFim, Seguradora seguradora, double valorMensal, Veiculo veiculo, ClientePF clientePF){
+        super(dataInicio, dataFim, seguradora, valorMensal);
         this.veiculo = veiculo;
-        this.cliente = cliente;
+        this.clientePF = clientePF;
     }
     //#region Getters e Setters
     public Veiculo getVeiculo(){return this.veiculo;}
     public void setVeiculo(Veiculo veiculo){this.veiculo = veiculo;}
-    public ClientePF getCliente(){return this.cliente;}
-    public void setCliente(ClientePF cliente){this.cliente = cliente;}
+    public ClientePF getClientePF(){return this.clientePF;}
+    public void setClientePF(ClientePF clientePF){this.clientePF = clientePF;}
     //#endregion
     @Override
     public String toString(){
         return super.toString() +
                "\nVeículo: " + getVeiculo() +
-               "\nCliente: " + getCliente();
+               "\nCliente: " + getClientePF();
     }
 
     @Override
@@ -41,8 +41,8 @@ public class SeguroPF extends Seguro{
 
     @Override
     public double calcularValor(){
-        double fator_idade = super.calculaIdade(getCliente().getDataNascimento()) < 30 ? CalcSeguro.FATOR_18_30.getValor() : super.calculaIdade(getCliente().getDataNascimento()) > 60 ? CalcSeguro.FATOR_60_90.getValor() : CalcSeguro.FATOR_30_60.getValor();
-        int quantidadeVeiculos = cliente.getListaVeiculos().size(),
+        double fator_idade = super.calculaIdade(getClientePF().getDataNascimento()) < 30 ? CalcSeguro.FATOR_18_30.getValor() : super.calculaIdade(getClientePF().getDataNascimento()) > 60 ? CalcSeguro.FATOR_60_90.getValor() : CalcSeguro.FATOR_30_60.getValor();
+        int quantidadeVeiculos = clientePF.getListaVeiculos().size(),
             quantidadeSinistrosCliente = getListaSinistros().size(),
             quantidadeSinistrosCondutor = 0;
 

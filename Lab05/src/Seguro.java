@@ -6,6 +6,7 @@ import java.util.Date;
 
 public abstract class Seguro{
     private final int id;
+    private static int id_aux = 0;
     private Date dataInicio;
     private Date dataFim;
     private Seguradora seguradora;
@@ -13,8 +14,8 @@ public abstract class Seguro{
     private ArrayList<Condutor> listaCondutores;
     private double valorMensal;
 
-    public Seguro(int id, Date dataInicio, Date dataFim, Seguradora seguradora, double valorMensal){
-        this.id = id;
+    public Seguro(Date dataInicio, Date dataFim, Seguradora seguradora, double valorMensal){
+        this.id = id_aux++;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.seguradora = seguradora;

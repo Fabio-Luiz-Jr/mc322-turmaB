@@ -10,12 +10,11 @@ public class Sinistro{
     private Seguro seguro;
 
     public Sinistro(String endereco, Condutor condutor, Seguro seguro){
-        id = id_aux;
+        id = id_aux++;
         this.data = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         this.endereco = endereco;
         this.condutor = condutor;
         this.seguro = seguro;
-        id_aux++;
     }    
     //#region Getters e setters
     public int getId(){return this.id;}

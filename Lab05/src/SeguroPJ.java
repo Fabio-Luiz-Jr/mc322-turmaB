@@ -2,24 +2,24 @@ import java.util.Date;
 
 public class SeguroPJ extends Seguro{
     private Frota frota;
-    private ClientePJ cliente;
+    private ClientePJ clientePJ;
 
-    public SeguroPJ(int id, Date dataInicio, Date dataFim, Seguradora seguradora, int valorMensal, Frota frota, ClientePJ cliente){
-        super(id, dataInicio, dataFim, seguradora, valorMensal);
+    public SeguroPJ(Date dataInicio, Date dataFim, Seguradora seguradora, double valorMensal, Frota frota, ClientePJ clientePJ){
+        super(dataInicio, dataFim, seguradora, valorMensal);
         this.frota = frota;
-        this.cliente = cliente;
+        this.clientePJ = clientePJ;
     }
     //#region Getters e Setters
     public Frota getFrota(){return this.frota;}
     public void setFrota(Frota frota){this.frota = frota;}
-    public ClientePJ getCliente(){return this.cliente;}
-    public void setCliente(ClientePJ cliente){this.cliente = cliente;}
+    public ClientePJ getClientePJ(){return this.clientePJ;}
+    public void setClientePJ(ClientePJ clientePJ){this.clientePJ = clientePJ;}
     //#endregion
     @Override
     public String toString(){
         return super.toString() +
                "\nFrota: " + getFrota() +
-               "\nCliente: " + getCliente();
+               "\nCliente: " + getClientePJ();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class SeguroPJ extends Seguro{
     public double calcularValor(){
         int quantidadeFunc =  getListaCondutores().size(),
             quantidadeVeiculos = getFrota().getListaVeiculos().size(),
-            anosPosFundacao = super.calculaIdade(cliente.getDataFundacao()),
+            anosPosFundacao = super.calculaIdade(clientePJ.getDataFundacao()),
             quantidadeSinistrosCliente = getListaSinistros().size(),
             quantidadeSinistrosCondutor = 0;
         
