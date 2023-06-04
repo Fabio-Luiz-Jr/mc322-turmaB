@@ -130,4 +130,12 @@ public class Seguradora{
                 listaSegurosPorCliente.add(s);
         return listaSegurosPorCliente;
     }
+
+    public ArrayList<Sinistro> getSinistrosPorCliente(String cpf_cnpj){
+        ArrayList<Sinistro> listaSinistrosPorCliente = new ArrayList<Sinistro>();
+        for(Seguro seguro: getSegurosPorCliente(cpf_cnpj))
+            for(Sinistro sinistro: seguro.getListaSinistros())
+                listaSinistrosPorCliente.add(sinistro);
+        return listaSinistrosPorCliente;
+    }
 }
