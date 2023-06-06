@@ -8,6 +8,7 @@ public enum menuOpcoes{
     
     EXIBIR_CLIENTES             ("Exibir clientes", null, null, null),
     EXIBIR_VEICULOS_FROTA       ("Exibir veículos por frota", null, null, null),
+    EXIBIR_VEICULOS_CLIENTE     ("Exibir veículos por cliente", null, null, null),
     EXIBIR_SEGUROS_CLIENTE      ("Exibir seguros por cliente", null, null, null),
     EXIBIR_SINISTROS_CLIENTE    ("Exibir sinístros por cliente", null, null, null),
     DADOS_SEGURADORA            ("Dados da seguradora", null, null, null),
