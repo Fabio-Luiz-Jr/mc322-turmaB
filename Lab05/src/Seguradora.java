@@ -35,10 +35,10 @@ public class Seguradora{
     public void setListaClientes(ArrayList<Cliente> listaClientes){this.listaClientes = listaClientes;}
     public ArrayList<Seguro> getListaSeguros(){return listaSeguros;}
     public void setListaSeguros(ArrayList<Seguro> listaSeguros){this.listaSeguros = listaSeguros;}
-    public Cliente getCliente(String nome){
-        for(int i = listarClientes("todos").size() - 1; i >= 0; i--)
-            if(Objects.equals(listaClientes.get(i).getNome(), nome))
-                return listaClientes.get(i);
+    public Cliente getCliente(String cpf_cnpj){
+        for(int i = listaClientes.size() - 1; i >= 0; i--)
+            if(Objects.equals(((listaClientes.get(i) instanceof ClientePF) ? (((ClientePF)listaClientes.get(i)).getCpf()) : (((ClientePJ)listaClientes.get(i)).getCnpj())), cpf_cnpj))
+                return this.listaClientes.get(i);
         return null;
     }
     //#endregion

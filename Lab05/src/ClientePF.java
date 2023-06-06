@@ -39,11 +39,10 @@ public class ClientePF extends Cliente{
     }
 
     public boolean cadastrarVeiculo(Veiculo veiculo){
-        if(getListaVeiculos().contains(veiculo)){
-            this.listaVeiculos.add(veiculo);
-            return true;
-        }
-        return false;
+        if(getListaVeiculos().contains(veiculo))
+            return false;
+        this.listaVeiculos.add(veiculo);
+        return true;
     }
 
     public boolean removerVeiculo(String placa){

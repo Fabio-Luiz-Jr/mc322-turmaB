@@ -7,7 +7,7 @@ public class ClientePJ extends Cliente{
     private Date dataFundacao;
     private ArrayList<Frota> listaFrota;
 
-    public ClientePJ(String nome, String telefone, String endereco, String email, String cnpj, Date dataFundacao, int qtdeFuncionarios){
+    public ClientePJ(String nome, String telefone, String endereco, String email, String cnpj, Date dataFundacao){
         super(nome, telefone, endereco, email);
         this.cnpj = cnpj;
         this.dataFundacao = dataFundacao;
@@ -19,10 +19,10 @@ public class ClientePJ extends Cliente{
     public void setDataFundacao(Date dataFundacao){this.dataFundacao = dataFundacao;}
     public ArrayList<Frota> getListaFrota(){return listaFrota;}
     public void setListaFrota(ArrayList<Frota> listaFrota){this.listaFrota = listaFrota;}
-    private Frota getFrota(Frota frota){
-        for(int i = 0; i < getListaFrota().size(); i++)
-            if(Objects.equals(this.listaFrota.get(i), frota))
-                return this.listaFrota.get(i);
+    private Frota getFrota(String code){
+        for(Frota f: this.listaFrota)
+            if(Objects.equals(f.getCode(), code))
+                return f;
         return null;
     }
     //#endregion
@@ -35,28 +35,26 @@ public class ClientePJ extends Cliente{
     }
 
     public boolean cadastrarFrota(Frota frota){
-        if(getListaFrota().contains(frota))
+        if(getFrota(frota.getCode()) != null)
             return false;
         this.listaFrota.add(frota);
         return true;
     }
 
-    public boolean atualizarFrota(Frota frota){
-        if(getListaFrota().contains(frota)){
-            this.listaFrota.remove(frota);
+    public boolean atualizarFrota(String code){
+        for(Frota f: this.listaFrota){
+            if(Objects.equals(f.getCode(), code))
+                this.listaFrota.remove(f);
             return true;
         }
         return false;
     }
     
-    public boolean atualizarFrota(Frota frota, Veiculo veiculo){
-        if(getFrota(frota) == null)
-            return false;
-        getFrota(frota).addVeiculo(veiculo);
-        return true;
+    public boolean atualizarFrota(String code, Veiculo veiculo){
+        return getFrota(code) != null ? getFrota(code).addVeiculo(veiculo) : false;
     }
 
-    public ArrayList<Veiculo> getVeiculosPorFrota(Frota frota){
-        return getFrota(frota) != null ? getFrota(frota).getListaVeiculos() : null;
+    public ArrayList<Veiculo> getVeiculosPorFrota(String code){
+        return getFrota(code) != null ? getFrota(code).getListaVeiculos() : null;
     }
 }
