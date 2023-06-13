@@ -72,8 +72,8 @@ public class AppMain{
         return -1;
     }
 
-    private static void escolhaClientes(Seguradora seguradora){
-        for(Cliente c: seguradora.listarClientes())
+    private static void escolhaClientes(ArrayList<Cliente> listaClientes){
+        for(Cliente c: listaClientes)
             System.out.println(c.getNome() + " | " + ((c instanceof ClientePF) ? ("CPF: " + ((ClientePF)c).getCpf()) : ("CNPJ: " + ((ClientePJ)c).getCnpj())));
         System.out.print("▹");
     }
@@ -147,16 +147,12 @@ public class AppMain{
                         System.out.println(i++ % menuOpcoes.EXCLUIR.getSubMenu().size() + ": " + subMenu.getDescricao());
                     operacao = 11;
                     break;
-                case 4: //Atualizar frota
+                case 4: //Gerar sinistro
                     operacao = 14;
                     lerNovamente = false;
                     break;
-                case 5: //Gerar sinistro
+                case 5: //Transferir seguro
                     operacao = 15;
-                    lerNovamente = false;
-                    break;
-                case 6: //Transferir seguro
-                    operacao = 16;
                     lerNovamente = false;
                     break;
                 default:
@@ -296,7 +292,7 @@ public class AppMain{
                     
                     //#region Escolha de cliente
                     System.out.println("Qual o CPF/CNPJ do dono?");
-                    escolhaClientes(listaSeguradoras.get(indexSeguradora));
+                    escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes());
                     cpf_cnpj = entrada.next();
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj) == -1){
                         System.out.println("CPF/CNPJ inválido");
@@ -478,7 +474,7 @@ public class AppMain{
                     break;
                 case 9://Exibir seguros por cliente
                     System.out.println("Escolha o CPF/CNPJ do cliente: ");
-                    escolhaClientes(listaSeguradoras.get(indexSeguradora));
+                    escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes());
                     cpf_cnpj = entrada.next();
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj) == -1){
                         System.out.println("CPF/CNPJ inválido");
@@ -497,7 +493,7 @@ public class AppMain{
                     break;
                 case 10://Exibir sinistros por cliente
                     System.out.println("Escolha o CPF/CNPJ do cliente: ");
-                    escolhaClientes(listaSeguradoras.get(indexSeguradora));
+                    escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes());
                     cpf_cnpj = entrada.next();
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj) == -1){
                         System.out.println("CPF/CNPJ inválido");
@@ -520,7 +516,7 @@ public class AppMain{
                     break;
                 case 12://Deleta cliente
                     System.out.println("Escolha o CPF/CNPJ do cliente:");
-                    escolhaClientes(listaSeguradoras.get(indexSeguradora));
+                    escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes());
                     cpf_cnpj = entrada.next();
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj) != -1){
                         System.out.println("CPF/CNPJ inválido inválido");
@@ -532,7 +528,7 @@ public class AppMain{
                     break;
                 case 13://Desautorizar condutor
                     System.out.println("Qual o CPF/CNPJ do cliente?");
-                    escolhaClientes(listaSeguradoras.get(indexSeguradora));
+                    escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes());
                     cpf_cnpj = entrada.next();
 
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).getListaClientes(), cpf_cnpj) == -1){
@@ -559,7 +555,7 @@ public class AppMain{
                     break;
                 case 14://Deleta veículo
                     System.out.println("Escolha o CPF/CNPJ do cliente:");
-                    escolhaClientes(listaSeguradoras.get(indexSeguradora));
+                    escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes());
                     cpf_cnpj = entrada.next();
                     index = indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj);
                     if(index == -1){
@@ -595,10 +591,7 @@ public class AppMain{
                             ((ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).atualizarFrota(f.getCode(), placa);
 
                     break;
-
-                case 15://Atualizar frota
-                    break;
-                case 16://Gerar sinistro
+                case 15://Gerar sinistro
                     //#region Escolha de cliente
                     System.out.println("Qual o ID do seguro:");
                     escolhaSeguro(listaSeguradoras.get(indexSeguradora));
@@ -636,7 +629,7 @@ public class AppMain{
                     int indexSinistro = listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().size() - 1;
                     listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().add(listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().get(indexSinistro));
                     break;
-                case 17://Transferir seguro
+                case 16://Transferir seguro
                     System.out.println("Escolha o ID do seguro: ");
                     escolhaSeguro(listaSeguradoras.get(indexSeguradora));
                     System.out.print("▹");

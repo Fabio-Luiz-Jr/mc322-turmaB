@@ -22,8 +22,7 @@ public enum menuOpcoes{
 
     CADASTRAR                   ("Cadastros", CADASTRAR_CLIENTE, CADASTRAR_SEGURADORA, VOLTAR),
     EXIBIR                      ("Exibir", EXIBIR_CLIENTES, DADOS_SEGURADORA, VOLTAR),
-    EXCLUIR                     ("Excluir", EXCLUIR_CLIENTE, EXCLUIR_VEICULO, VOLTAR),                                                              
-    ATUALIZAR_FROTA             ("Atualizar frota", null, null, null),
+    EXCLUIR                     ("Excluir", EXCLUIR_CLIENTE, EXCLUIR_VEICULO, VOLTAR),
     GERAR_SINISTRO              ("Gerar sinistro", null, null, null),
     TRANSFERIR_SEGURO           ("Transferir seguro", null, null, null),
     SAIR                        ("Sair", null, null, null);
