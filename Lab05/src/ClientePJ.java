@@ -54,6 +54,10 @@ public class ClientePJ extends Cliente{
         return getFrota(code) != null ? getFrota(code).addVeiculo(veiculo) : false;
     }
 
+    public boolean atualizarFrota(String code, String placa){
+        return getFrota(code) != null ? getFrota(code).removeVeiculo(placa) : false;
+    }
+
     public ArrayList<Veiculo> getVeiculosPorFrota(String code){
         return getFrota(code) != null ? getFrota(code).getListaVeiculos() : null;
     }

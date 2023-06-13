@@ -57,5 +57,5 @@ public abstract class Seguro{
     public abstract boolean desautorizarCondutor(Condutor condutor);
     public abstract boolean autorizarCondutor(Condutor condutor);
     public abstract double calcularValor();
-    public abstract void gerarSinistro(String endereco, Condutor condutor, Seguro seguro);
+    public abstract boolean gerarSinistro(String endereco, String cpf, Seguro seguro);
 }

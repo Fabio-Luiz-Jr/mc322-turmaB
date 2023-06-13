@@ -4,6 +4,7 @@ public enum menuOpcoes{
     CADASTRAR_CLIENTE           ("Cadastrar cliente", null, null, null),
     CADASTRAR_VEICULO           ("Cadastrar veículo", null, null, null),
     CADASTRAR_FROTA             ("Cadastrar frota", null, null, null),
+    AUTORIZAR_CONDUTOR          ("Autorizar condutor", null, null, null),
     CADASTRAR_SEGURADORA        ("Cadastrar seguradora", null, null, null),
     
     EXIBIR_CLIENTES             ("Exibir clientes", null, null, null),
@@ -14,17 +15,15 @@ public enum menuOpcoes{
     DADOS_SEGURADORA            ("Dados da seguradora", null, null, null),
 
     EXCLUIR_CLIENTE             ("Excluir cliente", null, null, null),
+    DESAUTORIZAR_CONDUTOR       ("Desautorizar condutor", null, null, null),
     EXCLUIR_VEICULO             ("Excluir veículo", null, null, null),
-    EXCLUIR_SINISTRO            ("Excluir sinistro", null, null, null),
 
     VOLTAR                      ("Voltar", null, null, null),
 
     CADASTRAR                   ("Cadastros", CADASTRAR_CLIENTE, CADASTRAR_SEGURADORA, VOLTAR),
     EXIBIR                      ("Exibir", EXIBIR_CLIENTES, DADOS_SEGURADORA, VOLTAR),
-    EXCLUIR                     ("Excluir", EXCLUIR_CLIENTE, EXCLUIR_SINISTRO, VOLTAR),                                                              
+    EXCLUIR                     ("Excluir", EXCLUIR_CLIENTE, EXCLUIR_VEICULO, VOLTAR),                                                              
     ATUALIZAR_FROTA             ("Atualizar frota", null, null, null),
-    AUTORIZAR_CONDUTOR          ("Autorizar condutor", null, null, null),
-    DESAUTORIZAR_CONDUTOR       ("Desautorizar condutor", null, null, null),
     GERAR_SINISTRO              ("Gerar sinistro", null, null, null),
     TRANSFERIR_SEGURO           ("Transferir seguro", null, null, null),
     SAIR                        ("Sair", null, null, null);

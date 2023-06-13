@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.util.Objects;
 
 public class SeguroPF extends Seguro{
     private Veiculo veiculo;
@@ -55,7 +56,12 @@ public class SeguroPF extends Seguro{
     }
 
     @Override
-    public void gerarSinistro(String endereco, Condutor condutor, Seguro seguro){
-        getListaSinistros().add(new Sinistro(endereco, condutor, seguro));
+    public boolean gerarSinistro(String endereco, String cpf, Seguro seguro){
+        for(Condutor condutor: seguro.getListaCondutores())
+            if(Objects.equals(condutor.getCpf(), cpf)){
+                getListaSinistros().add(new Sinistro(endereco, condutor, seguro));
+                return true;
+            }
+        return false;
     }
 }

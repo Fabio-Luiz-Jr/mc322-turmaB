@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Condutor{
-    private final int cpf;
+    private final String cpf;
     private String nome;
     private String telefone;
     private String endereco;
@@ -10,7 +10,7 @@ public class Condutor{
     private Date dataNascimento;
     private ArrayList<Sinistro> listaSinistros;
 
-    public Condutor(int cpf, String nome, String telefone, String endereco, String email, Date dataNascimento){
+    public Condutor(String cpf, String nome, String telefone, String endereco, String email, Date dataNascimento){
         this.cpf = cpf;
         this.nome = nome;
         this.telefone = telefone;
@@ -20,7 +20,7 @@ public class Condutor{
         this.listaSinistros = new ArrayList<Sinistro>();
     }
     //#region Getters e Setters
-    public int getCpf(){return cpf;}
+    public String getCpf(){return cpf;}
     public String getNome(){return nome;}
     public void setNome(String nome){this.nome = nome;}
     public String getTelefone(){return telefone;}
