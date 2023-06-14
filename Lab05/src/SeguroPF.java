@@ -1,5 +1,4 @@
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 public class SeguroPF extends Seguro{
     private Veiculo veiculo;

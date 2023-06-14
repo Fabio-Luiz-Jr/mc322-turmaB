@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
 public class Condutor{
     private final String cpf;

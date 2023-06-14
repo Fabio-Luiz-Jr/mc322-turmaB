@@ -1,9 +1,5 @@
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.Objects;
-import java.util.Scanner;
-import java.util.ArrayList;
 import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class AppMain{
     private static int selecionarSeguradora(ArrayList<Seguradora> listaSeguradoras, Scanner entrada){

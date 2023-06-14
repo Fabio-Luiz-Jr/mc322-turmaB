@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 public class ClientePJ extends Cliente{
     private final String cnpj;

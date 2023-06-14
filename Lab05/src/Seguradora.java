@@ -1,7 +1,5 @@
 import java.text.Normalizer;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 public class Seguradora{
     private final String cnpj;

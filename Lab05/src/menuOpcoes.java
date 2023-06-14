@@ -1,43 +1,41 @@
-import java.util.EnumSet;
+import java.util.*;
 
 public enum menuOpcoes{
-    CADASTRAR_CLIENTE           ("Cadastrar cliente", null, null, null),
-    CADASTRAR_VEICULO           ("Cadastrar veículo", null, null, null),
-    CADASTRAR_FROTA             ("Cadastrar frota", null, null, null),
-    AUTORIZAR_CONDUTOR          ("Autorizar condutor", null, null, null),
-    CADASTRAR_SEGURADORA        ("Cadastrar seguradora", null, null, null),
+    CADASTRAR_CLIENTE           ("Cadastrar cliente", null),
+    CADASTRAR_VEICULO           ("Cadastrar veículo", null),
+    CADASTRAR_FROTA             ("Cadastrar frota", null),
+    AUTORIZAR_CONDUTOR          ("Autorizar condutor", null),
+    CADASTRAR_SEGURADORA        ("Cadastrar seguradora", null),
     
-    EXIBIR_CLIENTES             ("Exibir clientes", null, null, null),
-    EXIBIR_VEICULOS_FROTA       ("Exibir veículos por frota", null, null, null),
-    EXIBIR_VEICULOS_CLIENTE     ("Exibir veículos por cliente", null, null, null),
-    EXIBIR_SEGUROS_CLIENTE      ("Exibir seguros por cliente", null, null, null),
-    EXIBIR_SINISTROS_CLIENTE    ("Exibir sinístros por cliente", null, null, null),
-    DADOS_SEGURADORA            ("Dados da seguradora", null, null, null),
+    EXIBIR_CLIENTES             ("Exibir clientes", null),
+    EXIBIR_VEICULOS_FROTA       ("Exibir veículos por frota", null),
+    EXIBIR_VEICULOS_CLIENTE     ("Exibir veículos por cliente", null),
+    EXIBIR_SEGUROS_CLIENTE      ("Exibir seguros por cliente", null),
+    EXIBIR_SINISTROS_CLIENTE    ("Exibir sinístros por cliente", null),
+    DADOS_SEGURADORA            ("Dados da seguradora", null),
 
-    EXCLUIR_CLIENTE             ("Excluir cliente", null, null, null),
-    DESAUTORIZAR_CONDUTOR       ("Desautorizar condutor", null, null, null),
-    EXCLUIR_VEICULO             ("Excluir veículo", null, null, null),
+    EXCLUIR_CLIENTE             ("Excluir cliente", null),
+    DESAUTORIZAR_CONDUTOR       ("Desautorizar condutor", null),
+    EXCLUIR_VEICULO             ("Excluir veículo", null),
 
-    VOLTAR                      ("Voltar", null, null, null),
+    VOLTAR                      ("Voltar", null),
 
-    CADASTRAR                   ("Cadastros", CADASTRAR_CLIENTE, CADASTRAR_SEGURADORA, VOLTAR),
-    EXIBIR                      ("Exibir", EXIBIR_CLIENTES, DADOS_SEGURADORA, VOLTAR),
-    EXCLUIR                     ("Excluir", EXCLUIR_CLIENTE, EXCLUIR_VEICULO, VOLTAR),
-    GERAR_SINISTRO              ("Gerar sinistro", null, null, null),
-    TRANSFERIR_SEGURO           ("Transferir seguro", null, null, null),
-    SAIR                        ("Sair", null, null, null);
+    CADASTRAR                   ("Cadastros", Arrays.asList(CADASTRAR_CLIENTE, CADASTRAR_VEICULO, CADASTRAR_FROTA, AUTORIZAR_CONDUTOR, CADASTRAR_SEGURADORA, VOLTAR)),
+    EXIBIR                      ("Exibir", Arrays.asList(EXIBIR_CLIENTES, EXIBIR_VEICULOS_FROTA, EXIBIR_VEICULOS_CLIENTE, EXIBIR_SINISTROS_CLIENTE, DADOS_SEGURADORA, VOLTAR)),
+    EXCLUIR                     ("Excluir", Arrays.asList(EXCLUIR_CLIENTE, DESAUTORIZAR_CONDUTOR, EXCLUIR_VEICULO, VOLTAR)),
+    GERAR_SINISTRO              ("Gerar sinistro", null),
+    TRANSFERIR_SEGURO           ("Transferir seguro", null),
+    SAIR                        ("Sair", null);
 
     private final String descricao;
-    private final EnumSet<menuOpcoes> subMenu;
-    private EnumSet<menuOpcoes> aux;
+    private final List<menuOpcoes> subMenu;
+    
 
-    menuOpcoes(String descricao, menuOpcoes inicio, menuOpcoes fim, menuOpcoes voltar){
-        aux = EnumSet.range(inicio, fim);
-        aux.add(voltar);
+    menuOpcoes(String descricao, List<menuOpcoes> subMenu){
         this.descricao = descricao;
-        this.subMenu = EnumSet.copyOf(aux);
+        this.subMenu = subMenu;
     }
 
     public String getDescricao(){return descricao;}
-    public EnumSet<menuOpcoes> getSubMenu(){return subMenu;}
+    public List<menuOpcoes> getSubMenu(){return subMenu;}
 }

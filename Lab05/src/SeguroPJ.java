@@ -1,5 +1,4 @@
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 public class SeguroPJ extends Seguro{
     private Frota frota;

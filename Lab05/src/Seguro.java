@@ -1,8 +1,5 @@
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.time.Period;
-import java.time.ZoneId;
-import java.util.Date;
+import java.time.*;
+import java.util.*;
 
 public abstract class Seguro{
     private final int id;
