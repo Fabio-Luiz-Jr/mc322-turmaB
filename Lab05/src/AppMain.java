@@ -140,12 +140,9 @@ public class AppMain{
                         }else{
                             cnpj = scanner.nextLine();
                             dataFundacao = sdf.parse(scanner.nextLine());
-                            
                             cliente = new ClientePJ(nome, telefone, endereco, email, cnpj, dataFundacao);
-                            //#endregion
                         }
                         listaSeguradoras.get(indexSeguradora).cadastrarCliente(cliente);
-                        //#endregion
                         break;
                     case 2://Cadastrar veículo
                         placa = scanner.nextLine();
@@ -243,20 +240,20 @@ public class AppMain{
         //#region Variáveis
         Scanner entrada;
         ArrayList<Seguradora> listaSeguradoras = new ArrayList<Seguradora>();
-        Veiculo veiculo;
+        Veiculo veiculo = null;
         Cliente cliente = null;
         Condutor condutor;
         Frota frota = null;
         int anoFabricacao, operacao = 0, index, indexSeguradora, id = 0, i;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date dataNascimento, dataFundacao;
+        Date dataNascimento, dataFundacao, dataInicio, dataFim;
         String placa, marca, modelo, cpf_cnpj,
                nome, telefone, endereco, email,
                educacao, genero, cpf, 
                cnpj, 
                tipoCliente, 
                code;
-        boolean  lerNovamente;
+        boolean  lerNovamente, ehSeguroPF;
         EnumSet<menuOpcoes> menu = EnumSet.range(menuOpcoes.CADASTRAR,menuOpcoes.SAIR);
         File file = new File("dados.txt");
         //#endregion
@@ -303,12 +300,16 @@ public class AppMain{
                         System.out.println(i++ % menuOpcoes.EXCLUIR.getSubMenu().size() + ": " + subMenu.getDescricao());
                     operacao = 11;
                     break;
-                case 4: //Gerar sinistro
-                    operacao = 14;
+                case 4: //Gerar seguro
+                    operacao = 15;
                     lerNovamente = false;
                     break;
-                case 5: //Transferir seguro
-                    operacao = 15;
+                case 5: //Gerar sinistro
+                    operacao = 16;
+                    lerNovamente = false;
+                    break;
+                case 6: //Transferir seguro
+                    operacao = 17;
                     lerNovamente = false;
                     break;
                 default:
@@ -332,6 +333,7 @@ public class AppMain{
             System.out.println();
 
             index = 0;
+            ehSeguroPF = false;
             switch(operacao){
                 case -1://Voltar
                     continue voltar;
@@ -748,7 +750,64 @@ public class AppMain{
                             ((ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).atualizarFrota(f.getCode(), placa);
 
                     break;
-                case 15://Gerar sinistro
+                case 15://Gerar seguro
+                    System.out.println("Digite o CPF/CNPJ do cliente:");
+                    escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes());
+                    System.out.print("▹");
+                    cpf_cnpj = entrada.next();
+                    index = indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj);
+                    if(index == -1){
+                            System.out.println("CPF/CNPJ inválido");
+                            System.out.println("------------------------------------------------------------------");
+                            System.out.println();
+                            continue;
+                    }
+                    if(listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj) instanceof ClientePF)
+                        ehSeguroPF = true;
+                    if(ehSeguroPF){
+                        System.out.println("Escolha a placa do veículo");
+                        for(Veiculo v: ((ClientePF)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).getListaVeiculos())
+                            System.out.println(v);
+                        placa = entrada.next();
+                        veiculo = ((ClientePF)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).getVeiculo(placa);
+                        if(veiculo == null){
+                            System.out.println("Placa inválida");
+                            System.out.println("------------------------------------------------------------------");
+                            System.out.println();
+                            continue;
+                        }
+                    }else{
+                        System.out.println("Escolha o código da frota");
+                        for(Frota f: ((ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).getListaFrota())
+                            System.out.println(f.getCode());
+                        code = entrada.next();
+                        frota = ((ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).getFrota(code);
+                        if(frota == null){
+                            System.out.println("Frota inválida");
+                            System.out.println("------------------------------------------------------------------");
+                            System.out.println();
+                            continue;
+                        } 
+                    }
+                    System.out.println("Data de início do seguro:");
+                    System.out.print("▹");
+                    dataInicio = sdf.parse(entrada.next());
+                    System.out.println("Data do fim do seguro:");
+                    System.out.print("▹");
+                    dataFim = sdf.parse(entrada.next());
+                    if(ehSeguroPF)
+                        if(!listaSeguradoras.get(indexSeguradora).gerarSeguro(listaSeguradoras.get(indexSeguradora), dataInicio, dataFim, veiculo, (ClientePF)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj))){
+                            System.out.println("Veículo já possui seguro");
+                            System.out.println("------------------------------------------------------------------");
+                            System.out.println();
+                        }
+                    else if(!listaSeguradoras.get(indexSeguradora).gerarSeguro(listaSeguradoras.get(indexSeguradora), dataInicio, dataFim, frota, (ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj))){
+                        System.out.println("Frota já possui seguro");
+                            System.out.println("------------------------------------------------------------------");
+                            System.out.println();
+                    }
+                    break;
+                case 16://Gerar sinistro
                     //#region Escolha de cliente
                     System.out.println("Qual o ID do seguro:");
                     escolhaSeguro(listaSeguradoras.get(indexSeguradora));
@@ -786,12 +845,11 @@ public class AppMain{
                     int indexSinistro = listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().size() - 1;
                     listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().add(listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().get(indexSinistro));
                     break;
-                case 16://Transferir seguro
+                case 17://Transferir seguro
                     System.out.println("Escolha o ID do seguro: ");
                     escolhaSeguro(listaSeguradoras.get(indexSeguradora));
                     System.out.print("▹");
                     id = entrada.nextInt();
-                    boolean ehSeguroPF = true;
 
                     if(listaSeguradoras.get(indexSeguradora).getSeguro(id) == null){
                         System.out.println("ID inválido");
