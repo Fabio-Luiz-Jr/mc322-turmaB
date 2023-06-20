@@ -9,16 +9,15 @@ public abstract class Seguro{
     private Seguradora seguradora;
     private ArrayList<Sinistro> listaSinistros;
     private ArrayList<Condutor> listaCondutores;
-    private double valorMensal;
+    private double valorMensal = 0;
 
-    public Seguro(Date dataInicio, Date dataFim, Seguradora seguradora, double valorMensal){
+    public Seguro(Date dataInicio, Date dataFim, Seguradora seguradora){
         this.id = id_aux++;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.seguradora = seguradora;
         this.listaSinistros = new ArrayList<Sinistro>();
         this.listaCondutores = new ArrayList<Condutor>();
-        this.valorMensal = valorMensal;
     }
     //#region Getters e Setters
     public int getId(){return this.id;}
@@ -33,7 +32,7 @@ public abstract class Seguro{
     public ArrayList<Condutor> getListaCondutores(){return this.listaCondutores;}
     public void setListaCondutores(ArrayList<Condutor> listaCondutores){this.listaCondutores = listaCondutores;}
     public double getValorMensal(){return this.valorMensal;}
-    public void setValorMensal(double d){this.valorMensal = d;}
+    public void setValorMensal(double valorMensal){this.valorMensal = valorMensal;}
     //#endregion
     @Override
     public String toString() {
