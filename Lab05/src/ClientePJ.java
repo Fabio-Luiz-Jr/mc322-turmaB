@@ -17,7 +17,7 @@ public class ClientePJ extends Cliente{
     public void setDataFundacao(Date dataFundacao){this.dataFundacao = dataFundacao;}
     public ArrayList<Frota> getListaFrota(){return listaFrota;}
     public void setListaFrota(ArrayList<Frota> listaFrota){this.listaFrota = listaFrota;}
-    private Frota getFrota(String code){
+    public Frota getFrota(String code){
         for(Frota f: this.listaFrota)
             if(Objects.equals(f.getCode(), code))
                 return f;
