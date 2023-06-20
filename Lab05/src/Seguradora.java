@@ -77,17 +77,19 @@ public class Seguradora{
         return listarClientes("todos");
     }
 
-    public boolean gerarSeguro(Seguradora seguradora, Date dataInicio, Date dataFim, double valorMensal, Veiculo veiculo, ClientePF clientePF){
-        if(!Validacao.validaCPF(clientePF.getCpf()))
-            return false;
-        this.listaSeguros.add(new SeguroPF(dataInicio, dataFim, seguradora, valorMensal, veiculo, clientePF));
+    public boolean gerarSeguro(Seguradora seguradora, Date dataInicio, Date dataFim, Veiculo veiculo, ClientePF clientePF){
+        for(Seguro s: listaSeguros)
+            if(s instanceof SeguroPF && Objects.equals(((SeguroPF)s).getVeiculo(), veiculo))
+                return false;
+        this.listaSeguros.add(new SeguroPF(dataInicio, dataFim, seguradora, veiculo, clientePF));
         return true;
     }
 
-    public boolean gerarSeguro(Seguradora seguradora, Date dataInicio, Date dataFim, double valorMensal, Frota frota, ClientePJ clientePJ){
-        if(!Validacao.validaCNPJ(clientePJ.getCnpj()))
-            return false;
-        this.listaSeguros.add(new SeguroPJ(dataInicio, dataFim, seguradora, valorMensal, frota, clientePJ));
+    public boolean gerarSeguro(Seguradora seguradora, Date dataInicio, Date dataFim, Frota frota, ClientePJ clientePJ){
+        for(Seguro s: listaSeguros)
+            if(s instanceof SeguroPJ && Objects.equals(((SeguroPJ)s).getFrota(), frota))
+                return false;
+        this.listaSeguros.add(new SeguroPJ(dataInicio, dataFim, seguradora, frota, clientePJ));
         return true;
     }
 
