@@ -107,10 +107,11 @@ public class AppMain{
         String nome, telefone, endereco, email, cpf, genero, educacao, cnpj, cpf_cnpj, 
                placa, marca, modelo, 
                code;
-        Date dataNascimento, dataFundacao;
+        boolean ehSeguroPF = false;
+        Date dataNascimento, dataFundacao, dataInicio, dataFim;
         Cliente cliente;
-        Veiculo veiculo;
-        Frota frota;
+        Veiculo veiculo = null;
+        Frota frota = null;
         Condutor condutor;
         try (Scanner scanner = new Scanner(file)) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -204,7 +205,24 @@ public class AppMain{
                                 ((ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).atualizarFrota(f.getCode(), placa);
 
                         break;
-                    case 8://Gerar sinistro
+                    case 8://Gerar seguro
+                        cpf_cnpj = scanner.nextLine();
+                        index = indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj);
+                        if(listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj) instanceof ClientePF)
+                            ehSeguroPF = true;
+                        if(ehSeguroPF){
+                            placa = scanner.nextLine();
+                            veiculo = ((ClientePF)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).getVeiculo(placa);
+                        }else{
+                            code = scanner.nextLine();
+                            frota = ((ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).getFrota(code);
+                        }
+                        dataInicio = sdf.parse(scanner.nextLine());
+                        dataFim = sdf.parse(scanner.nextLine());
+                        if(ehSeguroPF) listaSeguradoras.get(indexSeguradora).gerarSeguro(listaSeguradoras.get(indexSeguradora), dataInicio, dataFim, veiculo, (ClientePF)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj));
+                        else listaSeguradoras.get(indexSeguradora).gerarSeguro(listaSeguradoras.get(indexSeguradora), dataInicio, dataFim, frota, (ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj));
+                        break;
+                    case 9://Gerar sinistro
                         id = scanner.nextInt();
                         for(i = id; i >= 0; i--)
                             if(listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getId() == id)
@@ -215,9 +233,9 @@ public class AppMain{
                         int indexSinistro = listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().size() - 1;
                         listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().add(listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().get(indexSinistro));
                         break;
-                    case 9://Transferir seguro
+                    case 10://Transferir seguro
                         id = scanner.nextInt();
-                        boolean ehSeguroPF = true;
+                        ehSeguroPF = true;
                         ehSeguroPF = listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i) instanceof SeguroPF ? true : false;
                         cpf_cnpj = scanner.nextLine();
                         for(i = 0; i < listaSeguradoras.get(indexSeguradora).getListaSeguros().size(); i++)
