@@ -25,6 +25,12 @@ public class ClientePF extends Cliente{
     public void setDataNascimento(Date dataNascimento){this.dataNascimento = dataNascimento;}
     public ArrayList<Veiculo> getListaVeiculos(){return listaVeiculos;}
     public void setListaVeiculos(ArrayList<Veiculo> listaVeiculos){this.listaVeiculos = listaVeiculos;}
+    public Veiculo getVeiculo(String placa){
+        for(Veiculo v: this.listaVeiculos)
+            if(Objects.equals(v.getPlaca(), placa))
+                return v;
+        return null;
+    }
     //#endregion
     @Override
     public String toString(){
