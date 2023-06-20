@@ -12,7 +12,7 @@ public abstract class Seguro{
     private double valorMensal = 0;
 
     public Seguro(Date dataInicio, Date dataFim, Seguradora seguradora){
-        this.id = id_aux++;
+        this.id = ++id_aux;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.seguradora = seguradora;
