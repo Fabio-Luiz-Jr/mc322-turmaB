@@ -23,6 +23,7 @@ public enum menuOpcoes{
     CADASTRAR                   ("Cadastros", Arrays.asList(CADASTRAR_CLIENTE, CADASTRAR_VEICULO, CADASTRAR_FROTA, AUTORIZAR_CONDUTOR, CADASTRAR_SEGURADORA, VOLTAR)),
     EXIBIR                      ("Exibir", Arrays.asList(EXIBIR_CLIENTES, EXIBIR_VEICULOS_FROTA, EXIBIR_VEICULOS_CLIENTE, EXIBIR_SINISTROS_CLIENTE, DADOS_SEGURADORA, VOLTAR)),
     EXCLUIR                     ("Excluir", Arrays.asList(EXCLUIR_CLIENTE, DESAUTORIZAR_CONDUTOR, EXCLUIR_VEICULO, VOLTAR)),
+    GERAR_SEGURO                ("Gerar seguro", null),
     GERAR_SINISTRO              ("Gerar sinistro", null),
     TRANSFERIR_SEGURO           ("Transferir seguro", null),
     SAIR                        ("Sair", null);
