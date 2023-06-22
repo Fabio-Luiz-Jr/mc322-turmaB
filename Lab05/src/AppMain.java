@@ -123,10 +123,16 @@ public class AppMain{
         return -1;
     }
 
-    private static void escolhaClientes(ArrayList<Cliente> listaClientes){
-        for(Cliente c: listaClientes)
+    private static boolean escolhaClientes(ArrayList<Cliente> listaClientes){
+        boolean listaVazia = true;
+        for(Cliente c: listaClientes){
             System.out.println(c.getNome() + " | " + ((c instanceof ClientePF) ? ("CPF: " + ((ClientePF)c).getCpf()) : ("CNPJ: " + ((ClientePJ)c).getCnpj())));
+            listaVazia = false;
+        }
+        if(listaVazia)
+            return false;
         System.out.print("▹");
+        return true;
     }
 
     private static void escolhaSeguro(Seguradora seguradora){
