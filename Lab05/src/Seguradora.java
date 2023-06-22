@@ -1,6 +1,5 @@
 import java.text.Normalizer;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Seguradora{
     private final String cnpj;
@@ -43,13 +42,34 @@ public class Seguradora{
     //#endregion
     @Override
     public String toString(){
+        StringBuilder listaClientes = new StringBuilder(),
+                      listaSeguros = new StringBuilder();
+        for(Cliente c: this.listaClientes){
+            listaClientes.append(c.getNome() + " | ");
+            listaClientes.append((c instanceof ClientePF) ? "CPF: " + ((ClientePF)c).getCpf() : "CNPJ: " + ((ClientePJ)c).getCnpj());
+            listaClientes.append("\n                   ");
+        }
+        for(Seguro s: this.listaSeguros){
+            listaSeguros.append("ID: " + s.getId() + "\n                    Cliente: ");
+            if(s instanceof SeguroPF){
+                listaSeguros.append(((SeguroPF)s).getClientePF().getNome() + " | CPF: " + ((SeguroPF)s).getClientePF().getCpf());
+                listaSeguros.append("\n                    Veículo: " + ((SeguroPF)s).getVeiculo());
+            }else{
+                listaSeguros.append(((SeguroPJ)s).getClientePJ().getNome() + " | CNPJ: " + ((SeguroPJ)s).getClientePJ().getCnpj());
+                listaSeguros.append("\n                    Frota: " + ((SeguroPJ)s).getFrota().getCode());
+            }
+        }
+        if(listaClientes.length() == 0)
+            listaClientes.append("Nenhum cliente encontrado\n");
+        if(listaSeguros.length() == 0)
+            listaSeguros.append("Nenhum seguro encontrado");
         return "CNPJ: " + cnpj + 
                "\nNome: " + nome + 
                "\nTelefone: " + telefone + 
                "\nEndereço: " + endereco + 
                "\nEmail: " + email + 
-               "\nLista de clientes: " + listaClientes.stream().map(Object::toString).collect(Collectors.joining("\n                   ")) + 
-               "\nLista de seguros: " + listaSeguros.stream().map(Object::toString).collect(Collectors.joining("\n                  "));
+               "\nLista de clientes: " + listaClientes + 
+               "Lista de seguros: " + listaSeguros;
     }
 
     public ArrayList<Cliente> listarClientes(String tipoCliente){

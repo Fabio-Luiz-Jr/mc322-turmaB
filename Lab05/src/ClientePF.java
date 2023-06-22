@@ -1,6 +1,5 @@
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ClientePF extends Cliente{
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -37,12 +36,15 @@ public class ClientePF extends Cliente{
     //#endregion
     @Override
     public String toString(){
+        StringBuilder listaVeiculos = new StringBuilder();
+        for(Veiculo v: this.listaVeiculos)
+            listaVeiculos.append(v + "\n                   ");
         return super.toString() +
             "\nCPF: " + cpf + 
             "\nGênero: " + genero + 
             "\nEducação: " + educacao + 
             "\nData de nascimento: " + sdf.format(dataNascimento) + 
-            "\nLista de veículos: " + listaVeiculos.stream().map(Object::toString).collect(Collectors.joining("\n                   "));
+            "\nLista de veículos: " + listaVeiculos;
     }
 
     public boolean cadastrarVeiculo(Veiculo veiculo){
