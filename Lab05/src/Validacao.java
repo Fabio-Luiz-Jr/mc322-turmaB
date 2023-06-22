@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Validacao{
-    private final static List<Character> charEspeciais = new ArrayList<>(Arrays.asList('Ç','ü','é','â','ä','à','å','ç','ê','ë','è','ï','î','ì','Ä','Å','É','æ','Æ','ô','ö','ò','û','ù','ÿ','Ö','Ü','á','í','ó','ú','ñ','Ñ'));
+    private final static List<Character> charEspeciais = new ArrayList<>(Arrays.asList('æ','á','à','ã','â','ä','å','ç','é','è','ê','ë','í','ì','î','ï','ñ','ó','ò','õ','ô','ö','ú','ù','û','ü','ÿ','Æ','Á','À','Ã','Â','Ä','Å','Ç','É','È','Ê','Ë','Í','Ì','Î','Ï','Ñ','Ó','Ò','Õ','Ô','Ö','Ú','Ù','Û','Ü'));
     private static int digitoVerificador(String sequenciaNumerica, int digVerificador){
         int soma = 0, aux = 0, digito, identificador = sequenciaNumerica.length();
 
