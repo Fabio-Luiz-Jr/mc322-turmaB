@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Frota{
     private String code;
@@ -17,7 +18,7 @@ public class Frota{
     @Override
     public String toString(){
         return "Code: " + code + 
-               "\nLista de veiculos: " + listaVeiculos;
+               "\nLista de veiculos: " + listaVeiculos.stream().map(Object::toString).collect(Collectors.joining("\n                   "));
     }
     
     public boolean addVeiculo(Veiculo veiculo){

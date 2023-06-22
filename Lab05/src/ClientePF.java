@@ -1,6 +1,9 @@
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ClientePF extends Cliente{
+    private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private final String cpf;
     private String genero;
     private String educacao;
@@ -35,11 +38,11 @@ public class ClientePF extends Cliente{
     @Override
     public String toString(){
         return super.toString() +
-            "\nCPF: " + getCpf() + 
-            "\nGênero: " + getGenero() + 
-            "\nEducação: " + getEducacao() + 
-            "\nData de nascimento: " + getDataNascimento() + 
-            "\nLista de veículos: " + getListaVeiculos();
+            "\nCPF: " + cpf + 
+            "\nGênero: " + genero + 
+            "\nEducação: " + educacao + 
+            "\nData de nascimento: " + sdf.format(dataNascimento) + 
+            "\nLista de veículos: " + listaVeiculos.stream().map(Object::toString).collect(Collectors.joining("\n                   "));
     }
 
     public boolean cadastrarVeiculo(Veiculo veiculo){

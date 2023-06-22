@@ -1,7 +1,10 @@
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class Seguro{
+    private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private final int id;
     private static int id_aux = 0;
     private Date dataInicio;
@@ -36,13 +39,13 @@ public abstract class Seguro{
     //#endregion
     @Override
     public String toString() {
-        return "ID: " + getId() +
-               "\nData de inicio: " + getDataInicio() +
-               "\nData final: " + getDataFim() +
-               "\nSeguradora: " + getSeguradora() +
-               "\nLista de sinistros: " + getListaSinistros() +
-               "\nLista de condutores: " + getListaCondutores() +
-               "\nValor mensal: " + getValorMensal();
+        return "ID: " + id +
+               "\nData de inicio: " + sdf.format(dataInicio) +
+               "\nData final: " + sdf.format(dataFim) +
+               "\nSeguradora: " + seguradora.getNome() + " | CNPJ: " + seguradora.getCnpj() +
+               "\nLista de sinistros: " + listaSinistros.stream().map(Object::toString).collect(Collectors.joining("\n                    ")) +
+               "\nLista de condutores: " + listaCondutores.stream().map(Object::toString).collect(Collectors.joining("\n                     ")) +
+               "\nValor mensal: " + valorMensal;
     }
     
     protected int calculaIdade(Date dataNascimento){

@@ -25,9 +25,9 @@ public abstract class Cliente{
     //#endregion
     @Override
     public String toString(){
-        return "Nome: " + getNome() + 
-               "\nTelefone: " + getTelefone() + 
-               "\nEndereço: " + getEndereco() + 
-               "\nEmail: " + getEmail();
+        return "Nome: " + nome + 
+               "\nTelefone: " + telefone + 
+               "\nEndereço: " + endereco + 
+               "\nEmail: " + email;
     }
 }

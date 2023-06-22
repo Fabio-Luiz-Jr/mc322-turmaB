@@ -1,6 +1,9 @@
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Condutor{
+    private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private final String cpf;
     private String nome;
     private String telefone;
@@ -40,8 +43,8 @@ public class Condutor{
                "\nTelefone: " + telefone + 
                "\nEndereço: " + endereco + 
                "\nEmail: " + email + 
-               "\nData de nascimento: " + dataNascimento + 
-               "\nLista de sinistros: " + listaSinistros;
+               "\nData de nascimento: " + sdf.format(dataNascimento) + 
+               "\nLista de sinistros: " + listaSinistros.stream().map(Object::toString).collect(Collectors.joining("\n                    "));
     }
     
     public void adicionarSinistro(Sinistro sinistro){

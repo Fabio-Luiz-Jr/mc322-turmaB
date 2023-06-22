@@ -1,5 +1,6 @@
 import java.text.Normalizer;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Seguradora{
     private final String cnpj;
@@ -42,13 +43,13 @@ public class Seguradora{
     //#endregion
     @Override
     public String toString(){
-        return "CNPJ: " + getCnpj() + 
-               "\nNome: " + getNome() + 
-               "\nTelefone: " + getTelefone() + 
-               "\nEndereço: " + getEndereco() + 
-               "\nEmail: " + getEmail() + 
-               "\nLista de clientes: " + getListaClientes() + 
-               "\nLista de seguros: " + getListaSeguros();
+        return "CNPJ: " + cnpj + 
+               "\nNome: " + nome + 
+               "\nTelefone: " + telefone + 
+               "\nEndereço: " + endereco + 
+               "\nEmail: " + email + 
+               "\nLista de clientes: " + listaClientes.stream().map(Object::toString).collect(Collectors.joining("\n                   ")) + 
+               "\nLista de seguros: " + listaSeguros.stream().map(Object::toString).collect(Collectors.joining("\n                  "));
     }
 
     public ArrayList<Cliente> listarClientes(String tipoCliente){
