@@ -1,4 +1,7 @@
+import java.util.*;
+
 public class Validacao{
+    private final static List<Character> charEspeciais = new ArrayList<>(Arrays.asList('Ç','ü','é','â','ä','à','å','ç','ê','ë','è','ï','î','ì','Ä','Å','É','æ','Æ','ô','ö','ò','û','ù','ÿ','Ö','Ü','á','í','ó','ú','ñ','Ñ'));
     private static int digitoVerificador(String sequenciaNumerica, int digVerificador){
         int soma = 0, aux = 0, digito, identificador = sequenciaNumerica.length();
 
@@ -67,7 +70,7 @@ public class Validacao{
 
     public static boolean validaNome(String nome){
         for(char c: nome.toCharArray()){
-            if((c == 32) || ((c >= 65)&&(c <= 90)) || ((c >= 97)&&(c <= 122)) || ((c >= 128)&&(c <= 154)) || ((c >= 160)&&(c <= 165)))
+            if((c == 32) || ((c >= 65)&&(c <= 90)) || ((c >= 97)&&(c <= 122)) || (charEspeciais.contains(c)))
                 continue;
             return false;
         }
