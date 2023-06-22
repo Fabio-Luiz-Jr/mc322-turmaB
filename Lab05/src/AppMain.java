@@ -24,10 +24,10 @@ public class AppMain{
         System.out.print("▹");
         indexSeguradora = Integer.parseInt(scanner.nextLine());
         if((indexSeguradora < 0) || (indexSeguradora > index)){
+            clear();
             System.out.println("Escolha inválida.");
             indexSeguradora = -1;
         }
-        System.out.println("------------------------------------------------------------------");
         //#endregion
 
         //#region Coleta de dados da nova seguradora
@@ -40,9 +40,8 @@ public class AppMain{
                 cnpj = scanner.nextLine();
                 valido = Validacao.validaCNPJ(cnpj);
                 if(!valido){
+                    clear();
                     System.out.println("CNPJ inválido");
-                    System.out.println("------------------------------------------------------------------");
-                    System.out.println();
                 }
             }
             valido = false;
@@ -52,9 +51,8 @@ public class AppMain{
                 nome = scanner.nextLine();
                 valido = Validacao.validaNome(nome);
                 if(!valido){
-                    System.out.println("CNPJ inválido");
-                    System.out.println("------------------------------------------------------------------");
-                    System.out.println();
+                    clear();
+                    System.out.println("Nome inválido");
                 }
             }
             System.out.println("Telefone:");
@@ -67,7 +65,6 @@ public class AppMain{
             System.out.print("▹");
             email = scanner.nextLine();
             listaSeguradoras.add(new Seguradora(cnpj, nome, telefone, endereco, email));
-            System.out.println("------------------------------------------------------------------");
         }
         //#endregion
         else
@@ -78,10 +75,13 @@ public class AppMain{
     private static int indexCliente(ArrayList<Cliente> listaClientes, String cpf_cnpj){
         int i = 0;
         for(Cliente c: listaClientes){
-            if(c instanceof ClientePF && Objects.equals(((ClientePF)c).getCpf(), cpf_cnpj))
-                return i;
-            else if(c instanceof ClientePF && Objects.equals(((ClientePJ)c).getCnpj(), cpf_cnpj))
-                return i;
+            if(c instanceof ClientePF){
+                if(Objects.equals(((ClientePF)c).getCpf(), cpf_cnpj))
+                    return i;
+            }else if(c instanceof ClientePF){
+                if(Objects.equals(((ClientePJ)c).getCnpj(), cpf_cnpj))
+                    return i;
+            }
             i++;
         }
         return -1;
@@ -350,8 +350,7 @@ public class AppMain{
                     operacao += aux;
             }
             
-            System.out.println("------------------------------------------------------------------");
-            System.out.println();
+            clear();
 
             index = 0;
             ehSeguroPF = false;
@@ -368,8 +367,7 @@ public class AppMain{
                     operacao = Integer.parseInt(scanner.nextLine());
                     if((operacao < 1) || (operacao > 2)){
                         System.out.println("Operação inválida.");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        clear();
                         operacao = 1;
                         continue;
                     }
@@ -380,9 +378,9 @@ public class AppMain{
                     System.out.print("▹");
                     nome = scanner.nextLine();
                     if(!Validacao.validaNome(nome)){
+                        clear();
                         System.out.println("Nome inválido.");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        
                         continue;
                     }
 
@@ -405,9 +403,9 @@ public class AppMain{
                         cpf = scanner.nextLine();
                         //#region Validação do CPF
                         if(!Validacao.validaCPF(cpf)){
+                            clear();
                             System.out.println("CPF inválido.");
-                            System.out.println("------------------------------------------------------------------");
-                            System.out.println();
+                            
                             continue;
                         }
                         //#endregion
@@ -433,9 +431,9 @@ public class AppMain{
                         cnpj = scanner.nextLine();
                         //#region Validação do CNPJ
                         if(!Validacao.validaCNPJ(cnpj)){
+                            clear();
                             System.out.println("CNPJ inválido.");
-                            System.out.println("------------------------------------------------------------------");
-                            System.out.println();
+                            
                             operacao = 1;
                             continue;
                         }
@@ -475,9 +473,9 @@ public class AppMain{
                     cpf_cnpj = scanner.nextLine();
                     index = indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj);
                     if(index == -1){
+                        clear();
                         System.out.println("CPF/CNPJ inválido");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        
                         continue;
                     }
                     //#endregion
@@ -485,8 +483,7 @@ public class AppMain{
                     if(listaSeguradoras.get(indexSeguradora).listarClientes().get(index) instanceof ClientePF)
                         if(!((ClientePF)listaSeguradoras.get(indexSeguradora).listarClientes().get(index)).cadastrarVeiculo(veiculo)){
                             System.out.println("Veículo já foi registrado");
-                            System.out.println("------------------------------------------------------------------");
-                            System.out.println();
+                            clear();
                             continue;
                         }
                     else{
@@ -497,8 +494,7 @@ public class AppMain{
                         code = scanner.nextLine();
                         if(!((ClientePJ)listaSeguradoras.get(indexSeguradora).listarClientes().get(index)).atualizarFrota(code, veiculo)){
                             System.out.println("Veículo já foi registrado");
-                            System.out.println("------------------------------------------------------------------");
-                            System.out.println();
+                            clear();
                             continue;
                         }
                     }
@@ -511,9 +507,9 @@ public class AppMain{
                     cnpj = scanner.nextLine();
 
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes("juridica"), cnpj) == -1){
+                        clear();
                         System.out.println("CNPJ inválido");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        
                         continue;
                     }
 
@@ -523,8 +519,7 @@ public class AppMain{
                     frota = new Frota(code);
                     if(!((ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cnpj)).cadastrarFrota(frota)){
                         System.out.println("Código existente");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        clear();
                         continue;
                     }
                     break;
@@ -533,18 +528,18 @@ public class AppMain{
                     System.out.println("▹");
                     nome = scanner.nextLine();
                     if(!Validacao.validaNome(nome)){
+                        clear();
                         System.out.println("Nome inválido.");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        
                         continue;
                     }
                     System.out.println("CPF do condutor:");
                     System.out.println("▹");
                     cpf = scanner.nextLine();
                     if(!Validacao.validaCPF(cpf)){
+                        clear();
                         System.out.println("CPF inválido.");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        
                         continue;
                     }
                     System.out.println("Telefone:");
@@ -566,9 +561,9 @@ public class AppMain{
                     id = Integer.parseInt(scanner.nextLine());
                     
                     if(listaSeguradoras.get(indexSeguradora).getSeguro(id) == null){
+                        clear();
                         System.out.println("ID inválido");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        
                         continue voltar;
                     }
 
@@ -588,8 +583,7 @@ public class AppMain{
                     operacao = Integer.parseInt(scanner.nextLine());
                     if((operacao < 1) || (operacao > 3)){
                         System.out.println("Operação inválida.");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        clear();
                         operacao = 5;
                         continue;
                     }
@@ -610,9 +604,9 @@ public class AppMain{
                     //#endregion
                     index = indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(tipoCliente), cpf_cnpj);
                     if(index == -1){
+                        clear();
                         System.out.println((Objects.equals(tipoCliente, "fisica") ? "CPF" : (Objects.equals(tipoCliente, "juridica")) ? "CNPJ" : "CPF/CNPJ") + " inválido");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        
                         continue;
                     }
                     System.out.println(listaSeguradoras.get(indexSeguradora).listarClientes(tipoCliente).get(index));
@@ -624,9 +618,9 @@ public class AppMain{
                     System.out.print("▹");
                     cnpj = scanner.nextLine();
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes("juridica"), cnpj) == -1){
+                        clear();
                         System.out.println("CPF/CNPJ inválido");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        
                         continue;
                     }
                     
@@ -643,9 +637,9 @@ public class AppMain{
                     System.out.print("▹");
                     cpf = scanner.nextLine();
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf) == -1){
+                        clear();
                         System.out.println("CPF inválido");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        
                         continue;
                     }
 
@@ -657,9 +651,9 @@ public class AppMain{
                     escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes());
                     cpf_cnpj = scanner.nextLine();
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj) == -1){
+                        clear();
                         System.out.println("CPF/CNPJ inválido");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        
                         continue;
                     }
 
@@ -676,9 +670,9 @@ public class AppMain{
                     escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes());
                     cpf_cnpj = scanner.nextLine();
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj) == -1){
+                        clear();
                         System.out.println("CPF/CNPJ inválido");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        
                         continue;
                     }
                     if(listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj) instanceof ClientePF)
@@ -699,9 +693,9 @@ public class AppMain{
                     escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes());
                     cpf_cnpj = scanner.nextLine();
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj) != -1){
+                        clear();
                         System.out.println("CPF/CNPJ inválido inválido");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        
                         continue;
                     }
                     listaSeguradoras.get(indexSeguradora).removerCliente(cpf_cnpj);
@@ -712,9 +706,9 @@ public class AppMain{
                     cpf_cnpj = scanner.nextLine();
 
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).getListaClientes(), cpf_cnpj) == -1){
+                        clear();
                         System.out.println("CPF/CNPJ inválido inválido");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        
                         continue;
                     }
 
@@ -727,9 +721,9 @@ public class AppMain{
 
                     condutor = listaSeguradoras.get(indexSeguradora).getCondutor(cpf_cnpj, cpf, id);
                     if(!listaSeguradoras.get(indexSeguradora).getSeguro(id).desautorizarCondutor(condutor)){
+                        clear();
                         System.out.println("CPF inválido inválido");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        
                         continue;
                     }
                     break;
@@ -739,9 +733,9 @@ public class AppMain{
                     cpf_cnpj = scanner.nextLine();
                     index = indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj);
                     if(index == -1){
+                        clear();
                         System.out.println("CPF/CNPJ inválido");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        
                         continue;
                     }
 
@@ -756,8 +750,7 @@ public class AppMain{
                     if(listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj) instanceof ClientePF){
                         if(!((ClientePF)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).removerVeiculo(placa)){
                             System.out.println("Placa inválida");
-                            System.out.println("------------------------------------------------------------------");
-                            System.out.println();
+                            clear();
                             continue;
                         }
                         for(Seguro s: listaSeguradoras.get(indexSeguradora).getSegurosPorCliente(cpf_cnpj))
@@ -778,9 +771,9 @@ public class AppMain{
                     cpf_cnpj = scanner.nextLine();
                     index = indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj);
                     if(index == -1){
-                            System.out.println("CPF/CNPJ inválido");
-                            System.out.println("------------------------------------------------------------------");
-                            System.out.println();
+                        clear();    
+                        System.out.println("CPF/CNPJ inválido");
+                            
                             continue;
                     }
                     if(listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj) instanceof ClientePF)
@@ -793,8 +786,7 @@ public class AppMain{
                         veiculo = ((ClientePF)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).getVeiculo(placa);
                         if(veiculo == null){
                             System.out.println("Placa inválida");
-                            System.out.println("------------------------------------------------------------------");
-                            System.out.println();
+                            clear();
                             continue;
                         }
                     }else{
@@ -805,8 +797,7 @@ public class AppMain{
                         frota = ((ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).getFrota(code);
                         if(frota == null){
                             System.out.println("Frota inválida");
-                            System.out.println("------------------------------------------------------------------");
-                            System.out.println();
+                            clear();
                             continue;
                         } 
                     }
@@ -819,13 +810,11 @@ public class AppMain{
                     if(ehSeguroPF)
                         if(!listaSeguradoras.get(indexSeguradora).gerarSeguro(listaSeguradoras.get(indexSeguradora), dataInicio, dataFim, veiculo, (ClientePF)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj))){
                             System.out.println("Veículo já possui seguro");
-                            System.out.println("------------------------------------------------------------------");
-                            System.out.println();
+                            clear();
                         }
                     else if(!listaSeguradoras.get(indexSeguradora).gerarSeguro(listaSeguradoras.get(indexSeguradora), dataInicio, dataFim, frota, (ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj))){
                         System.out.println("Frota já possui seguro");
-                            System.out.println("------------------------------------------------------------------");
-                            System.out.println();
+                            clear();
                     }
                     break;
                 case 16://Gerar sinistro
@@ -837,9 +826,9 @@ public class AppMain{
                         if(listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getId() == id)
                             break;
                         else if(i == listaSeguradoras.get(indexSeguradora).getListaSeguros().size() - 1){
+                            clear();
                             System.out.println("ID inválido");
-                            System.out.println("------------------------------------------------------------------");
-                            System.out.println();
+                            
                             continue voltar;
                         }
                     }
@@ -857,9 +846,9 @@ public class AppMain{
                     //#endregion
 
                     if(!listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).gerarSinistro(endereco, cpf, listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i))){
+                        clear();
                         System.out.println("CPF inválido");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        
                         continue;
                     }
 
@@ -873,9 +862,9 @@ public class AppMain{
                     id = Integer.parseInt(scanner.nextLine());
 
                     if(listaSeguradoras.get(indexSeguradora).getSeguro(id) == null){
+                        clear();
                         System.out.println("ID inválido");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        
                         continue voltar;
                     }
                     ehSeguroPF = listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i) instanceof SeguroPF ? true : false;
@@ -890,9 +879,9 @@ public class AppMain{
                     System.out.print("▹");
                     cpf_cnpj = scanner.nextLine();
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj) == -1){
+                        clear();
                         System.out.println((ehSeguroPF ? "CPF" : "CNPJ") + " inválido");
-                        System.out.println("------------------------------------------------------------------");
-                        System.out.println();
+                        
                         continue;
                     }
 
@@ -913,8 +902,7 @@ public class AppMain{
                 System.out.println();
                 System.out.println("Aperte Enter para continuar");
                 try{
-                    System.in.read();
-                    scanner.next();
+                    scanner.nextLine();
                 }
                 catch(Exception error){}
                 clear();
