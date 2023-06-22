@@ -94,7 +94,7 @@ public class Seguradora{
     }
 
     public Seguro getSeguro(int id){
-        for(int i = id; i >= 0; i--)    
+        for(int i = 0; i < listaSeguros.size(); i++)    
             if(listaSeguros.get(i).getId() == id)
                 return this.listaSeguros.get(i);
         return null;
