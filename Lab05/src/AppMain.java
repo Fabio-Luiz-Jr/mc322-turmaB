@@ -5,7 +5,12 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class AppMain{
-    private static int selecionarSeguradora(ArrayList<Seguradora> listaSeguradoras, Scanner entrada){
+    private static void clear(){
+        for(int i = 0; i < 35; i++)
+            System.out.println();
+    }
+
+    private static int selecionarSeguradora(ArrayList<Seguradora> listaSeguradoras, Scanner scanner){
         String cnpj = null, nome = null, telefone, endereco, email;
         int index, indexSeguradora;
         boolean valido = false;
@@ -17,7 +22,7 @@ public class AppMain{
             System.out.println("    •" + ++index + ": " + s.getNome() + ";");
         System.out.println("    •0: Criar nova seguradora.");
         System.out.print("▹");
-        indexSeguradora = Integer.parseInt(entrada.nextLine());
+        indexSeguradora = Integer.parseInt(scanner.nextLine());
         if((indexSeguradora < 0) || (indexSeguradora > index)){
             System.out.println("Escolha inválida.");
             indexSeguradora = -1;
@@ -32,7 +37,7 @@ public class AppMain{
             while(!valido){
                 System.out.println("CNPJ: ");
                 System.out.print("▹");
-                cnpj = entrada.next();
+                cnpj = scanner.nextLine();
                 valido = Validacao.validaCNPJ(cnpj);
                 if(!valido){
                     System.out.println("CNPJ inválido");
@@ -44,7 +49,7 @@ public class AppMain{
             while(!valido){
                 System.out.println("Nome:");
                 System.out.print("▹");
-                nome = entrada.next();
+                nome = scanner.nextLine();
                 valido = Validacao.validaNome(nome);
                 if(!valido){
                     System.out.println("CNPJ inválido");
@@ -54,13 +59,13 @@ public class AppMain{
             }
             System.out.println("Telefone:");
             System.out.print("▹");
-            telefone = entrada.next();
+            telefone = scanner.nextLine();
             System.out.println("Endereço:");
             System.out.print("▹");
-            endereco = entrada.next();
+            endereco = scanner.nextLine();
             System.out.println("Email:");
             System.out.print("▹");
-            email = entrada.next();
+            email = scanner.nextLine();
             listaSeguradoras.add(new Seguradora(cnpj, nome, telefone, endereco, email));
             System.out.println("------------------------------------------------------------------");
         }
@@ -75,7 +80,7 @@ public class AppMain{
         for(Cliente c: listaClientes){
             if(c instanceof ClientePF && Objects.equals(((ClientePF)c).getCpf(), cpf_cnpj))
                 return i;
-            else if(Objects.equals(((ClientePJ)c).getCnpj(), cpf_cnpj))
+            else if(c instanceof ClientePF && Objects.equals(((ClientePJ)c).getCnpj(), cpf_cnpj))
                 return i;
             i++;
         }
@@ -252,7 +257,7 @@ public class AppMain{
 
     public static void main(String[] args) throws Exception{
         //#region Variáveis
-        Scanner entrada;
+        Scanner scanner;
         ArrayList<Seguradora> listaSeguradoras = new ArrayList<Seguradora>();
         Veiculo veiculo = null;
         Cliente cliente = null;
@@ -275,9 +280,9 @@ public class AppMain{
             dadosIniciais(listaSeguradoras, file);
             System.out.println("Dados iniciais criados");
         }else System.out.println("Dados iniciais não gerados");
-        entrada = new Scanner(System.in).useDelimiter("\n");
+        scanner = new Scanner(System.in).useDelimiter("\n");
         do{
-            indexSeguradora = selecionarSeguradora(listaSeguradoras, entrada);
+            indexSeguradora = selecionarSeguradora(listaSeguradoras, scanner);
             if(indexSeguradora == -1)
                 System.out.println("Seguradora inválida");
             else{
@@ -294,7 +299,7 @@ public class AppMain{
             for(menuOpcoes opcao: menu)
                 System.out.println((((opcao.ordinal()) % 14) % 7) + ": " + opcao.getDescricao());
             System.out.print("▹");
-            operacao = Integer.parseInt(entrada.nextLine());
+            operacao = Integer.parseInt(scanner.nextLine());
             i = 0;
             
             switch(operacao){
@@ -338,7 +343,7 @@ public class AppMain{
             if(lerNovamente){
                 int aux;
                 System.out.print("▹");
-                aux = Integer.parseInt(entrada.nextLine());
+                aux = Integer.parseInt(scanner.nextLine());
                 if(aux == 0)
                     operacao = -1;
                 else
@@ -360,7 +365,7 @@ public class AppMain{
                     System.out.println("1: Pessoa física;");
                     System.out.println("2: Pessoa jurídica.");
                     System.out.print("▹");
-                    operacao = Integer.parseInt(entrada.nextLine());
+                    operacao = Integer.parseInt(scanner.nextLine());
                     if((operacao < 1) || (operacao > 2)){
                         System.out.println("Operação inválida.");
                         System.out.println("------------------------------------------------------------------");
@@ -373,7 +378,7 @@ public class AppMain{
                     //#region Coleta de dados
                     System.out.println("Nome:");
                     System.out.print("▹");
-                    nome = entrada.next();
+                    nome = scanner.nextLine();
                     if(!Validacao.validaNome(nome)){
                         System.out.println("Nome inválido.");
                         System.out.println("------------------------------------------------------------------");
@@ -383,21 +388,21 @@ public class AppMain{
 
                     System.out.println("Telefone:");
                     System.out.print("▹");
-                    telefone = entrada.next();
+                    telefone = scanner.nextLine();
 
                     System.out.println("Endereço:");
                     System.out.print("▹");
-                    endereco = entrada.next();
+                    endereco = scanner.nextLine();
 
                     System.out.println("Email:");
                     System.out.print("▹");
-                    email = entrada.next();
+                    email = scanner.nextLine();
 
                     if(operacao == 1){
                         //#region Coleta de dados da pessoa física
                         System.out.println("CPF:");
                         System.out.print("▹");
-                        cpf = entrada.next();
+                        cpf = scanner.nextLine();
                         //#region Validação do CPF
                         if(!Validacao.validaCPF(cpf)){
                             System.out.println("CPF inválido.");
@@ -409,15 +414,15 @@ public class AppMain{
 
                         System.out.println("Gênero:");
                         System.out.print("▹");
-                        genero = entrada.next();
+                        genero = scanner.nextLine();
 
                         System.out.println("Educação:");
                         System.out.print("▹");
-                        educacao = entrada.next();
+                        educacao = scanner.nextLine();
                         
                         System.out.println("Data de nascimento:");
                         System.out.print("▹");
-                        dataNascimento = sdf.parse(entrada.next());
+                        dataNascimento = sdf.parse(scanner.nextLine());
                         
                         cliente = new ClientePF(nome, telefone, endereco, email, cpf, genero, educacao, dataNascimento);
                         //#endregion
@@ -425,7 +430,7 @@ public class AppMain{
                         //#region Coleta de dados da pessoa jurídica
                         System.out.println("CNPJ:");
                         System.out.print("▹");
-                        cnpj = entrada.next();
+                        cnpj = scanner.nextLine();
                         //#region Validação do CNPJ
                         if(!Validacao.validaCNPJ(cnpj)){
                             System.out.println("CNPJ inválido.");
@@ -438,7 +443,7 @@ public class AppMain{
 
                         System.out.println("Data de fundação(dd/MM/aaaa):");
                         System.out.print("▹");
-                        dataFundacao = sdf.parse(entrada.next());
+                        dataFundacao = sdf.parse(scanner.nextLine());
                         
                         cliente = new ClientePJ(nome, telefone, endereco, email, cnpj, dataFundacao);
                         //#endregion
@@ -450,16 +455,16 @@ public class AppMain{
                     //#region Coleta dos dados
                     System.out.println("Placa:");
                     System.out.print("▹");
-                    placa = entrada.next();
+                    placa = scanner.nextLine();
                     System.out.println("Marca:");
                     System.out.print("▹");
-                    marca = entrada.next();
+                    marca = scanner.nextLine();
                     System.out.println("Modelo:");
                     System.out.print("▹");
-                    modelo = entrada.next();
+                    modelo = scanner.nextLine();
                     System.out.println("Ano de fabricação:");
                     System.out.print("▹");
-                    anoFabricacao = Integer.parseInt(entrada.nextLine());
+                    anoFabricacao = Integer.parseInt(scanner.nextLine());
                     //#endregion
 
                     veiculo = new Veiculo(placa, marca, modelo, anoFabricacao);
@@ -467,7 +472,7 @@ public class AppMain{
                     //#region Escolha de cliente
                     System.out.println("Qual o CPF/CNPJ do dono?");
                     escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes());
-                    cpf_cnpj = entrada.next();
+                    cpf_cnpj = scanner.nextLine();
                     index = indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj);
                     if(index == -1){
                         System.out.println("CPF/CNPJ inválido");
@@ -489,7 +494,7 @@ public class AppMain{
                         for(Frota f: ((ClientePJ)listaSeguradoras.get(indexSeguradora).listarClientes().get(index)).getListaFrota())
                             System.out.println(f.getCode());
                         System.out.print("▹");
-                        code = entrada.next();
+                        code = scanner.nextLine();
                         if(!((ClientePJ)listaSeguradoras.get(indexSeguradora).listarClientes().get(index)).atualizarFrota(code, veiculo)){
                             System.out.println("Veículo já foi registrado");
                             System.out.println("------------------------------------------------------------------");
@@ -503,7 +508,7 @@ public class AppMain{
                     for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes("juridica"))
                         System.out.println(c.getNome() + " | CNPJ: " + ((ClientePJ)c).getCnpj());
                     System.out.print("▹");
-                    cnpj = entrada.next();
+                    cnpj = scanner.nextLine();
 
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes("juridica"), cnpj) == -1){
                         System.out.println("CNPJ inválido");
@@ -514,7 +519,7 @@ public class AppMain{
 
                     System.out.println("Código para a frota:");
                     System.out.print("▹");
-                    code = entrada.next();
+                    code = scanner.nextLine();
                     frota = new Frota(code);
                     if(!((ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cnpj)).cadastrarFrota(frota)){
                         System.out.println("Código existente");
@@ -526,7 +531,7 @@ public class AppMain{
                 case 4://Autorizar condutor
                     System.out.println("Nome do condutor:");
                     System.out.println("▹");
-                    nome = entrada.next();
+                    nome = scanner.nextLine();
                     if(!Validacao.validaNome(nome)){
                         System.out.println("Nome inválido.");
                         System.out.println("------------------------------------------------------------------");
@@ -535,7 +540,7 @@ public class AppMain{
                     }
                     System.out.println("CPF do condutor:");
                     System.out.println("▹");
-                    cpf = entrada.next();
+                    cpf = scanner.nextLine();
                     if(!Validacao.validaCPF(cpf)){
                         System.out.println("CPF inválido.");
                         System.out.println("------------------------------------------------------------------");
@@ -544,21 +549,21 @@ public class AppMain{
                     }
                     System.out.println("Telefone:");
                     System.out.println("▹");
-                    telefone = entrada.next();
+                    telefone = scanner.nextLine();
                     System.out.println("Endereço:");
                     System.out.println("▹");
-                    endereco = entrada.next();
+                    endereco = scanner.nextLine();
                     System.out.println("Email:");
                     System.out.println("▹");
-                    email = entrada.next();
+                    email = scanner.nextLine();
                     System.out.println("Data de nascimento: (dd/MM/aaaa)");
                     System.out.println("▹");
-                    dataNascimento = sdf.parse(entrada.next());
+                    dataNascimento = sdf.parse(scanner.nextLine());
 
                     System.out.println("Escolha o ID do seguro:");
                     escolhaSeguro(listaSeguradoras.get(indexSeguradora));
                     System.out.print("▹");
-                    id = Integer.parseInt(entrada.nextLine());
+                    id = Integer.parseInt(scanner.nextLine());
                     
                     if(listaSeguradoras.get(indexSeguradora).getSeguro(id) == null){
                         System.out.println("ID inválido");
@@ -571,7 +576,7 @@ public class AppMain{
                     break;
                 case 5://Trocar de seguradora
                     System.out.print("▹");
-                    indexSeguradora = selecionarSeguradora(listaSeguradoras, entrada);
+                    indexSeguradora = selecionarSeguradora(listaSeguradoras, scanner);
                     break;
                 case 6://Exibir cliente
                     //#region Escolha do tipo de cliente
@@ -580,7 +585,7 @@ public class AppMain{
                     System.out.println("2: pessoa jurídica;");
                     System.out.println("3: Não tenho certeza.");
                     System.out.print("▹");
-                    operacao = Integer.parseInt(entrada.nextLine());
+                    operacao = Integer.parseInt(scanner.nextLine());
                     if((operacao < 1) || (operacao > 3)){
                         System.out.println("Operação inválida.");
                         System.out.println("------------------------------------------------------------------");
@@ -599,9 +604,9 @@ public class AppMain{
                     //#region Escolha de cliente
                     System.out.println("Escolha o " + (Objects.equals(tipoCliente, "fisica") ? "CPF" : (Objects.equals(tipoCliente, "juridica")) ? "CNPJ" : "CPF/CNPJ") + " do cliente:");
                     for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes(tipoCliente))
-                        System.out.println("    •" + c.getNome());
+                        System.out.println("    •" + c.getNome() + " | " + (c instanceof ClientePF ? "CPF: " + ((ClientePF)c).getCpf() : "CNPJ: " + ((ClientePJ)c).getCnpj()));
                     System.out.print("▹");
-                    cpf_cnpj = entrada.next();
+                    cpf_cnpj = scanner.nextLine();
                     //#endregion
                     index = indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(tipoCliente), cpf_cnpj);
                     if(index == -1){
@@ -617,7 +622,7 @@ public class AppMain{
                     for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes("juridica"))
                         System.out.println(c.getNome() + " | CNPJ: " + ((ClientePJ)c).getCnpj());
                     System.out.print("▹");
-                    cnpj = entrada.next();
+                    cnpj = scanner.nextLine();
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes("juridica"), cnpj) == -1){
                         System.out.println("CPF/CNPJ inválido");
                         System.out.println("------------------------------------------------------------------");
@@ -636,7 +641,7 @@ public class AppMain{
                     for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes("fisica"))
                         System.out.println(c.getNome() + " | CPF: " + ((ClientePF)c).getCpf());
                     System.out.print("▹");
-                    cpf = entrada.next();
+                    cpf = scanner.nextLine();
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf) == -1){
                         System.out.println("CPF inválido");
                         System.out.println("------------------------------------------------------------------");
@@ -650,7 +655,7 @@ public class AppMain{
                 case 9://Exibir seguros por cliente
                     System.out.println("Escolha o CPF/CNPJ do cliente: ");
                     escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes());
-                    cpf_cnpj = entrada.next();
+                    cpf_cnpj = scanner.nextLine();
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj) == -1){
                         System.out.println("CPF/CNPJ inválido");
                         System.out.println("------------------------------------------------------------------");
@@ -669,7 +674,7 @@ public class AppMain{
                 case 10://Exibir sinistros por cliente
                     System.out.println("Escolha o CPF/CNPJ do cliente: ");
                     escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes());
-                    cpf_cnpj = entrada.next();
+                    cpf_cnpj = scanner.nextLine();
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj) == -1){
                         System.out.println("CPF/CNPJ inválido");
                         System.out.println("------------------------------------------------------------------");
@@ -692,7 +697,7 @@ public class AppMain{
                 case 12://Deleta cliente
                     System.out.println("Escolha o CPF/CNPJ do cliente:");
                     escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes());
-                    cpf_cnpj = entrada.next();
+                    cpf_cnpj = scanner.nextLine();
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj) != -1){
                         System.out.println("CPF/CNPJ inválido inválido");
                         System.out.println("------------------------------------------------------------------");
@@ -704,7 +709,7 @@ public class AppMain{
                 case 13://Desautorizar condutor
                     System.out.println("Qual o CPF/CNPJ do cliente?");
                     escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes());
-                    cpf_cnpj = entrada.next();
+                    cpf_cnpj = scanner.nextLine();
 
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).getListaClientes(), cpf_cnpj) == -1){
                         System.out.println("CPF/CNPJ inválido inválido");
@@ -718,7 +723,7 @@ public class AppMain{
                         for(Condutor c: s.getListaCondutores())
                             System.out.println("Condutor: " + c.getNome() + " | CPF: " + c.getCpf());
                     System.out.print("▹");
-                    cpf = entrada.next();
+                    cpf = scanner.nextLine();
 
                     condutor = listaSeguradoras.get(indexSeguradora).getCondutor(cpf_cnpj, cpf, id);
                     if(!listaSeguradoras.get(indexSeguradora).getSeguro(id).desautorizarCondutor(condutor)){
@@ -731,7 +736,7 @@ public class AppMain{
                 case 14://Deleta veículo
                     System.out.println("Escolha o CPF/CNPJ do cliente:");
                     escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes());
-                    cpf_cnpj = entrada.next();
+                    cpf_cnpj = scanner.nextLine();
                     index = indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj);
                     if(index == -1){
                         System.out.println("CPF/CNPJ inválido");
@@ -747,7 +752,7 @@ public class AppMain{
                         for(Frota f: ((ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).getListaFrota())
                             System.out.println("Frota " + f.getCode() + ": " + f.getListaVeiculos());
                     System.out.print("▹");
-                    placa = entrada.next();
+                    placa = scanner.nextLine();
                     if(listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj) instanceof ClientePF){
                         if(!((ClientePF)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).removerVeiculo(placa)){
                             System.out.println("Placa inválida");
@@ -770,7 +775,7 @@ public class AppMain{
                     System.out.println("Digite o CPF/CNPJ do cliente:");
                     escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes());
                     System.out.print("▹");
-                    cpf_cnpj = entrada.next();
+                    cpf_cnpj = scanner.nextLine();
                     index = indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj);
                     if(index == -1){
                             System.out.println("CPF/CNPJ inválido");
@@ -784,7 +789,7 @@ public class AppMain{
                         System.out.println("Escolha a placa do veículo");
                         for(Veiculo v: ((ClientePF)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).getListaVeiculos())
                             System.out.println(v);
-                        placa = entrada.next();
+                        placa = scanner.nextLine();
                         veiculo = ((ClientePF)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).getVeiculo(placa);
                         if(veiculo == null){
                             System.out.println("Placa inválida");
@@ -796,7 +801,7 @@ public class AppMain{
                         System.out.println("Escolha o código da frota");
                         for(Frota f: ((ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).getListaFrota())
                             System.out.println(f.getCode());
-                        code = entrada.next();
+                        code = scanner.nextLine();
                         frota = ((ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).getFrota(code);
                         if(frota == null){
                             System.out.println("Frota inválida");
@@ -807,10 +812,10 @@ public class AppMain{
                     }
                     System.out.println("Data de início do seguro:");
                     System.out.print("▹");
-                    dataInicio = sdf.parse(entrada.next());
+                    dataInicio = sdf.parse(scanner.nextLine());
                     System.out.println("Data do fim do seguro:");
                     System.out.print("▹");
-                    dataFim = sdf.parse(entrada.next());
+                    dataFim = sdf.parse(scanner.nextLine());
                     if(ehSeguroPF)
                         if(!listaSeguradoras.get(indexSeguradora).gerarSeguro(listaSeguradoras.get(indexSeguradora), dataInicio, dataFim, veiculo, (ClientePF)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj))){
                             System.out.println("Veículo já possui seguro");
@@ -827,7 +832,7 @@ public class AppMain{
                     //#region Escolha de cliente
                     System.out.println("Qual o ID do seguro:");
                     escolhaSeguro(listaSeguradoras.get(indexSeguradora));
-                    id = Integer.parseInt(entrada.nextLine());
+                    id = Integer.parseInt(scanner.nextLine());
                     for(i = 0; i < listaSeguradoras.get(indexSeguradora).getListaSeguros().size(); i++){
                         if(listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getId() == id)
                             break;
@@ -843,12 +848,12 @@ public class AppMain{
                     System.out.println("Qual o CPF do condutor?");
                     for(Condutor c: listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaCondutores())
                         System.out.println("Nome: " + c.getNome() + " | CPF: " + c.getCpf());
-                    cpf = entrada.next();
+                    cpf = scanner.nextLine();
 
                     //#region Coleta de dados
                     System.out.println("Local do acidente:");
                     System.out.print("▹");
-                    endereco = entrada.next();
+                    endereco = scanner.nextLine();
                     //#endregion
 
                     if(!listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).gerarSinistro(endereco, cpf, listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i))){
@@ -865,7 +870,7 @@ public class AppMain{
                     System.out.println("Escolha o ID do seguro: ");
                     escolhaSeguro(listaSeguradoras.get(indexSeguradora));
                     System.out.print("▹");
-                    id = Integer.parseInt(entrada.nextLine());
+                    id = Integer.parseInt(scanner.nextLine());
 
                     if(listaSeguradoras.get(indexSeguradora).getSeguro(id) == null){
                         System.out.println("ID inválido");
@@ -883,7 +888,7 @@ public class AppMain{
                             System.out.println("Nome: " + c.getNome() + " | CNPJ: " + ((ClientePJ)c).getCnpj());
                         }
                     System.out.print("▹");
-                    cpf_cnpj = entrada.next();
+                    cpf_cnpj = scanner.nextLine();
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj) == -1){
                         System.out.println((ehSeguroPF ? "CPF" : "CNPJ") + " inválido");
                         System.out.println("------------------------------------------------------------------");
@@ -909,13 +914,12 @@ public class AppMain{
                 System.out.println("Aperte Enter para continuar");
                 try{
                     System.in.read();
-                    entrada.nextLine();
+                    scanner.next();
                 }
                 catch(Exception error){}
-                for(i = 0; i < 35; i++)
-                    System.out.println();
+                clear();
             }
         }while(operacao != 0);
-        entrada.close();
+        scanner.close();
     }
 }
