@@ -10,6 +10,45 @@ public class AppMain{
             System.out.println();
     }
 
+    private static int tryInteger(Scanner scanner){
+        int tentativas = 3;
+        while(true){
+            try{
+                return Integer.parseInt(scanner.nextLine());
+            }catch(NumberFormatException nfe){
+                System.out.println(nfe);
+                System.out.println(--tentativas + " tentativas restantes");
+                if(tentativas == 0) throw nfe;
+            }
+        }
+    }
+
+    private static Date tryDate(Scanner scanner) throws ParseException{
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        int tentativas = 3;
+        while(true){
+            try{
+                return sdf.parse(scanner.nextLine());
+            }catch(ParseException pe){
+                System.out.println(pe);
+                System.out.println("Use o formato dd/MM/aaaa");
+                System.out.println("d = dia");
+                System.out.println("M = mês");
+                System.out.println("a = ano");
+                System.out.println(--tentativas + " tentativas restantes");
+                if(tentativas == 0) throw pe;
+            }
+        }
+    }
+
+    private static boolean dentroDoAlcance(int numeroEscolhas, int input){
+        if(input < 0 || input > numeroEscolhas){
+            System.out.println("Valor fora do alcance");
+            return false;
+        }
+        return true;
+    }
+
     private static int selecionarSeguradora(ArrayList<Seguradora> listaSeguradoras, Scanner scanner){
         String cnpj = null, nome = null, telefone, endereco, email;
         int index, indexSeguradora;
@@ -22,12 +61,9 @@ public class AppMain{
             System.out.println("    •" + ++index + ": " + s.getNome() + ";");
         System.out.println("    •0: Criar nova seguradora.");
         System.out.print("▹");
-        indexSeguradora = Integer.parseInt(scanner.nextLine());
-        if((indexSeguradora < 0) || (indexSeguradora > index)){
-            clear();
-            System.out.println("Escolha inválida.");
-            indexSeguradora = -1;
-        }
+        indexSeguradora = tryInteger(scanner);
+        if(!dentroDoAlcance(index, indexSeguradora))
+            return -1;
         //#endregion
 
         //#region Coleta de dados da nova seguradora
@@ -118,7 +154,7 @@ public class AppMain{
         Veiculo veiculo = null;
         Frota frota = null;
         Condutor condutor;
-        try (Scanner scanner = new Scanner(file)) {
+        try(Scanner scanner = new Scanner(file)){
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             
             cnpj = scanner.nextLine();
@@ -129,10 +165,10 @@ public class AppMain{
             listaSeguradoras.add(new Seguradora(cnpj, nome, telefone, endereco, email));
             
             do{
-                operacao = Integer.parseInt(scanner.nextLine());
+                operacao = tryInteger(scanner);
                 switch(operacao){
                     case 1://Cadastrar cliente
-                        operacao = Integer.parseInt(scanner.nextLine());
+                        operacao = tryInteger(scanner);
                         nome = scanner.nextLine();
                         telefone = scanner.nextLine();
                         endereco = scanner.nextLine();
@@ -154,7 +190,7 @@ public class AppMain{
                         placa = scanner.nextLine();
                         marca = scanner.nextLine();
                         modelo = scanner.nextLine();
-                        anoFabricacao = Integer.parseInt(scanner.nextLine());
+                        anoFabricacao = tryInteger(scanner);
                         veiculo = new Veiculo(placa, marca, modelo, anoFabricacao);
                         cpf_cnpj = scanner.nextLine();
                         index = indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj);
@@ -178,7 +214,7 @@ public class AppMain{
                         endereco = scanner.nextLine();
                         email = scanner.nextLine();
                         dataNascimento = sdf.parse(scanner.nextLine());
-                        id = Integer.parseInt(scanner.nextLine());
+                        id = tryInteger(scanner);
                         listaSeguradoras.get(indexSeguradora).getSeguro(id).autorizarCondutor(new Condutor(cpf, nome, telefone, endereco, email, dataNascimento));
                         break;
                     case 5://Deleta cliente
@@ -224,7 +260,7 @@ public class AppMain{
                         else listaSeguradoras.get(indexSeguradora).gerarSeguro(listaSeguradoras.get(indexSeguradora), dataInicio, dataFim, frota, (ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj));
                         break;
                     case 9://Gerar sinistro
-                        id = Integer.parseInt(scanner.nextLine());
+                        id = tryInteger(scanner);
                         for(i = id; i >= 0; i--)
                             if(listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getId() == id)
                                 break;
@@ -235,7 +271,7 @@ public class AppMain{
                         listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().add(listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().get(indexSinistro));
                         break;
                     case 10://Transferir seguro
-                        id = Integer.parseInt(scanner.nextLine());
+                        id = tryInteger(scanner);
                         ehSeguroPF = true;
                         ehSeguroPF = listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i) instanceof SeguroPF ? true : false;
                         cpf_cnpj = scanner.nextLine();
@@ -263,8 +299,7 @@ public class AppMain{
         Cliente cliente = null;
         Condutor condutor;
         Frota frota = null;
-        int anoFabricacao, operacao = 0, index, indexSeguradora, id = 0, i;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        int anoFabricacao, operacao = 0, index, indexSeguradora = 0, id = 0, i, numeroEscolhas = 0;
         Date dataNascimento, dataFundacao, dataInicio, dataFim;
         String placa, marca, modelo, cpf_cnpj,
                nome, telefone, endereco, email,
@@ -291,15 +326,14 @@ public class AppMain{
             }
         }while(indexSeguradora == -1);
 
-        voltar: do{
+        do{
             lerNovamente = true;
-
             //#region Escolha de operação
             System.out.println("Escolha uma operação: ");
             for(menuOpcoes opcao: menu)
                 System.out.println((((opcao.ordinal()) % 14) % 7) + ": " + opcao.getDescricao());
             System.out.print("▹");
-            operacao = Integer.parseInt(scanner.nextLine());
+            operacao = tryInteger(scanner);
             i = 0;
             
             switch(operacao){
@@ -310,16 +344,19 @@ public class AppMain{
                     for(menuOpcoes subMenu: menuOpcoes.CADASTRAR.getSubMenu())
                         System.out.println(++i % menuOpcoes.CADASTRAR.getSubMenu().size() + ": " + subMenu.getDescricao());
                     operacao = 0;
+                    numeroEscolhas = 5;
                     break;
                 case 2: //Exibir
                     for(menuOpcoes subMenu: menuOpcoes.EXIBIR.getSubMenu())
                         System.out.println(++i % menuOpcoes.EXIBIR.getSubMenu().size() + ": " + subMenu.getDescricao());
                     operacao = 5;
+                    numeroEscolhas = 6;
                     break;
                 case 3: //Excluir
                     for(menuOpcoes subMenu: menuOpcoes.EXCLUIR.getSubMenu())
                         System.out.println(++i % menuOpcoes.EXCLUIR.getSubMenu().size() + ": " + subMenu.getDescricao());
                     operacao = 11;
+                    numeroEscolhas = 3;
                     break;
                 case 4: //Gerar seguro
                     operacao = 15;
@@ -337,26 +374,26 @@ public class AppMain{
                     System.out.println("Operação inválida");
                     System.out.println("------------------------------------------------------------------");
                     System.out.println();
-                    continue voltar;
+                    continue;
             }
             //#endregion
             if(lerNovamente){
-                int aux;
+                int aux = 0;
                 System.out.print("▹");
-                aux = Integer.parseInt(scanner.nextLine());
+                aux = tryInteger(scanner);
+                if(!dentroDoAlcance(numeroEscolhas, aux))
+                    aux = 0;
                 if(aux == 0)
                     operacao = -1;
                 else
                     operacao += aux;
             }
-            
             clear();
-
             index = 0;
             ehSeguroPF = false;
             switch(operacao){
                 case -1://Voltar
-                    continue voltar;
+                    continue;
                 case 0://Sair
                     break;
                 case 1://Cadastrar cliente
@@ -364,11 +401,9 @@ public class AppMain{
                     System.out.println("1: Pessoa física;");
                     System.out.println("2: Pessoa jurídica.");
                     System.out.print("▹");
-                    operacao = Integer.parseInt(scanner.nextLine());
-                    if((operacao < 1) || (operacao > 2)){
-                        System.out.println("Operação inválida.");
+                    operacao = tryInteger(scanner);
+                    if(!dentroDoAlcance(2, operacao)){
                         clear();
-                        operacao = 1;
                         continue;
                     }
                     //#endregion
@@ -380,7 +415,6 @@ public class AppMain{
                     if(!Validacao.validaNome(nome)){
                         clear();
                         System.out.println("Nome inválido.");
-                        
                         continue;
                     }
 
@@ -405,7 +439,6 @@ public class AppMain{
                         if(!Validacao.validaCPF(cpf)){
                             clear();
                             System.out.println("CPF inválido.");
-                            
                             continue;
                         }
                         //#endregion
@@ -420,7 +453,7 @@ public class AppMain{
                         
                         System.out.println("Data de nascimento:");
                         System.out.print("▹");
-                        dataNascimento = sdf.parse(scanner.nextLine());
+                        dataNascimento = tryDate(scanner);
                         
                         cliente = new ClientePF(nome, telefone, endereco, email, cpf, genero, educacao, dataNascimento);
                         //#endregion
@@ -441,7 +474,7 @@ public class AppMain{
 
                         System.out.println("Data de fundação(dd/MM/aaaa):");
                         System.out.print("▹");
-                        dataFundacao = sdf.parse(scanner.nextLine());
+                        dataFundacao = tryDate(scanner);
                         
                         cliente = new ClientePJ(nome, telefone, endereco, email, cnpj, dataFundacao);
                         //#endregion
@@ -462,7 +495,7 @@ public class AppMain{
                     modelo = scanner.nextLine();
                     System.out.println("Ano de fabricação:");
                     System.out.print("▹");
-                    anoFabricacao = Integer.parseInt(scanner.nextLine());
+                    anoFabricacao = tryInteger(scanner);
                     //#endregion
 
                     veiculo = new Veiculo(placa, marca, modelo, anoFabricacao);
@@ -553,18 +586,18 @@ public class AppMain{
                     email = scanner.nextLine();
                     System.out.println("Data de nascimento: (dd/MM/aaaa)");
                     System.out.println("▹");
-                    dataNascimento = sdf.parse(scanner.nextLine());
+                    dataNascimento = tryDate(scanner);
 
                     System.out.println("Escolha o ID do seguro:");
                     escolhaSeguro(listaSeguradoras.get(indexSeguradora));
                     System.out.print("▹");
-                    id = Integer.parseInt(scanner.nextLine());
+                    id = tryInteger(scanner);
                     
                     if(listaSeguradoras.get(indexSeguradora).getSeguro(id) == null){
                         clear();
                         System.out.println("ID inválido");
                         
-                        continue voltar;
+                        continue;
                     }
 
                     listaSeguradoras.get(indexSeguradora).getSeguro(id).autorizarCondutor(new Condutor(cpf, nome, telefone, endereco, email, dataNascimento));
@@ -580,7 +613,7 @@ public class AppMain{
                     System.out.println("2: pessoa jurídica;");
                     System.out.println("3: Não tenho certeza.");
                     System.out.print("▹");
-                    operacao = Integer.parseInt(scanner.nextLine());
+                    operacao = tryInteger(scanner);
                     if((operacao < 1) || (operacao > 3)){
                         System.out.println("Operação inválida.");
                         clear();
@@ -803,10 +836,10 @@ public class AppMain{
                     }
                     System.out.println("Data de início do seguro:");
                     System.out.print("▹");
-                    dataInicio = sdf.parse(scanner.nextLine());
+                    dataInicio = tryDate(scanner);
                     System.out.println("Data do fim do seguro:");
                     System.out.print("▹");
-                    dataFim = sdf.parse(scanner.nextLine());
+                    dataFim = tryDate(scanner);
                     if(ehSeguroPF)
                         if(!listaSeguradoras.get(indexSeguradora).gerarSeguro(listaSeguradoras.get(indexSeguradora), dataInicio, dataFim, veiculo, (ClientePF)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj))){
                             System.out.println("Veículo já possui seguro");
@@ -821,7 +854,7 @@ public class AppMain{
                     //#region Escolha de cliente
                     System.out.println("Qual o ID do seguro:");
                     escolhaSeguro(listaSeguradoras.get(indexSeguradora));
-                    id = Integer.parseInt(scanner.nextLine());
+                    id = tryInteger(scanner);
                     for(i = 0; i < listaSeguradoras.get(indexSeguradora).getListaSeguros().size(); i++){
                         if(listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getId() == id)
                             break;
@@ -829,7 +862,7 @@ public class AppMain{
                             clear();
                             System.out.println("ID inválido");
                             
-                            continue voltar;
+                            continue;
                         }
                     }
                     //#endregion
@@ -859,13 +892,13 @@ public class AppMain{
                     System.out.println("Escolha o ID do seguro: ");
                     escolhaSeguro(listaSeguradoras.get(indexSeguradora));
                     System.out.print("▹");
-                    id = Integer.parseInt(scanner.nextLine());
+                    id = tryInteger(scanner);
 
                     if(listaSeguradoras.get(indexSeguradora).getSeguro(id) == null){
                         clear();
                         System.out.println("ID inválido");
                         
-                        continue voltar;
+                        continue;
                     }
                     ehSeguroPF = listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i) instanceof SeguroPF ? true : false;
 
