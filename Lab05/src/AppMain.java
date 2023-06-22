@@ -17,7 +17,7 @@ public class AppMain{
             System.out.println("    •" + ++index + ": " + s.getNome() + ";");
         System.out.println("    •0: Criar nova seguradora.");
         System.out.print("▹");
-        indexSeguradora = entrada.nextInt();
+        indexSeguradora = Integer.parseInt(entrada.nextLine());
         if((indexSeguradora < 0) || (indexSeguradora > index)){
             System.out.println("Escolha inválida.");
             indexSeguradora = -1;
@@ -124,10 +124,10 @@ public class AppMain{
             listaSeguradoras.add(new Seguradora(cnpj, nome, telefone, endereco, email));
             
             do{
-                operacao = scanner.nextInt();
+                operacao = Integer.parseInt(scanner.nextLine());
                 switch(operacao){
                     case 1://Cadastrar cliente
-                        operacao = scanner.nextInt();
+                        operacao = Integer.parseInt(scanner.nextLine());
                         nome = scanner.nextLine();
                         telefone = scanner.nextLine();
                         endereco = scanner.nextLine();
@@ -149,14 +149,10 @@ public class AppMain{
                         placa = scanner.nextLine();
                         marca = scanner.nextLine();
                         modelo = scanner.nextLine();
-                        anoFabricacao = scanner.nextInt();
-
+                        anoFabricacao = Integer.parseInt(scanner.nextLine());
                         veiculo = new Veiculo(placa, marca, modelo, anoFabricacao);
-                        
-                        escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes());
                         cpf_cnpj = scanner.nextLine();
                         index = indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj);
-
                         if(listaSeguradoras.get(indexSeguradora).listarClientes().get(index) instanceof ClientePF)
                             ((ClientePF)listaSeguradoras.get(indexSeguradora).listarClientes().get(index)).cadastrarVeiculo(veiculo);
                         else{
@@ -177,7 +173,7 @@ public class AppMain{
                         endereco = scanner.nextLine();
                         email = scanner.nextLine();
                         dataNascimento = sdf.parse(scanner.nextLine());
-                        id = scanner.nextInt();
+                        id = Integer.parseInt(scanner.nextLine());
                         listaSeguradoras.get(indexSeguradora).getSeguro(id).autorizarCondutor(new Condutor(cpf, nome, telefone, endereco, email, dataNascimento));
                         break;
                     case 5://Deleta cliente
@@ -223,7 +219,7 @@ public class AppMain{
                         else listaSeguradoras.get(indexSeguradora).gerarSeguro(listaSeguradoras.get(indexSeguradora), dataInicio, dataFim, frota, (ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj));
                         break;
                     case 9://Gerar sinistro
-                        id = scanner.nextInt();
+                        id = Integer.parseInt(scanner.nextLine());
                         for(i = id; i >= 0; i--)
                             if(listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getId() == id)
                                 break;
@@ -234,7 +230,7 @@ public class AppMain{
                         listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().add(listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().get(indexSinistro));
                         break;
                     case 10://Transferir seguro
-                        id = scanner.nextInt();
+                        id = Integer.parseInt(scanner.nextLine());
                         ehSeguroPF = true;
                         ehSeguroPF = listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i) instanceof SeguroPF ? true : false;
                         cpf_cnpj = scanner.nextLine();
@@ -273,10 +269,12 @@ public class AppMain{
                code;
         boolean  lerNovamente, ehSeguroPF;
         EnumSet<menuOpcoes> menu = EnumSet.range(menuOpcoes.CADASTRAR,menuOpcoes.SAIR);
-        File file = new File("dados.txt");
+        File file = new File("Lab05/src/dados.txt");
         //#endregion
-
-        dadosIniciais(listaSeguradoras, file);
+        if(file.exists()){
+            dadosIniciais(listaSeguradoras, file);
+            System.out.println("Dados iniciais criados");
+        }else System.out.println("Dados iniciais não gerados");
         entrada = new Scanner(System.in).useDelimiter("\n");
         do{
             indexSeguradora = selecionarSeguradora(listaSeguradoras, entrada);
@@ -296,7 +294,7 @@ public class AppMain{
             for(menuOpcoes opcao: menu)
                 System.out.println((((opcao.ordinal()) % 14) % 7) + ": " + opcao.getDescricao());
             System.out.print("▹");
-            operacao = entrada.nextInt();
+            operacao = Integer.parseInt(entrada.nextLine());
             i = 0;
             
             switch(operacao){
@@ -305,17 +303,17 @@ public class AppMain{
                     break;
                 case 1: //Cadastrar
                     for(menuOpcoes subMenu: menuOpcoes.CADASTRAR.getSubMenu())
-                        System.out.println(i++ % menuOpcoes.CADASTRAR.getSubMenu().size() + ": " + subMenu.getDescricao());
+                        System.out.println(++i % menuOpcoes.CADASTRAR.getSubMenu().size() + ": " + subMenu.getDescricao());
                     operacao = 0;
                     break;
                 case 2: //Exibir
                     for(menuOpcoes subMenu: menuOpcoes.EXIBIR.getSubMenu())
-                        System.out.println(i++ % menuOpcoes.EXIBIR.getSubMenu().size() + ": " + subMenu.getDescricao());
+                        System.out.println(++i % menuOpcoes.EXIBIR.getSubMenu().size() + ": " + subMenu.getDescricao());
                     operacao = 5;
                     break;
                 case 3: //Excluir
                     for(menuOpcoes subMenu: menuOpcoes.EXCLUIR.getSubMenu())
-                        System.out.println(i++ % menuOpcoes.EXCLUIR.getSubMenu().size() + ": " + subMenu.getDescricao());
+                        System.out.println(++i % menuOpcoes.EXCLUIR.getSubMenu().size() + ": " + subMenu.getDescricao());
                     operacao = 11;
                     break;
                 case 4: //Gerar seguro
@@ -340,7 +338,7 @@ public class AppMain{
             if(lerNovamente){
                 int aux;
                 System.out.print("▹");
-                aux = entrada.nextInt();
+                aux = Integer.parseInt(entrada.nextLine());
                 if(aux == 0)
                     operacao = -1;
                 else
@@ -362,7 +360,7 @@ public class AppMain{
                     System.out.println("1: Pessoa física;");
                     System.out.println("2: Pessoa jurídica.");
                     System.out.print("▹");
-                    operacao = entrada.nextInt();
+                    operacao = Integer.parseInt(entrada.nextLine());
                     if((operacao < 1) || (operacao > 2)){
                         System.out.println("Operação inválida.");
                         System.out.println("------------------------------------------------------------------");
@@ -461,7 +459,7 @@ public class AppMain{
                     modelo = entrada.next();
                     System.out.println("Ano de fabricação:");
                     System.out.print("▹");
-                    anoFabricacao = entrada.nextInt();
+                    anoFabricacao = Integer.parseInt(entrada.nextLine());
                     //#endregion
 
                     veiculo = new Veiculo(placa, marca, modelo, anoFabricacao);
@@ -560,7 +558,7 @@ public class AppMain{
                     System.out.println("Escolha o ID do seguro:");
                     escolhaSeguro(listaSeguradoras.get(indexSeguradora));
                     System.out.print("▹");
-                    id = entrada.nextInt();
+                    id = Integer.parseInt(entrada.nextLine());
                     
                     if(listaSeguradoras.get(indexSeguradora).getSeguro(id) == null){
                         System.out.println("ID inválido");
@@ -582,7 +580,7 @@ public class AppMain{
                     System.out.println("2: pessoa jurídica;");
                     System.out.println("3: Não tenho certeza.");
                     System.out.print("▹");
-                    operacao = entrada.nextInt();
+                    operacao = Integer.parseInt(entrada.nextLine());
                     if((operacao < 1) || (operacao > 3)){
                         System.out.println("Operação inválida.");
                         System.out.println("------------------------------------------------------------------");
@@ -829,7 +827,7 @@ public class AppMain{
                     //#region Escolha de cliente
                     System.out.println("Qual o ID do seguro:");
                     escolhaSeguro(listaSeguradoras.get(indexSeguradora));
-                    id = entrada.nextInt();
+                    id = Integer.parseInt(entrada.nextLine());
                     for(i = 0; i < listaSeguradoras.get(indexSeguradora).getListaSeguros().size(); i++){
                         if(listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getId() == id)
                             break;
@@ -867,7 +865,7 @@ public class AppMain{
                     System.out.println("Escolha o ID do seguro: ");
                     escolhaSeguro(listaSeguradoras.get(indexSeguradora));
                     System.out.print("▹");
-                    id = entrada.nextInt();
+                    id = Integer.parseInt(entrada.nextLine());
 
                     if(listaSeguradoras.get(indexSeguradora).getSeguro(id) == null){
                         System.out.println("ID inválido");
