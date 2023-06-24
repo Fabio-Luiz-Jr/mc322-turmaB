@@ -155,6 +155,8 @@ public class AppMain{
     }
 
     private static void dadosIniciais(ArrayList<Seguradora> listaSeguradoras, File file){
+        //Este método não verifica se qualquer entrada é válida, então certifique-se que os dados estão certos
+        //caso for alterar o arquivo "dados.txt"
         int operacao, indexSeguradora = 0, anoFabricacao, index, id = 0, i = 0;
         String nome, telefone, endereco, email, cpf, genero, educacao, cnpj, cpf_cnpj, 
                placa, marca, modelo, 
@@ -274,26 +276,21 @@ public class AppMain{
                         break;
                     case 9://Gerar sinistro
                         id = tryInteger(scanner);
-                        for(i = id; i >= 0; i--)
+                        for(i = 0; i < id; i++)
                             if(listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getId() == id)
                                 break;
                         cpf = scanner.nextLine();
                         endereco = scanner.nextLine();
                         listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).gerarSinistro(endereco, cpf, listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i));
-                        int indexSinistro = listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().size() - 1;
-                        listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().add(listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().get(indexSinistro));
                         break;
                     case 10://Transferir seguro
                         id = tryInteger(scanner);
-                        ehSeguroPF = listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i) instanceof SeguroPF ? true : false;
+                        ehSeguroPF = listaSeguradoras.get(indexSeguradora).getSeguro(id) instanceof SeguroPF ? true : false;
                         cpf_cnpj = scanner.nextLine();
-                        for(i = 0; i < listaSeguradoras.get(indexSeguradora).getListaSeguros().size(); i++)
-                            if(listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getId() == id){
-                                if(ehSeguroPF)
-                                    ((SeguroPF)listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i)).setClientePF((ClientePF)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj));
-                                else
-                                    ((SeguroPJ)listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i)).setClientePJ((ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj));
-                            }
+                        if(ehSeguroPF)
+                            ((SeguroPF)listaSeguradoras.get(indexSeguradora).getSeguro(id)).setClientePF((ClientePF)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj));
+                        else
+                            ((SeguroPJ)listaSeguradoras.get(indexSeguradora).getSeguro(id)).setClientePJ((ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj));
                         break;
                 }
             }while(scanner.hasNextLine());
@@ -872,9 +869,8 @@ public class AppMain{
                     if(!escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes())){
                         clear();
                         System.out.println("---Lista vazia---");
-                        break;
+                        continue;
                     }
-                    System.out.print("▹");
                     cpf_cnpj = scanner.nextLine();
                     index = indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj);
                     if(index == -1){
@@ -893,7 +889,7 @@ public class AppMain{
                         if(listaVazia){
                             clear();
                             System.out.println("---Lista vazia---");
-                            break;
+                            continue;
                         }
                         placa = scanner.nextLine();
                         veiculo = ((ClientePF)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).getVeiculo(placa);
@@ -911,7 +907,7 @@ public class AppMain{
                         if(listaVazia){
                             clear();
                             System.out.println("---Lista vazia---");
-                            break;
+                            continue;
                         }
                         code = scanner.nextLine();
                         frota = ((ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)).getFrota(code);
@@ -949,7 +945,6 @@ public class AppMain{
                         else if(i == listaSeguradoras.get(indexSeguradora).getListaSeguros().size() - 1){
                             clear();
                             System.out.println("ID inválido");
-                            
                             continue;
                         }
                     }
@@ -978,9 +973,6 @@ public class AppMain{
                         System.out.println("CPF inválido");
                         continue;
                     }
-
-                    int indexSinistro = listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().size() - 1;
-                    listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().add(listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getListaSinistros().get(indexSinistro));
                     break;
                 case 17://Transferir seguro
                     System.out.println("Escolha o ID do seguro: ");
@@ -1019,14 +1011,11 @@ public class AppMain{
                         System.out.println((ehSeguroPF ? "CPF" : "CNPJ") + " inválido");
                         continue;
                     }
-
-                    for(i = 0; i < listaSeguradoras.get(indexSeguradora).getListaSeguros().size(); i++)
-                        if(listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i).getId() == id){
-                            if(ehSeguroPF)
-                                ((SeguroPF)listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i)).setClientePF((ClientePF)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj));
-                            else
-                                ((SeguroPJ)listaSeguradoras.get(indexSeguradora).getListaSeguros().get(i)).setClientePJ((ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj));
-                        }
+                    
+                    if(ehSeguroPF)
+                        ((SeguroPF)listaSeguradoras.get(indexSeguradora).getSeguro(id)).setClientePF((ClientePF)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj));
+                    else
+                        ((SeguroPJ)listaSeguradoras.get(indexSeguradora).getSeguro(id)).setClientePJ((ClientePJ)listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj));
                     break;
                 default:
                     System.out.println("Operação inválida");

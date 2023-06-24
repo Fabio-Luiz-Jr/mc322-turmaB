@@ -158,9 +158,10 @@ public class Seguradora{
     public ArrayList<Seguro> getSegurosPorCliente(String cpf_cnpj){
         ArrayList<Seguro> listaSegurosPorCliente = new ArrayList<Seguro>();
         for(Seguro s: this.listaSeguros)
-            if(cpf_cnpj.replaceAll("\\.|-|/", "").length() == 11) if((s instanceof SeguroPF) && (Objects.equals(((SeguroPF)s).getClientePF().getCpf().replaceAll("\\.|-|/", ""), cpf_cnpj.replaceAll("\\.|-|/", ""))))
-                listaSegurosPorCliente.add(s);
-            else if((s instanceof SeguroPJ) && (Objects.equals(((SeguroPJ)s).getClientePJ().getCnpj().replaceAll("\\.|-|/", ""), cpf_cnpj.replaceAll("\\.|-|/", ""))))
+            if(cpf_cnpj.replaceAll("\\.|-|/", "").length() == 11){
+                if((s instanceof SeguroPF) && (Objects.equals(((SeguroPF)s).getClientePF().getCpf().replaceAll("\\.|-|/", ""), cpf_cnpj.replaceAll("\\.|-|/", ""))))
+                    listaSegurosPorCliente.add(s);
+            }else if((s instanceof SeguroPJ) && (Objects.equals(((SeguroPJ)s).getClientePJ().getCnpj().replaceAll("\\.|-|/", ""), cpf_cnpj.replaceAll("\\.|-|/", ""))))
                 listaSegurosPorCliente.add(s);
         return listaSegurosPorCliente;
     }
