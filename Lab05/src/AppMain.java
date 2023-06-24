@@ -10,23 +10,23 @@ public class AppMain{
             System.out.println();
     }
 
-    private static int tryInteger(Scanner scanner){
+    private static int tryInteger(Scanner scanner){//Tenta ler um inteiro
         int tentativas = 3;
-        while(true){
+        while(true){//Loop infinito
             try{
                 return Integer.parseInt(scanner.nextLine());
             }catch(NumberFormatException nfe){
                 System.out.println(nfe);
                 System.out.println(--tentativas + " tentativas restantes");
-                if(tentativas == 0) throw nfe;
+                if(tentativas == 0) throw nfe;//throw caso erre muitas vezes
             }
         }
     }
 
-    private static Date tryDate(Scanner scanner) throws ParseException{
+    private static Date tryDate(Scanner scanner) throws ParseException{//Tenta ler uma data
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         int tentativas = 3;
-        while(true){
+        while(true){//Loop infinito
             try{
                 return sdf.parse(scanner.nextLine());
             }catch(ParseException pe){
@@ -36,12 +36,13 @@ public class AppMain{
                 System.out.println("M = mês");
                 System.out.println("a = ano");
                 System.out.println(--tentativas + " tentativas restantes");
-                if(tentativas == 0) throw pe;
+                if(tentativas == 0) throw pe;//throw caso erre muitas vezes
             }
         }
     }
 
     private static boolean dentroDoAlcance(int numeroEscolhas, int input){
+        //Verifica se a entrada está dentro do alcance
         if(input < 0 || input > numeroEscolhas){
             System.out.println("Valor fora do alcance");
             return false;
@@ -109,6 +110,7 @@ public class AppMain{
     }
 
     private static int indexCliente(ArrayList<Cliente> listaClientes, String cpf_cnpj){
+        //Retorna o index do cliente
         int i = 0;
         for(Cliente c: listaClientes){
             if(c instanceof ClientePF){
@@ -124,6 +126,7 @@ public class AppMain{
     }
 
     private static boolean escolhaClientes(ArrayList<Cliente> listaClientes){
+        //Imprime a lista de clientes
         boolean listaVazia = true;
         for(Cliente c: listaClientes){
             System.out.println(c.getNome() + " | " + ((c instanceof ClientePF) ? ("CPF: " + ((ClientePF)c).getCpf()) : ("CNPJ: " + ((ClientePJ)c).getCnpj())));
@@ -136,6 +139,7 @@ public class AppMain{
     }
 
     private static boolean escolhaSeguro(Seguradora seguradora){
+        //Imprime a lista de seguros
         boolean listaVazia = true;
         for(Seguro s: seguradora.getListaSeguros()){
             listaVazia = false;
@@ -157,6 +161,7 @@ public class AppMain{
     private static void dadosIniciais(ArrayList<Seguradora> listaSeguradoras, File file){
         //Este método não verifica se qualquer entrada é válida, então certifique-se que os dados estão certos
         //caso for alterar o arquivo "dados.txt"
+        //Uma cópia do main, mas que não irá imprimir nada na tela
         int operacao, indexSeguradora = 0, anoFabricacao, index, id = 0, i = 0;
         String nome, telefone, endereco, email, cpf, genero, educacao, cnpj, cpf_cnpj, 
                placa, marca, modelo, 
@@ -320,8 +325,8 @@ public class AppMain{
         EnumSet<menuOpcoes> menu = EnumSet.range(menuOpcoes.CADASTRAR,menuOpcoes.SAIR);
         File file = new File("Lab05/src/dados.txt");
         //#endregion
-        if(file.exists()){
-            dadosIniciais(listaSeguradoras, file);
+        if(file.exists()){//Verifica se o arquivo existe
+            dadosIniciais(listaSeguradoras, file);//Gera os dados iniciais
             System.out.println("Dados iniciais criados");
         }else System.out.println("Dados iniciais não gerados");
         scanner = new Scanner(System.in).useDelimiter("\n");
@@ -381,6 +386,7 @@ public class AppMain{
                     lerNovamente = false;
                     break;
                 default:
+                    clear();
                     System.out.println("Operação inválida");
                     System.out.println("------------------------------------------------------------------");
                     System.out.println();
@@ -548,6 +554,7 @@ public class AppMain{
                     break;
                 case 3://Cadastrar frota
                     System.out.println("Escolha o CNPJ do cliente:");
+                    //Lista os clientes PJ
                     for(Cliente c: listaSeguradoras.get(indexSeguradora).listarClientes("juridica"))
                         System.out.println(c.getNome() + " | CNPJ: " + ((ClientePJ)c).getCnpj());
                     System.out.print("▹");
@@ -556,7 +563,6 @@ public class AppMain{
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes("juridica"), cnpj) == -1){
                         clear();
                         System.out.println("CNPJ inválido");
-                        
                         continue;
                     }
 
@@ -577,7 +583,6 @@ public class AppMain{
                     if(!Validacao.validaNome(nome)){
                         clear();
                         System.out.println("Nome inválido.");
-                        
                         continue;
                     }
                     System.out.println("CPF do condutor:");
@@ -586,7 +591,6 @@ public class AppMain{
                     if(!Validacao.validaCPF(cpf)){
                         clear();
                         System.out.println("CPF inválido.");
-                        
                         continue;
                     }
                     System.out.println("Telefone:");
@@ -606,7 +610,7 @@ public class AppMain{
                     if(!escolhaSeguro(listaSeguradoras.get(indexSeguradora))){
                         clear();
                         System.out.println("---Lista vazia---");
-                        break;
+                        continue;
                     }
                     id = tryInteger(scanner);
                     
@@ -619,7 +623,6 @@ public class AppMain{
                     listaSeguradoras.get(indexSeguradora).getSeguro(id).autorizarCondutor(new Condutor(cpf, nome, telefone, endereco, email, dataNascimento));
                     break;
                 case 5://Trocar de seguradora
-                    System.out.print("▹");
                     indexSeguradora = selecionarSeguradora(listaSeguradoras, scanner);
                     break;
                 case 6://Exibir cliente
@@ -744,14 +747,12 @@ public class AppMain{
                         System.out.println("CPF/CNPJ inválido");
                         continue;
                     }
-                    if(listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj) instanceof ClientePF)
-                        tipoCliente = "fisica";
-                    else
-                        tipoCliente = "juridica";
                     
                     for(Seguro s: listaSeguradoras.get(indexSeguradora).getListaSeguros())
-                        if((Objects.equals(tipoCliente, "fisica") && (s instanceof SeguroPF) && Objects.equals(((SeguroPF)s).getClientePF(), listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)))
-                        || (Objects.equals(tipoCliente, "juridica") && (s instanceof SeguroPJ) && Objects.equals(((SeguroPJ)s).getClientePJ(), listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj))))
+                        if(((s instanceof SeguroPF) && Objects.equals(((SeguroPF)s).getClientePF(), listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj)))
+                             //Se for SeguroPF verifica se o CPF é igual
+                        || ((s instanceof SeguroPJ) && Objects.equals(((SeguroPJ)s).getClientePJ(), listaSeguradoras.get(indexSeguradora).getCliente(cpf_cnpj))))
+                             //Se for SeguroPJ verifica se o CNPJ é igual
                             for(Sinistro si: s.getListaSinistros())
                                 System.out.println(si);
                     break;
@@ -763,7 +764,7 @@ public class AppMain{
                     if(!escolhaClientes(listaSeguradoras.get(indexSeguradora).listarClientes())){
                         clear();
                         System.out.println("---Lista vazia---");
-                        break;
+                        continue;
                     }
                     cpf_cnpj = scanner.nextLine();
                     if(indexCliente(listaSeguradoras.get(indexSeguradora).listarClientes(), cpf_cnpj) == -1){
@@ -805,11 +806,11 @@ public class AppMain{
 
                     condutor = listaSeguradoras.get(indexSeguradora).getCondutor(cpf_cnpj, cpf);
                     ID: for(Seguro s: listaSeguradoras.get(indexSeguradora).getSegurosPorCliente(cpf_cnpj))
-                        for(Condutor c: s.getListaCondutores())
-                            if(Objects.equals(c.getCpf().replaceAll("\\.|-|/", ""), cpf.replaceAll("\\.|-|/", ""))){
-                                id = s.getId();
-                                break ID;
-                            }
+                            for(Condutor c: s.getListaCondutores())
+                                if(Objects.equals(c.getCpf().replaceAll("\\.|-|/", ""), cpf.replaceAll("\\.|-|/", ""))){
+                                    id = s.getId();
+                                    break ID;
+                                }
                     if(!listaSeguradoras.get(indexSeguradora).getSeguro(id).desautorizarCondutor(condutor)){
                         clear();
                         System.out.println("CPF inválido inválido");
