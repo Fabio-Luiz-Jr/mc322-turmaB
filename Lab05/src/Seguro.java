@@ -41,7 +41,7 @@ public abstract class Seguro{
         StringBuilder listaSinistros = new StringBuilder(),
                       listaCondutores = new StringBuilder();
         for(Sinistro s: this.listaSinistros){
-            listaSinistros.append("\n\t" + s.getId());
+            listaSinistros.append("\n\tID: " + s.getId());
             listaSinistros.append("\n\t\tData: " + s.getData());
             listaSinistros.append("\n\t\tLocal: " + s.getEndereco());
             listaSinistros.append("\n\t\tCondutor: " + s.getCondutor().getNome() + " | CPF: " + s.getCondutor().getCpf());
