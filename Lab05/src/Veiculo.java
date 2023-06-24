@@ -22,9 +22,9 @@ public class Veiculo{
     //#endregion
     @Override
     public String toString(){
-        return "[Placa: " + getPlaca() + "\t" +
-            "Marca: " + getMarca() + "\t" +
-            "Modelo: " + getModelo() + "\t" +
-            "Ano de fabricação: " + getAnoFabricacao() + "]";
+        return "[Placa: " + placa + "\t" +
+            "Marca: " + marca + "\t" +
+            "Modelo: " + modelo + "\t" +
+            "Ano de fabricação: " + anoFabricacao + "]";
     }
 }

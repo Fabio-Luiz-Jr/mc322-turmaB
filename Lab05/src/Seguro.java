@@ -1,7 +1,6 @@
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public abstract class Seguro{
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -12,7 +11,7 @@ public abstract class Seguro{
     private Seguradora seguradora;
     private ArrayList<Sinistro> listaSinistros;
     private ArrayList<Condutor> listaCondutores;
-    private double valorMensal = 0;
+    private double valorMensal;
 
     public Seguro(Date dataInicio, Date dataFim, Seguradora seguradora){
         this.id = ++id_aux;
@@ -38,13 +37,23 @@ public abstract class Seguro{
     public void setValorMensal(double valorMensal){this.valorMensal = valorMensal;}
     //#endregion
     @Override
-    public String toString() {
+    public String toString(){
+        StringBuilder listaSinistros = new StringBuilder(),
+                      listaCondutores = new StringBuilder();
+        for(Sinistro s: this.listaSinistros){
+            listaSinistros.append("\n\t" + s.getId());
+            listaSinistros.append("\n\t\tData: " + s.getData());
+            listaSinistros.append("\n\t\tLocal: " + s.getEndereco());
+            listaSinistros.append("\n\t\tCondutor: " + s.getCondutor().getNome() + " | CPF: " + s.getCondutor().getCpf());
+        }
+        for(Condutor c: this.listaCondutores)
+            listaCondutores.append("\n\tNome: " + c.getNome() + " | CPF: " + c.getCpf());
         return "ID: " + id +
                "\nData de inicio: " + sdf.format(dataInicio) +
                "\nData final: " + sdf.format(dataFim) +
                "\nSeguradora: " + seguradora.getNome() + " | CNPJ: " + seguradora.getCnpj() +
-               "\nLista de sinistros: " + listaSinistros.stream().map(Object::toString).collect(Collectors.joining("\n                    ")) +
-               "\nLista de condutores: " + listaCondutores.stream().map(Object::toString).collect(Collectors.joining("\n                     ")) +
+               "\nLista de sinistros: " + listaSinistros +
+               "\nLista de condutores: " + listaCondutores +
                "\nValor mensal: " + valorMensal;
     }
     

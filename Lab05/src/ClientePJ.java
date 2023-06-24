@@ -26,10 +26,13 @@ public class ClientePJ extends Cliente{
     //#endregion
     @Override
     public String toString(){
+        StringBuilder listaFrota = new StringBuilder();
+        for(Frota f: this.listaFrota)
+            listaFrota.append(f + "\n                 ");
         return super.toString() +
-            "\nCNPJ: " + getCnpj() + 
-            "\nData da fundação: " + getDataFundacao() + 
-            "\nLista de frotas: " + getListaFrota();
+            "\nCNPJ: " + cnpj + 
+            "\nData da fundação: " + sdf.format(dataFundacao) + 
+            "\nLista de frotas: " + listaFrota;
     }
 
     public boolean cadastrarFrota(Frota frota){

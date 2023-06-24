@@ -1,8 +1,6 @@
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ClientePF extends Cliente{
-    private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private final String cpf;
     private String genero;
     private String educacao;

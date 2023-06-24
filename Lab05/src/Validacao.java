@@ -28,7 +28,7 @@ public class Validacao{
                     soma += (sequenciaNumerica.charAt(i - 5 - aux) - '0') * i;
                 for(int i = 2; i <= 9; i++)
                     soma += (sequenciaNumerica.charAt(3 - aux + i) - '0') * i;
-                digito = soma % 11;
+                digito = (soma % 11) % 10;
                 //#endregion
     
                 return digito;
@@ -37,32 +37,34 @@ public class Validacao{
     }
 
     public static boolean validaCPF(String cpf){
+        String cpfFormatado;
         int digito_1, digito_2;
 
         //Remove caracteres desnecessários
-        cpf = cpf.replaceAll("\\.|-", "");
-        if(cpf.length() != 11)
+        cpfFormatado = cpf.replaceAll("\\.|-", "");
+        if(cpfFormatado.length() != 11)
             return false;
         
-        digito_1 = digitoVerificador(cpf, 1);
-        digito_2 = digitoVerificador(cpf, 2);
-        if((digito_1 != cpf.charAt(9) - '0') || (digito_2 != cpf.charAt(10) - '0'))
+        digito_1 = digitoVerificador(cpfFormatado, 1);
+        digito_2 = digitoVerificador(cpfFormatado, 2);
+        if((digito_1 != cpfFormatado.charAt(9) - '0') || (digito_2 != cpfFormatado.charAt(10) - '0'))
             return false;
 
         return true;
     }
 
     public static boolean validaCNPJ(String cnpj){
+        String cnpjFormatado;
         int digito_1, digito_2;
 
         //Remove caracteres desnecessários
-        cnpj = cnpj.replaceAll("\\.|-|/", "");
-        if(cnpj.length() != 14)
+        cnpjFormatado = cnpj.replaceAll("\\.|-|/", "");
+        if(cnpjFormatado.length() != 14)
             return false;
         
-        digito_1 = digitoVerificador(cnpj, 1);
-        digito_2 = digitoVerificador(cnpj, 2);
-        if((digito_1 != cnpj.charAt(12) - '0') || (digito_2 != cnpj.charAt(13) - '0'))
+        digito_1 = digitoVerificador(cnpjFormatado, 1);
+        digito_2 = digitoVerificador(cnpjFormatado, 2);
+        if((digito_1 != cnpjFormatado.charAt(12) - '0') || (digito_2 != cnpjFormatado.charAt(13) - '0'))
             return false;
 
         return true;

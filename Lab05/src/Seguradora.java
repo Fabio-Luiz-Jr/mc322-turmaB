@@ -35,7 +35,7 @@ public class Seguradora{
     public void setListaSeguros(ArrayList<Seguro> listaSeguros){this.listaSeguros = listaSeguros;}
     public Cliente getCliente(String cpf_cnpj){
         for(int i = listaClientes.size() - 1; i >= 0; i--)
-            if(Objects.equals(((listaClientes.get(i) instanceof ClientePF) ? (((ClientePF)listaClientes.get(i)).getCpf()) : (((ClientePJ)listaClientes.get(i)).getCnpj())), cpf_cnpj))
+            if(Objects.equals(((listaClientes.get(i) instanceof ClientePF) ? (((ClientePF)listaClientes.get(i)).getCpf().replaceAll("\\.|-|/", "")) : (((ClientePJ)listaClientes.get(i)).getCnpj().replaceAll("\\.|-|/", ""))), cpf_cnpj.replaceAll("\\.|-|/", "")))
                 return this.listaClientes.get(i);
         return null;
     }
@@ -45,12 +45,11 @@ public class Seguradora{
         StringBuilder listaClientes = new StringBuilder(),
                       listaSeguros = new StringBuilder();
         for(Cliente c: this.listaClientes){
-            listaClientes.append(c.getNome() + " | ");
+            listaClientes.append("\n                   " + c.getNome() + " | ");
             listaClientes.append((c instanceof ClientePF) ? "CPF: " + ((ClientePF)c).getCpf() : "CNPJ: " + ((ClientePJ)c).getCnpj());
-            listaClientes.append("\n                   ");
         }
         for(Seguro s: this.listaSeguros){
-            listaSeguros.append("ID: " + s.getId() + "\n                    Cliente: ");
+            listaSeguros.append("\n                  ID: " + s.getId() + "\n                    Cliente: ");
             if(s instanceof SeguroPF){
                 listaSeguros.append(((SeguroPF)s).getClientePF().getNome() + " | CPF: " + ((SeguroPF)s).getClientePF().getCpf());
                 listaSeguros.append("\n                    Veículo: " + ((SeguroPF)s).getVeiculo());
@@ -69,7 +68,8 @@ public class Seguradora{
                "\nEndereço: " + endereco + 
                "\nEmail: " + email + 
                "\nLista de clientes: " + listaClientes + 
-               "Lista de seguros: " + listaSeguros;
+               "\nLista de seguros: " + listaSeguros + 
+               "\nReceita: R$" + calcularReceita();
     }
 
     public ArrayList<Cliente> listarClientes(String tipoCliente){
@@ -140,11 +140,13 @@ public class Seguradora{
     public boolean removerCliente(String cpf_cnpj){
         int index = 0;
         for(Seguro s: this.listaSeguros)
-            if((Objects.equals(((SeguroPF)s).getClientePF(), getCliente(cpf_cnpj)) || Objects.equals(((SeguroPJ)s).getClientePJ(), getCliente(cpf_cnpj))))
+            if((s instanceof SeguroPF && Objects.equals(((SeguroPF)s).getClientePF(), getCliente(cpf_cnpj)))
+            || (s instanceof SeguroPJ && Objects.equals(((SeguroPJ)s).getClientePJ(), getCliente(cpf_cnpj))))
                 s.getListaSinistros().removeAll(s.getListaSinistros());//Deleta lista de sinistros do cliente
-        this.listaSeguros.removeIf(seguro -> (Objects.equals(((SeguroPF)seguro).getClientePF(), getCliente(cpf_cnpj)) || Objects.equals(((SeguroPJ)seguro).getClientePJ(), getCliente(cpf_cnpj))));//Deleta seguros do cliente
+        this.listaSeguros.removeIf(seguro -> ((seguro instanceof SeguroPF && Objects.equals(((SeguroPF)seguro).getClientePF(), getCliente(cpf_cnpj)))
+                                             || (seguro instanceof SeguroPJ && Objects.equals(((SeguroPJ)seguro).getClientePJ(), getCliente(cpf_cnpj)))));//Deleta seguros do cliente
         for(Cliente c: listaClientes){
-            if((c instanceof ClientePF && Objects.equals(((ClientePF)c).getCpf(), cpf_cnpj)) || (c instanceof ClientePJ && Objects.equals(((ClientePJ)c).getCnpj(), cpf_cnpj))){
+            if((c instanceof ClientePF && Objects.equals(((ClientePF)c).getCpf().replaceAll("\\.|-|/", ""), cpf_cnpj.replaceAll("\\.|-|/", ""))) || (c instanceof ClientePJ && Objects.equals(((ClientePJ)c).getCnpj().replaceAll("\\.|-|/", ""), cpf_cnpj.replaceAll("\\.|-|/", "")))){
                 this.listaClientes.remove(index);//Deleta cliente
                 return true;
             }
@@ -156,20 +158,18 @@ public class Seguradora{
     public ArrayList<Seguro> getSegurosPorCliente(String cpf_cnpj){
         ArrayList<Seguro> listaSegurosPorCliente = new ArrayList<Seguro>();
         for(Seguro s: this.listaSeguros)
-            if(cpf_cnpj.length() == 14) if((s instanceof SeguroPF) && (Objects.equals(((SeguroPF)s).getClientePF().getCpf(), cpf_cnpj)))
+            if(cpf_cnpj.replaceAll("\\.|-|/", "").length() == 11) if((s instanceof SeguroPF) && (Objects.equals(((SeguroPF)s).getClientePF().getCpf().replaceAll("\\.|-|/", ""), cpf_cnpj.replaceAll("\\.|-|/", ""))))
                 listaSegurosPorCliente.add(s);
-            else if((s instanceof SeguroPJ) && (Objects.equals(((SeguroPJ)s).getClientePJ().getCnpj(), cpf_cnpj)))
+            else if((s instanceof SeguroPJ) && (Objects.equals(((SeguroPJ)s).getClientePJ().getCnpj().replaceAll("\\.|-|/", ""), cpf_cnpj.replaceAll("\\.|-|/", ""))))
                 listaSegurosPorCliente.add(s);
         return listaSegurosPorCliente;
     }
 
-    public Condutor getCondutor(String cpf_cnpj, String cpf, int id){
+    public Condutor getCondutor(String cpf_cnpj, String cpf){
         for(Seguro s: getSegurosPorCliente(cpf_cnpj))
             for(Condutor c: s.getListaCondutores())
-                if(Objects.equals(c.getCpf(), cpf)){
-                    id = s.getId();
+                if(Objects.equals(c.getCpf().replaceAll("\\.|-|/", ""), cpf.replaceAll("\\.|-|/", "")))
                     return c;
-                }
         return null;
     }
 

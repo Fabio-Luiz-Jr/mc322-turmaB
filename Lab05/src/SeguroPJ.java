@@ -8,6 +8,7 @@ public class SeguroPJ extends Seguro{
         super(dataInicio, dataFim, seguradora);
         this.frota = frota;
         this.clientePJ = clientePJ;
+        setValorMensal(calcularValor());
     }
     //#region Getters e Setters
     public Frota getFrota(){return this.frota;}
@@ -18,14 +19,14 @@ public class SeguroPJ extends Seguro{
     @Override
     public String toString(){
         return super.toString() +
-               "\nFrota: " + getFrota() +
-               "\nCliente: " + getClientePJ();
+               "\nFrota: " + frota;
     }
 
     @Override
     public boolean desautorizarCondutor(Condutor condutor){
         if(getListaCondutores().contains(condutor)){
             getListaCondutores().remove(condutor);
+            setValorMensal(calcularValor());
             return true;
         }
         return false;
@@ -36,6 +37,7 @@ public class SeguroPJ extends Seguro{
         if(getListaCondutores().contains(condutor))
             return false;
         getListaCondutores().add(condutor);
+        setValorMensal(calcularValor());
         return true;
     }
 
@@ -60,8 +62,9 @@ public class SeguroPJ extends Seguro{
     @Override
     public boolean gerarSinistro(String endereco, String cpf, Seguro seguro){
         for(Condutor condutor: seguro.getListaCondutores())
-            if(Objects.equals(condutor.getCpf(), cpf)){
+            if(Objects.equals(condutor.getCpf().replaceAll("\\.|-", ""), cpf.replaceAll("\\.|-", ""))){
                 getListaSinistros().add(new Sinistro(endereco, condutor, seguro));
+                setValorMensal(calcularValor());
                 return true;
             }
         return false;

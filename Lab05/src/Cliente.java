@@ -1,4 +1,7 @@
+import java.text.SimpleDateFormat;
+
 public abstract class Cliente{
+    protected final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private String nome;
     private String telefone;
     private String endereco;

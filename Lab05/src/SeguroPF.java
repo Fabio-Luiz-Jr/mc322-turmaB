@@ -8,6 +8,7 @@ public class SeguroPF extends Seguro{
         super(dataInicio, dataFim, seguradora);
         this.veiculo = veiculo;
         this.clientePF = clientePF;
+        setValorMensal(calcularValor());
     }
     //#region Getters e Setters
     public Veiculo getVeiculo(){return this.veiculo;}
@@ -18,8 +19,7 @@ public class SeguroPF extends Seguro{
     @Override
     public String toString(){
         return super.toString() +
-               "\nVeículo: " + getVeiculo() +
-               "\nCliente: " + getClientePF();
+               "\nVeículo: " + veiculo;
     }
 
     @Override
@@ -57,8 +57,9 @@ public class SeguroPF extends Seguro{
     @Override
     public boolean gerarSinistro(String endereco, String cpf, Seguro seguro){
         for(Condutor condutor: seguro.getListaCondutores())
-            if(Objects.equals(condutor.getCpf(), cpf)){
+            if(Objects.equals(condutor.getCpf().replaceAll("\\.|-", ""), cpf.replaceAll("\\.|-", ""))){
                 getListaSinistros().add(new Sinistro(endereco, condutor, seguro));
+                setValorMensal(calcularValor());
                 return true;
             }
         return false;
